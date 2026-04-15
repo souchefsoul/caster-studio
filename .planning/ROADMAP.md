@@ -28,11 +28,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. FAL AI proxy endpoint accepts a test prompt and returns a generated image (no API keys exposed to client)
   4. User can switch between Turkish and English and all UI text updates accordingly
   5. Database tables exist for users, generations, collections, and brand models
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Project scaffold, Supabase client, and database schema
+- [ ] 01-02-PLAN.md — Authentication flow with protected app shell
+- [ ] 01-03-PLAN.md — FAL AI proxy edge function and i18n system
 
 ### Phase 2: Workspace & First Generation
 **Goal**: Users can work inside a professional canvas workspace, configure prompt parameters, and generate their first On-Model product image
@@ -73,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Auth | 0/? | Not started | - |
+| 1. Foundation & Auth | 0/3 | Not started | - |
 | 2. Workspace & First Generation | 0/? | Not started | - |
 | 3. Full Generation Suite & Organization | 0/? | Not started | - |
