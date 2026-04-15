@@ -32,13 +32,6 @@
 - [ ] **BRAND-03**: Collections — organize generations into named groups (season, line, etc.)
 - [ ] **BRAND-04**: Download generated images in full resolution
 
-### Billing
-
-- [ ] **BILL-01**: Stripe metered billing — track and charge per generation
-- [ ] **BILL-02**: Usage dashboard — user sees generation count and costs
-- [ ] **BILL-03**: Invoice history — user can view past Stripe invoices
-- [ ] **BILL-04**: Admin billing view — admin sees all clients' usage
-
 ### Infrastructure
 
 - [ ] **INFRA-01**: FAL AI proxy via Supabase Edge Functions (no client-side API keys)
@@ -73,6 +66,10 @@
 | Team/company workspaces | Individual accounts only |
 | OAuth (Google, Apple) | Email/password sufficient for B2B clients |
 | Framer Motion animations | Keep tool fast and professional |
+| Stripe metered billing (BILL-01) | Removed from v1 scope per user decision |
+| Usage dashboard (BILL-02) | Removed from v1 scope per user decision |
+| Invoice history (BILL-03) | Removed from v1 scope per user decision |
+| Admin billing view (BILL-04) | Removed from v1 scope per user decision |
 
 ## Traceability
 
@@ -80,35 +77,31 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | — | Pending |
-| AUTH-02 | — | Pending |
-| WORK-01 | — | Pending |
-| WORK-02 | — | Pending |
-| WORK-03 | — | Pending |
-| WORK-04 | — | Pending |
-| GEN-01 | — | Pending |
-| GEN-02 | — | Pending |
-| GEN-03 | — | Pending |
-| GEN-04 | — | Pending |
-| GEN-05 | — | Pending |
-| BRAND-01 | — | Pending |
-| BRAND-02 | — | Pending |
-| BRAND-03 | — | Pending |
-| BRAND-04 | — | Pending |
-| BILL-01 | — | Pending |
-| BILL-02 | — | Pending |
-| BILL-03 | — | Pending |
-| BILL-04 | — | Pending |
-| INFRA-01 | — | Pending |
-| INFRA-02 | — | Pending |
-| INFRA-03 | — | Pending |
-| INFRA-04 | — | Pending |
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| WORK-01 | Phase 2 | Pending |
+| WORK-02 | Phase 2 | Pending |
+| WORK-03 | Phase 2 | Pending |
+| WORK-04 | Phase 2 | Pending |
+| GEN-01 | Phase 2 | Pending |
+| GEN-02 | Phase 3 | Pending |
+| GEN-03 | Phase 3 | Pending |
+| GEN-04 | Phase 3 | Pending |
+| GEN-05 | Phase 2 | Pending |
+| BRAND-01 | Phase 3 | Pending |
+| BRAND-02 | Phase 3 | Pending |
+| BRAND-03 | Phase 3 | Pending |
+| BRAND-04 | Phase 3 | Pending |
+| INFRA-01 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Pending |
+| INFRA-03 | Phase 1 | Pending |
+| INFRA-04 | Phase 1 | Pending |
 
 **Coverage:**
-- v1 requirements: 23 total
-- Mapped to phases: 0
-- Unmapped: 23
+- v1 requirements: 19 total
+- Mapped to phases: 19
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-16*
-*Last updated: 2026-04-16 after initial definition*
+*Last updated: 2026-04-16 after roadmap revision (billing removed)*

@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A professional AI-powered image generation tool built for textile companies. Users log in, choose a generation mode (on-model, pattern, catalog, colorway), configure their prompt and parameters, and generate images on a unified canvas workspace. Billing is Stripe metered — clients pay per-generation directly.
+A professional AI-powered image generation tool built for textile companies. Users log in, choose a generation mode (on-model, catalog, colorway), configure their prompt and parameters, and generate images on a unified canvas workspace.
 
 ## Core Value
 
@@ -27,10 +27,9 @@ Textile companies can generate professional product imagery (on-model shots, pat
 - [ ] History timeline of all generations
 - [ ] Collections: organize generations into named groups (season, line, etc.)
 - [ ] Full prompt controls: model, steps, guidance, seed, aspect ratio, quality
-- [ ] Stripe metered billing: per-generation usage tracking and charging
 - [ ] User authentication via Supabase (email/password)
 - [ ] FAL AI proxy via Supabase Edge Functions (no client-side API keys)
-- [ ] Turkish language only
+- [ ] i18n system with Turkish (default) and English
 
 ### Out of Scope
 
@@ -40,18 +39,21 @@ Textile companies can generate professional product imagery (on-model shots, pat
 - Batch generation — v2 consideration after core tools are solid
 - Reference image / image-to-image — text-to-image only, keep it simple
 - Team/company workspaces — individual accounts only
-- i18n (English, Spanish) — Turkish only for now
+- Spanish language support — Turkish + English only for now
 - Fabric Visualizer (3D drape) — v2, complex rendering
 - Lookbook Export (PDF/deck) — v2
 - Scene Builder (custom backgrounds) — v2
 - OAuth (Google, Apple) — email/password sufficient for B2B clients
 - Framer Motion animations — keep it snappy, not flashy
+- Stripe metered billing — removed from v1, no payment features in application
+- Usage dashboard / invoice history — removed with billing
+- Admin billing view — removed with billing
 
 ## Context
 
 - This is a full rebuild of an existing product (Studio AI Design / studioaidesign.com)
 - The old product had 11 features across fashion/general e-com — this rebuild focuses exclusively on textile companies
-- Old product used a credit-based subscription model (iyzico) — new model is installation fee + monthly retainer + Stripe metered per-generation
+- Old product used a credit-based subscription model (iyzico) — new model handles billing externally
 - The old UI was generic and clunky — the new design should feel like a professional creative tool (clean, dark, purposeful)
 - Brand name: Caster Studio (domain: caster.studio)
 - No existing code to carry over — greenfield build
@@ -59,9 +61,8 @@ Textile companies can generate professional product imagery (on-model shots, pat
 ## Constraints
 
 - **AI Provider**: FAL AI via Supabase Edge Function proxy — all API keys server-side only
-- **Billing**: Stripe metered billing — no credit system, no iyzico
 - **Auth**: Supabase Auth, email/password only
-- **Language**: Turkish only, no i18n system needed
+- **Language**: Turkish (default) + English, i18n system required
 - **Design**: Professional tool aesthetic — dark UI, no unnecessary animation, sidebar + canvas layout
 - **No reference images**: All generation is text-to-image (prompt-based only)
 
@@ -71,10 +72,10 @@ Textile companies can generate professional product imagery (on-model shots, pat
 |----------|-----------|---------|
 | Full rebuild over migration | Old codebase has debt from 11 features, different billing, i18n overhead | — Pending |
 | Unified canvas over separate pages | Single workspace feels more professional, reduces navigation friction | — Pending |
-| Stripe metered over credit system | Client pays per-use directly, simpler than managing credit tiers | — Pending |
 | Drop Framer Motion | Keep tool feeling fast and professional, reduce bundle size | — Pending |
-| Turkish only | B2B textile clients are Turkish companies, no need for i18n complexity | — Pending |
+| Turkish + English with i18n | B2B textile clients are Turkish companies, English for international reach | — Pending |
 | Text-to-image only | Simplifies UX, no reference image upload flows needed | — Pending |
+| No billing in v1 | Billing handled externally, keeps application focused on generation tools | — Pending |
 
 ---
-*Last updated: 2026-04-16 after initialization*
+*Last updated: 2026-04-16 after roadmap revision (billing removed)*
