@@ -31,6 +31,30 @@ export const tr = {
     title: 'Caster Studio',
     welcome: 'Caster Studio\'ya hosgeldiniz. Calisma alani Faz 2\'de gelecek.',
   },
+  workspace: {
+    sidebar: {
+      navigation: 'Navigasyon',
+      prompt: 'Prompt',
+      controls: 'Kontroller',
+      account: 'Hesap',
+      generate: 'Olustur',
+      onModel: 'Model Uzerinde',
+      catalog: 'Katalog',
+      colorway: 'Renk Varyasyonu',
+      designCopy: 'Tasarim Kopyalama',
+      textToImage: 'Metin > Gorsel',
+    },
+    canvas: {
+      empty: 'Gorsel olusturmak icin sol panelden bir prompt girin.',
+      singleView: 'Tekli Gorunum',
+      gridView: 'Izgara Gorunum',
+    },
+    theme: {
+      light: 'Acik Tema',
+      dark: 'Koyu Tema',
+      toggle: 'Tema Degistir',
+    },
+  },
 } as const
 
 // Recursive type that preserves structure but allows any string values

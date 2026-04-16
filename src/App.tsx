@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthPage } from '@/components/AuthPage'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
-import { AppShell } from '@/components/AppShell'
+import { WorkspaceLayout } from '@/components/WorkspaceLayout'
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <AppShell />
+              <WorkspaceLayout />
             </ProtectedRoute>
           }
         />

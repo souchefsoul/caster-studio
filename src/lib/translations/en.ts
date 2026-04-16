@@ -33,4 +33,28 @@ export const en: TranslationKeys = {
     title: 'Caster Studio',
     welcome: 'Welcome to Caster Studio. Workspace coming in Phase 2.',
   },
+  workspace: {
+    sidebar: {
+      navigation: 'Navigation',
+      prompt: 'Prompt',
+      controls: 'Controls',
+      account: 'Account',
+      generate: 'Generate',
+      onModel: 'On-Model',
+      catalog: 'Catalog',
+      colorway: 'Colorway',
+      designCopy: 'Design Copy',
+      textToImage: 'Text to Image',
+    },
+    canvas: {
+      empty: 'Enter a prompt in the left panel to generate an image.',
+      singleView: 'Single View',
+      gridView: 'Grid View',
+    },
+    theme: {
+      light: 'Light Theme',
+      dark: 'Dark Theme',
+      toggle: 'Toggle Theme',
+    },
+  },
 }
