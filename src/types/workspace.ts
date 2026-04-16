@@ -24,6 +24,14 @@ export interface Generation {
   createdAt: string
 }
 
+export interface Collection {
+  id: string
+  name: string
+  description: string | null
+  itemCount: number
+  createdAt: string
+}
+
 export interface BrandModel {
   id: string
   name: string
