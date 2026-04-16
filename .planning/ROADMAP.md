@@ -13,7 +13,7 @@ Caster Studio is a greenfield build delivering a professional AI image generatio
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Auth** - Supabase backend, authentication, database schema, FAL proxy, and i18n system
-- [ ] **Phase 2: Workspace & First Generation** - Unified sidebar+canvas workspace with prompt controls and On-Model generation (first end-to-end flow)
+- [x] **Phase 2: Workspace & First Generation** - Unified sidebar+canvas workspace with prompt controls and On-Model generation (first end-to-end flow)
 - [ ] **Phase 3: Full Generation Suite & Organization** - Remaining generation modes (Catalog, Colorway, Design Language Copier) plus Brand Face, history, collections, and downloads
 
 ## Phase Details
@@ -48,9 +48,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Workspace layout with sidebar, canvas, theme toggle, and responsive design
-- [ ] 02-02-PLAN.md — Prompt controls panel and generation API integration
-- [ ] 02-03-PLAN.md — On-Model generation mode with product image upload
+- [x] 02-01-PLAN.md — Workspace layout with sidebar, canvas, theme toggle, and responsive design
+- [x] 02-02-PLAN.md — Prompt controls panel and generation API integration
+- [x] 02-03-PLAN.md — On-Model generation mode with product image upload
 
 ### Phase 3: Full Generation Suite & Organization
 **Goal**: Users have access to all generation modes and can organize, persist, and download their work
@@ -62,11 +62,14 @@ Plans:
   3. User can copy the visual style of a product and make text/small modifications via Design Language Copier
   4. User can create a persistent AI model face (Brand Face) and reuse it across generations for brand consistency
   5. User can view a chronological history of all generations, organize them into named collections, and download any image in full resolution
-**Plans**: TBD
+**Plans:** 5 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md — Generation persistence, history timeline, and image download
+- [ ] 03-02-PLAN.md — Brand Face management (create, list, activate, delete)
+- [ ] 03-03-PLAN.md — Collections (create, organize generations, filter view)
+- [ ] 03-04-PLAN.md — Catalog Mode and Colorway Generator
+- [ ] 03-05-PLAN.md — Design Language Copier
 
 ## Progress
 
@@ -76,5 +79,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Auth | 3/3 | Complete | 2026-04-16 |
-| 2. Workspace & First Generation | 0/3 | Not started | - |
-| 3. Full Generation Suite & Organization | 0/? | Not started | - |
+| 2. Workspace & First Generation | 3/3 | Complete | 2026-04-16 |
+| 3. Full Generation Suite & Organization | 0/5 | Not started | - |
