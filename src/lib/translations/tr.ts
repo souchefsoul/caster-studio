@@ -54,6 +54,25 @@ export const tr = {
       dark: 'Koyu Tema',
       toggle: 'Tema Degistir',
     },
+    prompt: {
+      label: 'Prompt',
+      placeholder: 'Olusturmak istediginiz gorseli tanimlayin...',
+      negative: 'Negatif Prompt',
+      negativePlaceholder: 'Gorselde istemediginiz ogeleri belirtin...',
+    },
+    controls: {
+      steps: 'Adim Sayisi',
+      guidance: 'Rehberlik Olcegi',
+      seed: 'Seed',
+      seedRandom: 'Rastgele',
+      aspectRatio: 'En Boy Orani',
+      quality: 'Kalite',
+      qualityDraft: 'Taslak',
+      qualityStandard: 'Standart',
+      qualityHigh: 'Yuksek',
+      generating: 'Olusturuluyor...',
+      promptRequired: 'Prompt gerekli',
+    },
   },
 } as const
 

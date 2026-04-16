@@ -6,6 +6,8 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { signOut } from '@/lib/auth'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { PromptPanel } from '@/components/PromptPanel'
+import { GenerationControls } from '@/components/GenerationControls'
 import type { GenerationMode } from '@/types/workspace'
 
 const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolean }[] = [
@@ -65,14 +67,17 @@ export function Sidebar() {
         </nav>
       </div>
 
-      {/* Prompt placeholder */}
+      {/* Prompt & Controls (scrollable) */}
       <div className="flex-1 overflow-y-auto border-b border-border px-3 py-3 scrollbar-thin">
         <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
           {t('workspace.sidebar.prompt')}
         </p>
-        <div className="flex min-h-[120px] items-center justify-center border border-dashed border-border p-4 text-center text-sm text-muted-foreground">
-          Prompt controls (Plan 02)
-        </div>
+        <PromptPanel />
+        <div className="my-3 border-t border-border" />
+        <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
+          {t('workspace.sidebar.controls')}
+        </p>
+        <GenerationControls />
       </div>
 
       {/* Account */}
