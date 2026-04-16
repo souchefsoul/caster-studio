@@ -65,8 +65,8 @@ Plans:
 **Plans:** 5 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Generation persistence, history timeline, and image download
-- [ ] 03-02-PLAN.md — Brand Face management (create, list, activate, delete)
+- [x] 03-01-PLAN.md — Generation persistence, history timeline, and image download
+- [x] 03-02-PLAN.md — Brand Face management (create, list, activate, delete)
 - [ ] 03-03-PLAN.md — Collections (create, organize generations, filter view)
 - [ ] 03-04-PLAN.md — Catalog Mode and Colorway Generator
 - [ ] 03-05-PLAN.md — Design Language Copier
@@ -80,4 +80,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Foundation & Auth | 3/3 | Complete | 2026-04-16 |
 | 2. Workspace & First Generation | 3/3 | Complete | 2026-04-16 |
-| 3. Full Generation Suite & Organization | 0/5 | Not started | - |
+| 3. Full Generation Suite & Organization | 2/5 | In progress | - |
