@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signIn, signUp } from '@/lib/auth'
+import { useTranslation } from '@/hooks/useTranslation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -11,11 +12,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 type AuthMode = 'signin' | 'signup'
 
 export function AuthPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [mode, setMode] = useState<AuthMode>('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -45,7 +48,7 @@ export function AuthPage() {
     setMessage('')
 
     if (mode === 'signup' && password !== confirmPassword) {
-      setError('Passwords do not match.')
+      setError(t('auth.passwordMismatch'))
       return
     }
 
@@ -57,10 +60,10 @@ export function AuthPage() {
         navigate('/')
       } else {
         await signUp(email, password, fullName || undefined)
-        setMessage('Check your email to confirm your account.')
+        setMessage(t('auth.checkEmail'))
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'An unexpected error occurred.'
+      const msg = err instanceof Error ? err.message : t('common.error')
       setError(msg)
     } finally {
       setLoading(false)
@@ -69,26 +72,28 @@ export function AuthPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">
-            {mode === 'signin' ? 'Sign In' : 'Sign Up'}
+            {mode === 'signin' ? t('auth.signInTitle') : t('auth.signUpTitle')}
           </CardTitle>
           <CardDescription>
             {mode === 'signin'
-              ? 'Enter your credentials to access Caster Studio.'
-              : 'Create an account to get started.'}
+              ? t('auth.signInDescription')
+              : t('auth.signUpDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {mode === 'signup' && (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="fullName">{t('common.fullName')}</Label>
                 <Input
                   id="fullName"
                   type="text"
-                  placeholder="John Doe"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
@@ -96,11 +101,10 @@ export function AuthPage() {
             )}
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('common.email')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -108,11 +112,10 @@ export function AuthPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('common.password')}</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -121,11 +124,10 @@ export function AuthPage() {
 
             {mode === 'signup' && (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">{t('common.confirmPassword')}</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
-                  placeholder="Confirm your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
@@ -143,33 +145,33 @@ export function AuthPage() {
 
             <Button type="submit" disabled={loading} className="w-full">
               {loading
-                ? 'Please wait...'
+                ? t('auth.pleaseWait')
                 : mode === 'signin'
-                  ? 'Sign In'
-                  : 'Sign Up'}
+                  ? t('common.signIn')
+                  : t('common.signUp')}
             </Button>
 
             <p className="text-sm text-center text-muted-foreground">
               {mode === 'signin' ? (
                 <>
-                  Don&apos;t have an account?{' '}
+                  {t('auth.noAccount')}{' '}
                   <button
                     type="button"
                     onClick={toggleMode}
                     className="text-primary underline underline-offset-4 hover:text-primary/80"
                   >
-                    Sign up
+                    {t('auth.noAccountAction')}
                   </button>
                 </>
               ) : (
                 <>
-                  Already have an account?{' '}
+                  {t('auth.hasAccount')}{' '}
                   <button
                     type="button"
                     onClick={toggleMode}
                     className="text-primary underline underline-offset-4 hover:text-primary/80"
                   >
-                    Sign in
+                    {t('auth.hasAccountAction')}
                   </button>
                 </>
               )}
