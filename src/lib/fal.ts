@@ -193,7 +193,6 @@ export async function generateVideo(opts: VideoGenerationOptions): Promise<{ vid
     prompt: opts.prompt,
     start_image_url: opts.imageUrl,
     duration: opts.duration || '5',
-    aspect_ratio: opts.aspectRatio || '16:9',
     generate_audio: opts.generateAudio ?? true,
     negative_prompt: 'blur, distort, and low quality',
     cfg_scale: 0.5,
