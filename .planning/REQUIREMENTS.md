@@ -23,7 +23,7 @@
 - [ ] **GEN-02**: Catalog Mode — generate consistent multi-angle product shots
 - [ ] **GEN-03**: Colorway Generator — show same garment in multiple color variations
 - [ ] **GEN-04**: Design Language Copier — copy visual style of a given product, change text and make small modifications
-- [ ] **GEN-05**: Full prompt controls (model, steps, guidance, seed, aspect ratio, quality)
+- [x] **GEN-05**: Full prompt controls (model, steps, guidance, seed, aspect ratio, quality)
 
 ### Brand & Organization
 
@@ -87,7 +87,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GEN-02 | Phase 3 | Pending |
 | GEN-03 | Phase 3 | Pending |
 | GEN-04 | Phase 3 | Pending |
-| GEN-05 | Phase 2 | Pending |
+| GEN-05 | Phase 2 | Complete |
 | BRAND-01 | Phase 3 | Pending |
 | BRAND-02 | Phase 3 | Pending |
 | BRAND-03 | Phase 3 | Pending |
