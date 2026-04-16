@@ -12,7 +12,7 @@ Caster Studio is a greenfield build delivering a professional AI image generatio
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Auth** - Supabase backend, authentication, database schema, FAL proxy, and i18n system
+- [x] **Phase 1: Foundation & Auth** - Supabase backend, authentication, database schema, FAL proxy, and i18n system
 - [ ] **Phase 2: Workspace & First Generation** - Unified sidebar+canvas workspace with prompt controls and On-Model generation (first end-to-end flow)
 - [ ] **Phase 3: Full Generation Suite & Organization** - Remaining generation modes (Catalog, Colorway, Design Language Copier) plus Brand Face, history, collections, and downloads
 
@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Project scaffold, Supabase client, and database schema
 - [x] 01-02-PLAN.md — Authentication flow with protected app shell
-- [ ] 01-03-PLAN.md — FAL AI proxy edge function and i18n system
+- [x] 01-03-PLAN.md — FAL AI proxy edge function and i18n system
 
 ### Phase 2: Workspace & First Generation
 **Goal**: Users can work inside a professional canvas workspace, configure prompt parameters, and generate their first On-Model product image
@@ -74,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Auth | 2/3 | In Progress | - |
+| 1. Foundation & Auth | 3/3 | Complete | 2026-04-16 |
 | 2. Workspace & First Generation | 0/? | Not started | - |
 | 3. Full Generation Suite & Organization | 0/? | Not started | - |

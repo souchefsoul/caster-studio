@@ -34,10 +34,10 @@
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: FAL AI proxy via Supabase Edge Functions (no client-side API keys)
+- [x] **INFRA-01**: FAL AI proxy via Supabase Edge Functions (no client-side API keys)
 - [x] **INFRA-02**: Supabase Auth integration
 - [x] **INFRA-03**: Supabase database for users, generations, collections, brand models
-- [ ] **INFRA-04**: i18n system with Turkish (default) and English
+- [x] **INFRA-04**: i18n system with Turkish (default) and English
 
 ## v2 Requirements
 
@@ -92,10 +92,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BRAND-02 | Phase 3 | Pending |
 | BRAND-03 | Phase 3 | Pending |
 | BRAND-04 | Phase 3 | Pending |
-| INFRA-01 | Phase 1 | Pending |
+| INFRA-01 | Phase 1 | Complete |
 | INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Complete |
-| INFRA-04 | Phase 1 | Pending |
+| INFRA-04 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 19 total
