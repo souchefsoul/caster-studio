@@ -40,11 +40,15 @@ interface WorkspaceState {
   setParams: (params: Partial<GenerationParams>) => void
   resetParams: () => void
 
-  // Product image (on-model mode)
+  // Product images (on-model mode) — front and back
   productImageDataUrl: string | null
   setProductImageDataUrl: (url: string | null) => void
+  productImageBackDataUrl: string | null
+  setProductImageBackDataUrl: (url: string | null) => void
 
   // Generations list (in-memory for now)
+  selectedGenerationId: string | null
+  setSelectedGenerationId: (id: string | null) => void
   generations: Generation[]
   addGeneration: (gen: Generation) => void
   updateGeneration: (id: string, update: Partial<Generation>) => void
@@ -85,7 +89,11 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
 
     productImageDataUrl: null,
     setProductImageDataUrl: (productImageDataUrl) => set({ productImageDataUrl }),
+    productImageBackDataUrl: null,
+    setProductImageBackDataUrl: (productImageBackDataUrl) => set({ productImageBackDataUrl }),
 
+    selectedGenerationId: null,
+    setSelectedGenerationId: (selectedGenerationId) => set({ selectedGenerationId }),
     generations: [],
     addGeneration: (gen) => set((s) => ({ generations: [gen, ...s.generations] })),
     updateGeneration: (id, update) => set((s) => ({

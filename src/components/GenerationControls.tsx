@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import { Shuffle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -68,68 +66,6 @@ export function GenerationControls() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Steps Slider */}
-      <div className="flex flex-col gap-1.5">
-        <div className="flex items-center justify-between">
-          <Label className="text-xs">{t('workspace.controls.steps')}</Label>
-          <span className="text-xs tabular-nums text-muted-foreground">{params.steps}</span>
-        </div>
-        <input
-          type="range"
-          min={1}
-          max={50}
-          step={1}
-          value={params.steps}
-          onChange={(e) => setParams({ steps: Number(e.target.value) })}
-          className="h-2 w-full cursor-pointer appearance-none rounded-none bg-input accent-primary"
-        />
-      </div>
-
-      {/* Guidance Slider */}
-      <div className="flex flex-col gap-1.5">
-        <div className="flex items-center justify-between">
-          <Label className="text-xs">{t('workspace.controls.guidance')}</Label>
-          <span className="text-xs tabular-nums text-muted-foreground">{params.guidance}</span>
-        </div>
-        <input
-          type="range"
-          min={1}
-          max={20}
-          step={0.5}
-          value={params.guidance}
-          onChange={(e) => setParams({ guidance: Number(e.target.value) })}
-          className="h-2 w-full cursor-pointer appearance-none rounded-none bg-input accent-primary"
-        />
-      </div>
-
-      {/* Seed */}
-      <div className="flex flex-col gap-1.5">
-        <Label className="text-xs">{t('workspace.controls.seed')}</Label>
-        <div className="flex items-center gap-1.5">
-          {params.seed === null ? (
-            <div className="flex h-8 flex-1 items-center rounded-none border border-input bg-background px-2.5 text-sm text-muted-foreground">
-              {t('workspace.controls.seedRandom')}
-            </div>
-          ) : (
-            <Input
-              type="number"
-              value={params.seed}
-              onChange={(e) => setParams({ seed: e.target.value ? Number(e.target.value) : null })}
-              className="flex-1 rounded-none"
-            />
-          )}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setParams({ seed: params.seed === null ? 42 : null })}
-            className="shrink-0 rounded-none"
-            title={t('workspace.controls.seedRandom')}
-          >
-            <Shuffle className="size-4" />
-          </Button>
-        </div>
-      </div>
-
       {/* Aspect Ratio */}
       <div className="flex flex-col gap-1.5">
         <Label className="text-xs">{t('workspace.controls.aspectRatio')}</Label>

@@ -50,6 +50,7 @@ export const en: TranslationKeys = {
       empty: 'Enter a prompt in the left panel to generate an image.',
       singleView: 'Single View',
       gridView: 'Grid View',
+      failed: 'Generation failed',
     },
     theme: {
       light: 'Light Theme',
@@ -63,8 +64,9 @@ export const en: TranslationKeys = {
       negativePlaceholder: 'Describe what you do not want in the image...',
     },
     onModel: {
-      productImage: 'Product Image',
-      uploadHint: 'Upload a flat lay or mannequin photo of your product',
+      frontImage: 'Product Front Image',
+      backImage: 'Product Back Image',
+      uploadHint: 'Upload the front and back photos of your product',
       uploadText: 'Click or drag to upload',
       fileTooLarge: 'File size must be less than 10MB',
       noProductImage: 'Please upload a product image',

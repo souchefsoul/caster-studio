@@ -48,6 +48,7 @@ export const tr = {
       empty: 'Gorsel olusturmak icin sol panelden bir prompt girin.',
       singleView: 'Tekli Gorunum',
       gridView: 'Izgara Gorunum',
+      failed: 'Olusturma basarisiz',
     },
     theme: {
       light: 'Acik Tema',
@@ -61,8 +62,9 @@ export const tr = {
       negativePlaceholder: 'Gorselde istemediginiz ogeleri belirtin...',
     },
     onModel: {
-      productImage: 'Urun Gorseli',
-      uploadHint: 'Duz veya manken uzerindeki urun fotografinizi yukleyin',
+      frontImage: 'Urun On Gorseli',
+      backImage: 'Urun Arka Gorseli',
+      uploadHint: 'Duz veya manken uzerindeki urun fotografinizin on ve arkasini yukleyin',
       uploadText: 'Tiklayarak veya surukleyerek yukleyin',
       fileTooLarge: 'Dosya boyutu 10MB\'dan kucuk olmalidir',
       noProductImage: 'Lutfen bir urun gorseli yukleyin',

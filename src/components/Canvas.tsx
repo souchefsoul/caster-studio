@@ -7,8 +7,18 @@ export function Canvas() {
   const canvasViewMode = useWorkspaceStore((s) => s.canvasViewMode)
   const setCanvasViewMode = useWorkspaceStore((s) => s.setCanvasViewMode)
   const generations = useWorkspaceStore((s) => s.generations)
+  const selectedGenerationId = useWorkspaceStore((s) => s.selectedGenerationId)
+  const setSelectedGenerationId = useWorkspaceStore((s) => s.setSelectedGenerationId)
   const toggleSidebar = useWorkspaceStore((s) => s.toggleSidebar)
   const { t } = useTranslation()
+
+  // Find the selected generation, or fall back to the most recent one
+  const selectedGen = generations.find((g) => g.id === selectedGenerationId) ?? generations[0] ?? null
+
+  const handleGridClick = (id: string) => {
+    setSelectedGenerationId(id)
+    setCanvasViewMode('single')
+  }
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
@@ -59,28 +69,33 @@ export function Canvas() {
               {t('workspace.canvas.empty')}
             </p>
           </div>
-        ) : canvasViewMode === 'single' ? (
+        ) : canvasViewMode === 'single' && selectedGen ? (
           <div className="flex h-full flex-col items-center justify-center gap-2">
-            {(generations[0].status === 'pending' || generations[0].status === 'processing') && (
-              <p className="animate-pulse text-sm text-muted-foreground">Generating...</p>
+            {(selectedGen.status === 'pending' || selectedGen.status === 'processing') && (
+              <p className="animate-pulse text-sm text-muted-foreground">
+                {t('workspace.controls.generating')}
+              </p>
             )}
-            {generations[0].status === 'failed' && (
-              <p className="text-sm text-destructive">{generations[0].errorMessage || 'Generation failed'}</p>
+            {selectedGen.status === 'failed' && (
+              <p className="text-sm text-destructive">
+                {selectedGen.errorMessage || t('workspace.canvas.failed')}
+              </p>
             )}
-            {generations[0].status === 'completed' && generations[0].imageUrl && (
+            {selectedGen.status === 'completed' && selectedGen.imageUrl && (
               <img
-                src={generations[0].imageUrl}
-                alt={generations[0].prompt}
+                src={selectedGen.imageUrl}
+                alt={selectedGen.prompt}
                 className="max-h-full max-w-full object-contain"
               />
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
             {generations.map((gen) => (
               <div
                 key={gen.id}
-                className="relative aspect-square border border-border bg-muted"
+                onClick={() => handleGridClick(gen.id)}
+                className="relative aspect-square cursor-pointer border border-border bg-muted hover:border-primary"
               >
                 {/* Status dot */}
                 <span
@@ -101,11 +116,15 @@ export function Canvas() {
                   />
                 ) : gen.status === 'failed' ? (
                   <div className="flex h-full flex-col items-center justify-center gap-1 p-2">
-                    <p className="text-xs text-destructive">{gen.errorMessage || 'Failed'}</p>
+                    <p className="text-xs text-destructive">
+                      {gen.errorMessage || t('workspace.canvas.failed')}
+                    </p>
                   </div>
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <p className="animate-pulse text-xs text-muted-foreground">Generating...</p>
+                    <p className="animate-pulse text-xs text-muted-foreground">
+                      {t('workspace.controls.generating')}
+                    </p>
                   </div>
                 )}
               </div>

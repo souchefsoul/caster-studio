@@ -9,12 +9,12 @@ export interface FalImageResult {
   prompt: string
 }
 
-// Map quality to steps multiplier
-function qualitySteps(quality: string, baseSteps: number): number {
+// Map quality to inference steps
+function qualitySteps(quality: string): number {
   switch (quality) {
-    case 'draft': return Math.max(1, Math.floor(baseSteps * 0.5))
-    case 'high': return Math.min(50, Math.floor(baseSteps * 1.5))
-    default: return baseSteps
+    case 'draft': return 14
+    case 'high': return 42
+    default: return 28 // standard
   }
 }
 
@@ -34,16 +34,13 @@ export async function generateImage(params: GenerationParams): Promise<FalImageR
   if (!session) throw new Error('Not authenticated')
 
   const size = aspectToSize(params.aspectRatio)
-  const steps = qualitySteps(params.quality, params.steps)
+  const steps = qualitySteps(params.quality)
 
   const body = {
     endpoint: params.model,
     input: {
       prompt: params.prompt,
-      negative_prompt: params.negativePrompt || undefined,
       num_inference_steps: steps,
-      guidance_scale: params.guidance,
-      seed: params.seed ?? undefined,
       image_size: size,
     },
   }
@@ -73,17 +70,14 @@ export async function generateOnModel(
   if (!session) throw new Error('Not authenticated')
 
   const size = aspectToSize(params.aspectRatio)
-  const steps = qualitySteps(params.quality, params.steps)
+  const steps = qualitySteps(params.quality)
 
   const body = {
     endpoint: 'fal-ai/nano-banana-pro/edit',
     input: {
       prompt: params.prompt,
-      negative_prompt: params.negativePrompt || undefined,
       image_url: productImageDataUrl,
       num_inference_steps: steps,
-      guidance_scale: params.guidance,
-      seed: params.seed ?? undefined,
       image_size: size,
     },
   }
