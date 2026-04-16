@@ -45,6 +45,8 @@ export const en: TranslationKeys = {
       colorway: 'Colorway',
       designCopy: 'Design Copy',
       textToImage: 'Text to Image',
+      brandFaceNav: 'Brand Face',
+      collectionsNav: 'Collections',
     },
     canvas: {
       empty: 'Enter a prompt in the left panel to generate an image.',
@@ -77,6 +79,10 @@ export const en: TranslationKeys = {
       active: 'Active',
       uploadFace: 'Upload face image',
       loading: 'Loading...',
+      viewAll: 'View All',
+      noModels: 'No models yet. Add from the Brand Face page.',
+      pageTitle: 'Brand Face Management',
+      modelPhotos: 'Model Photos',
     },
     collections: {
       title: 'Collections',
@@ -89,6 +95,8 @@ export const en: TranslationKeys = {
       empty: 'No collections yet',
       addTo: 'Add to Collection',
       items: 'images',
+      back: 'Back',
+      emptyCollection: 'No images in this collection yet',
     },
     onModel: {
       frontImage: 'Product Front Image',
@@ -99,7 +107,8 @@ export const en: TranslationKeys = {
       noProductImage: 'Please upload a product image',
     },
     catalog: {
-      productImage: 'Product Image',
+      productImage: 'Product Front Image',
+      productBackImage: 'Product Back Image',
       angles: 'Angles',
       angleFront: 'Front',
       angleBack: 'Back',
@@ -121,6 +130,13 @@ export const en: TranslationKeys = {
       noColors: 'Add at least one color',
       maxColors: 'Maximum 8 colors',
     },
+    designCopy: {
+      referenceImage: 'Reference Image',
+      modifications: 'Modifications',
+      modPlaceholder: 'Describe changes: color, text, details...',
+      hint: 'Upload a product image and describe what to change. The visual style will be preserved.',
+      noReferenceImage: 'Please upload a reference image',
+    },
     controls: {
       steps: 'Steps',
       guidance: 'Guidance Scale',
@@ -131,6 +147,7 @@ export const en: TranslationKeys = {
       qualityDraft: 'Draft',
       qualityStandard: 'Standard',
       qualityHigh: 'High',
+      numImages: 'Number of Images',
       generating: 'Generating...',
       promptRequired: 'Prompt required',
     },

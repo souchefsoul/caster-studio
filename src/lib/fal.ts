@@ -4,46 +4,91 @@ import type { GenerationParams } from '@/types/workspace'
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 
 export interface FalImageResult {
-  images: Array<{ url: string; width: number; height: number }>
-  seed: number
-  prompt: string
+  images: Array<{ url: string; width: number; height: number; content_type?: string }>
+  description?: string
 }
 
-// Map quality to inference steps
-function qualitySteps(quality: string): number {
+// Map quality to resolution
+function qualityToResolution(quality: string): '1K' | '2K' | '4K' {
   switch (quality) {
-    case 'draft': return 14
-    case 'high': return 42
-    default: return 28 // standard
+    case 'draft': return '1K'
+    case 'high': return '4K'
+    default: return '2K' // standard
   }
 }
 
-// Map aspect ratio to pixel dimensions
-function aspectToSize(ratio: string): { width: number; height: number } {
+// Map our aspect ratio format to FAL's format
+function mapAspectRatio(ratio: string): string {
   switch (ratio) {
-    case '4:3': return { width: 1024, height: 768 }
-    case '3:4': return { width: 768, height: 1024 }
-    case '16:9': return { width: 1024, height: 576 }
-    case '9:16': return { width: 576, height: 1024 }
-    default: return { width: 1024, height: 1024 } // 1:1
+    case '4:3': return '4:3'
+    case '3:4': return '3:4'
+    case '16:9': return '16:9'
+    case '9:16': return '9:16'
+    default: return '1:1'
   }
 }
 
-export async function generateImage(params: GenerationParams): Promise<FalImageResult> {
+// ── Prompt Templates ──────────────────────────────────────────────
+
+const PROMPT_TEMPLATES = {
+  'on-model': (userPrompt: string, angle: string, opts: { hasFront: boolean; hasBack: boolean; hasFace: boolean }) => {
+    const imageRefs: string[] = []
+    if (opts.hasFront && opts.hasBack) {
+      imageRefs.push('Image 1 is the front of the garment, Image 2 is the back of the garment.')
+    } else if (opts.hasFront) {
+      imageRefs.push('Image 1 is the front of the garment.')
+    }
+    const faceIdx = opts.hasFront && opts.hasBack ? 'third' : 'second'
+    const faceRef = opts.hasFace
+      ? ` The model must have the exact same face, facial features, and appearance as the person in the ${faceIdx} reference image.`
+      : ''
+    return (
+      `Professional fashion photograph of a single model: ${userPrompt}. ` +
+      `${imageRefs.join(' ')}` +
+      ` Dress exactly one person in this garment with precise fabric texture, color, pattern, and design reproduction.` +
+      `${faceRef} ` +
+      `Pose: ${angle}. ` +
+      `IMPORTANT: Only one person in the photo, no other people, no split frames, no collage. ` +
+      `Single full-body shot, seamless studio backdrop, soft diffused lighting, ` +
+      `sharp focus, high-end e-commerce editorial quality.`
+    )
+  },
+
+  'catalog': (userPrompt: string, angle: string, hasBack: boolean) => {
+    const imageRef = hasBack
+      ? 'Image 1 is the front of the garment, Image 2 is the back of the garment. '
+      : 'Image 1 is the garment. '
+    return (
+      `E-commerce product catalog photograph: ${userPrompt}, ${angle} view. ` +
+      `${imageRef}` +
+      `Show this exact garment from the ${angle} angle. ` +
+      `Clean white background, even studio lighting with no harsh shadows, ` +
+      `color-accurate reproduction, sharp focus on garment details, ` +
+      `professional product photography for online store.`
+    )
+  },
+
+  'colorway': (_userPrompt: string, color: string) =>
+    `This exact same garment design in ${color} color. ` +
+    `Maintain the identical cut, silhouette, fabric texture, stitching, and draping. ` +
+    `Product photography on white background, same lighting and angle as the reference.`,
+
+  'design-copy': (userPrompt: string, modifications: string) =>
+    `Maintain the exact visual style, design language, layout, and aesthetic of the reference image. ` +
+    `${userPrompt}. ` +
+    `Apply these specific modifications: ${modifications}. ` +
+    `Professional product photography, preserve all unmentioned design elements exactly.`,
+
+  'text-to-image': (userPrompt: string) =>
+    `${userPrompt}. ` +
+    `Professional fashion/textile photography quality, studio lighting, sharp focus.`,
+}
+
+// ── Helper: authenticated FAL request ─────────────────────────────
+
+async function falRequest(endpoint: string, input: Record<string, unknown>): Promise<FalImageResult> {
   const { data: { session } } = await supabase.auth.getSession()
   if (!session) throw new Error('Not authenticated')
-
-  const size = aspectToSize(params.aspectRatio)
-  const steps = qualitySteps(params.quality)
-
-  const body = {
-    endpoint: params.model,
-    input: {
-      prompt: params.prompt,
-      num_inference_steps: steps,
-      image_size: size,
-    },
-  }
 
   const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
     method: 'POST',
@@ -51,126 +96,103 @@ export async function generateImage(params: GenerationParams): Promise<FalImageR
       'Authorization': `Bearer ${session.access_token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ endpoint, input }),
   })
 
   if (!response.ok) {
-    const err = await response.json().catch(() => ({ error: 'Generation failed' }))
-    throw new Error(err.error || `HTTP ${response.status}`)
+    const err = await response.json().catch(() => ({}))
+    console.error('[fal] error response:', response.status, err)
+    const message = err.error
+      || err.detail?.[0]?.msg
+      || (typeof err.detail === 'string' ? err.detail : null)
+      || `HTTP ${response.status}`
+    throw new Error(message)
   }
 
-  return response.json()
+  const data = await response.json()
+  console.log('[fal] success:', data.images?.length, 'images, first url:', data.images?.[0]?.url?.slice(0, 80))
+  return data
+}
+
+// ── Generation Functions ──────────────────────────────────────────
+
+export async function generateImage(params: GenerationParams, numImages = 1): Promise<FalImageResult> {
+  return falRequest('fal-ai/nano-banana', {
+    prompt: PROMPT_TEMPLATES['text-to-image'](params.prompt),
+    num_images: numImages,
+    aspect_ratio: mapAspectRatio(params.aspectRatio),
+    resolution: qualityToResolution(params.quality),
+  })
 }
 
 export async function generateOnModel(
   params: GenerationParams,
-  productImageDataUrl: string
+  frontImageDataUrl: string,
+  backImageDataUrl: string | null,
+  brandFaceUrl: string | null,
+  angle: string
 ): Promise<FalImageResult> {
-  const { data: { session } } = await supabase.auth.getSession()
-  if (!session) throw new Error('Not authenticated')
+  const imageUrls: string[] = [frontImageDataUrl]
+  if (backImageDataUrl) imageUrls.push(backImageDataUrl)
+  if (brandFaceUrl) imageUrls.push(brandFaceUrl)
 
-  const size = aspectToSize(params.aspectRatio)
-  const steps = qualitySteps(params.quality)
-
-  const body = {
-    endpoint: 'fal-ai/nano-banana-pro/edit',
-    input: {
-      prompt: params.prompt,
-      image_url: productImageDataUrl,
-      num_inference_steps: steps,
-      image_size: size,
-    },
-  }
-
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${session.access_token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
+  return falRequest('fal-ai/nano-banana-pro/edit', {
+    prompt: PROMPT_TEMPLATES['on-model'](params.prompt, angle, {
+      hasFront: true,
+      hasBack: !!backImageDataUrl,
+      hasFace: !!brandFaceUrl,
+    }),
+    image_urls: imageUrls,
+    aspect_ratio: mapAspectRatio(params.aspectRatio),
+    resolution: qualityToResolution(params.quality),
   })
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ error: 'On-model generation failed' }))
-    throw new Error(err.error || `HTTP ${response.status}`)
-  }
-
-  return response.json()
 }
 
 export async function generateCatalog(
   params: GenerationParams,
-  productImageDataUrl: string,
-  angle: string
+  frontImageDataUrl: string,
+  backImageDataUrl: string | null,
+  angle: string,
+  numImages = 1
 ): Promise<FalImageResult> {
-  const { data: { session } } = await supabase.auth.getSession()
-  if (!session) throw new Error('Not authenticated')
+  const imageUrls: string[] = [frontImageDataUrl]
+  if (backImageDataUrl) imageUrls.push(backImageDataUrl)
 
-  const size = aspectToSize(params.aspectRatio)
-  const steps = qualitySteps(params.quality)
-
-  const body = {
-    endpoint: 'fal-ai/nano-banana-pro/edit',
-    input: {
-      prompt: `${params.prompt}, ${angle} view, product photography, consistent lighting`,
-      image_url: productImageDataUrl,
-      num_inference_steps: steps,
-      image_size: size,
-    },
-  }
-
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${session.access_token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
+  return falRequest('fal-ai/nano-banana-pro/edit', {
+    prompt: PROMPT_TEMPLATES['catalog'](params.prompt, angle, !!backImageDataUrl),
+    image_urls: imageUrls,
+    num_images: numImages,
+    aspect_ratio: mapAspectRatio(params.aspectRatio),
+    resolution: qualityToResolution(params.quality),
   })
+}
 
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ error: 'Catalog generation failed' }))
-    throw new Error(err.error || `HTTP ${response.status}`)
-  }
-
-  return response.json()
+export async function generateDesignCopy(
+  params: GenerationParams,
+  referenceImageDataUrl: string,
+  modifications: string,
+  numImages = 1
+): Promise<FalImageResult> {
+  return falRequest('fal-ai/nano-banana-pro/edit', {
+    prompt: PROMPT_TEMPLATES['design-copy'](params.prompt, modifications),
+    image_urls: [referenceImageDataUrl],
+    num_images: numImages,
+    aspect_ratio: mapAspectRatio(params.aspectRatio),
+    resolution: qualityToResolution(params.quality),
+  })
 }
 
 export async function generateColorway(
   params: GenerationParams,
   productImageDataUrl: string,
-  color: string
+  color: string,
+  numImages = 1
 ): Promise<FalImageResult> {
-  const { data: { session } } = await supabase.auth.getSession()
-  if (!session) throw new Error('Not authenticated')
-
-  const size = aspectToSize(params.aspectRatio)
-  const steps = qualitySteps(params.quality)
-
-  const body = {
-    endpoint: 'fal-ai/nano-banana-pro/edit',
-    input: {
-      prompt: `${params.prompt}, in ${color} color, same garment design, product photography`,
-      image_url: productImageDataUrl,
-      num_inference_steps: steps,
-      image_size: size,
-    },
-  }
-
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${session.access_token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
+  return falRequest('fal-ai/nano-banana-pro/edit', {
+    prompt: PROMPT_TEMPLATES['colorway'](params.prompt, color),
+    image_urls: [productImageDataUrl],
+    num_images: numImages,
+    aspect_ratio: mapAspectRatio(params.aspectRatio),
+    resolution: qualityToResolution(params.quality),
   })
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ error: 'Colorway generation failed' }))
-    throw new Error(err.error || `HTTP ${response.status}`)
-  }
-
-  return response.json()
 }

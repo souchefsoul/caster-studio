@@ -16,6 +16,8 @@ export function CatalogPanel() {
   const setCatalogAngles = useWorkspaceStore((s) => s.setCatalogAngles)
   const catalogProductImage = useWorkspaceStore((s) => s.catalogProductImage)
   const setCatalogProductImage = useWorkspaceStore((s) => s.setCatalogProductImage)
+  const catalogProductBackImage = useWorkspaceStore((s) => s.catalogProductBackImage)
+  const setCatalogProductBackImage = useWorkspaceStore((s) => s.setCatalogProductBackImage)
   const { t } = useTranslation()
 
   const toggleAngle = (angle: string) => {
@@ -28,12 +30,21 @@ export function CatalogPanel() {
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Product image */}
+      {/* Product front image */}
       <div className="flex flex-col gap-1.5">
         <p className="text-xs font-medium">{t('workspace.catalog.productImage')}</p>
         <ImageUpload
           value={catalogProductImage}
           onChange={setCatalogProductImage}
+        />
+      </div>
+
+      {/* Product back image */}
+      <div className="flex flex-col gap-1.5">
+        <p className="text-xs font-medium">{t('workspace.catalog.productBackImage')}</p>
+        <ImageUpload
+          value={catalogProductBackImage}
+          onChange={setCatalogProductBackImage}
         />
       </div>
 

@@ -1,64 +1,45 @@
-import { useState, useEffect } from 'react'
-import { X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { ImageUpload } from '@/components/ImageUpload'
+import { useEffect } from 'react'
+import { ChevronRight } from 'lucide-react'
+import { useState } from 'react'
 import { useBrandModels } from '@/hooks/useBrandModels'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
 
 export function BrandFacePanel() {
-  const { models, activeModel, loading, create, remove, setActive } = useBrandModels()
+  const { models, activeModel, loading, setActive } = useBrandModels()
   const setActiveBrandFaceUrl = useWorkspaceStore((s) => s.setActiveBrandFaceUrl)
+  const setActiveView = useWorkspaceStore((s) => s.setActiveView)
   const { t } = useTranslation()
 
-  const [view, setView] = useState<'list' | 'create'>('list')
-  const [name, setName] = useState('')
-  const [faceImage, setFaceImage] = useState<string | null>(null)
-  const [saving, setSaving] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
 
   const handleSetActive = async (model: { id: string; faceImageUrl: string }) => {
     await setActive(model.id)
     setActiveBrandFaceUrl(model.faceImageUrl)
   }
 
-  const handleRemove = async (model: { id: string; isActive: boolean }) => {
-    await remove(model.id)
-    if (model.isActive) {
-      setActiveBrandFaceUrl(null)
-    }
-  }
-
-  const handleSave = async () => {
-    if (!name.trim() || !faceImage) return
-    setSaving(true)
-    await create(name.trim(), faceImage)
-    setName('')
-    setFaceImage(null)
-    setView('list')
-    setSaving(false)
-  }
-
-  const handleCancel = () => {
-    setName('')
-    setFaceImage(null)
-    setView('list')
-  }
-
   // Sync active brand face URL on initial load
-  // (when activeModel is resolved from DB)
   useEffect(() => {
     if (activeModel) {
       setActiveBrandFaceUrl(activeModel.faceImageUrl)
     }
   }, [activeModel, setActiveBrandFaceUrl])
 
+  // Show max 8 models in the grid
+  const gridModels = models.slice(0, 8)
+
   return (
     <div className="flex flex-col gap-2">
-      <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
+      <button
+        type="button"
+        onClick={() => setCollapsed((v) => !v)}
+        className="flex items-center gap-1 px-1 text-xs font-semibold uppercase text-muted-foreground hover:text-foreground"
+      >
+        <ChevronRight className={`size-3 transition-transform ${collapsed ? '' : 'rotate-90'}`} />
         {t('workspace.brandFace.title')}
-      </p>
+      </button>
 
-      {view === 'list' && (
+      {!collapsed && (
         <>
           {loading && (
             <p className="px-1 text-xs text-muted-foreground">
@@ -68,86 +49,48 @@ export function BrandFacePanel() {
 
           {!loading && models.length === 0 && (
             <p className="px-1 text-xs text-muted-foreground">
-              {t('workspace.brandFace.hint')}
+              {t('workspace.brandFace.noModels')}
             </p>
           )}
 
-          {!loading && models.map((model) => (
-            <div
-              key={model.id}
-              className="flex items-center gap-2 border border-border px-2 py-1"
-            >
-              <img
-                src={model.faceImageUrl}
-                alt={model.name}
-                className="size-8 border border-border object-cover"
-              />
-              <span className="flex-1 truncate text-xs">{model.name}</span>
-              <button
-                type="button"
-                onClick={() => handleSetActive(model)}
-                className="flex size-4 items-center justify-center border border-border"
-                title={t('workspace.brandFace.active')}
-              >
-                {model.isActive && (
-                  <span className="block size-2.5 bg-foreground" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => handleRemove(model)}
-                className="flex size-4 items-center justify-center text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-3" />
-              </button>
+          {!loading && gridModels.length > 0 && (
+            <div className="grid grid-cols-4 gap-1">
+              {gridModels.map((model) => (
+                <button
+                  key={model.id}
+                  type="button"
+                  onClick={() => handleSetActive(model)}
+                  className={`relative aspect-square border overflow-hidden ${
+                    model.isActive
+                      ? 'border-foreground ring-1 ring-foreground'
+                      : 'border-border hover:border-foreground'
+                  }`}
+                  title={model.name}
+                >
+                  <img
+                    src={model.faceImageUrl}
+                    alt={model.name}
+                    className="h-full w-full object-cover"
+                  />
+                  {model.isActive && (
+                    <span className="absolute bottom-0 left-0 right-0 bg-foreground/80 py-px text-center text-[9px] text-background">
+                      {t('workspace.brandFace.active')}
+                    </span>
+                  )}
+                </button>
+              ))}
             </div>
-          ))}
+          )}
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setView('create')}
-            className="w-full rounded-none text-xs"
+          {/* View All / Add New → navigate to brand face page */}
+          <button
+            type="button"
+            onClick={() => setActiveView('brand-face')}
+            className="w-full border border-border px-2 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
           >
-            {t('workspace.brandFace.add')}
-          </Button>
+            {t('workspace.brandFace.viewAll')} &rarr;
+          </button>
         </>
-      )}
-
-      {view === 'create' && (
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder={t('workspace.brandFace.namePlaceholder')}
-            className="border border-border bg-background px-2 py-1 text-sm outline-none focus:border-foreground"
-          />
-          <ImageUpload
-            value={faceImage}
-            onChange={setFaceImage}
-            label={t('workspace.brandFace.uploadFace')}
-          />
-          <div className="flex gap-1">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleSave}
-              disabled={!name.trim() || !faceImage || saving}
-              className="flex-1 rounded-none text-xs"
-            >
-              {t('workspace.brandFace.save')}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleCancel}
-              className="flex-1 rounded-none text-xs"
-            >
-              {t('workspace.brandFace.cancel')}
-            </Button>
-          </div>
-        </div>
       )}
     </div>
   )

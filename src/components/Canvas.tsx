@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Check, Download, FolderPlus, Grid3x3, Maximize2, Menu } from 'lucide-react'
+import { Check, Download, FolderPlus, Grid3x3, Maximize2, Menu, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -12,6 +12,7 @@ export function Canvas() {
   const selectedGenerationId = useWorkspaceStore((s) => s.selectedGenerationId)
   const setSelectedGenerationId = useWorkspaceStore((s) => s.setSelectedGenerationId)
   const toggleSidebar = useWorkspaceStore((s) => s.toggleSidebar)
+  const clearFailedGenerations = useWorkspaceStore((s) => s.clearFailedGenerations)
   const { t } = useTranslation()
   const {
     collections,
@@ -84,6 +85,14 @@ export function Canvas() {
                 : generations.length}{' '}
               {t('workspace.canvas.generationCount')}
             </span>
+          )}
+          {generations.some((g) => g.status === 'failed') && (
+            <button
+              onClick={clearFailedGenerations}
+              className="ml-2 inline-flex h-7 items-center gap-1 border border-border bg-background px-2 text-xs text-destructive hover:bg-accent rounded-none"
+            >
+              <Trash2 className="size-3" />
+            </button>
           )}
           {canvasViewMode === 'single' && selectedGen?.status === 'completed' && selectedGen?.imageUrl && (
             <>

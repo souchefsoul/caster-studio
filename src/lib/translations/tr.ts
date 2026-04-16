@@ -43,6 +43,8 @@ export const tr = {
       colorway: 'Renk Varyasyonu',
       designCopy: 'Tasarim Kopyalama',
       textToImage: 'Metin > Gorsel',
+      brandFaceNav: 'Marka Yuz',
+      collectionsNav: 'Koleksiyonlar',
     },
     canvas: {
       empty: 'Gorsel olusturmak icin sol panelden bir prompt girin.',
@@ -75,6 +77,10 @@ export const tr = {
       active: 'Aktif',
       uploadFace: 'Yuz gorseli yukleyin',
       loading: 'Yukleniyor...',
+      viewAll: 'Tumunu Gor',
+      noModels: 'Henuz model yok. Marka Yuz sayfasindan ekleyin.',
+      pageTitle: 'Marka Yuz Yonetimi',
+      modelPhotos: 'Model Fotolari',
     },
     collections: {
       title: 'Koleksiyonlar',
@@ -87,6 +93,8 @@ export const tr = {
       empty: 'Henuz koleksiyon yok',
       addTo: 'Koleksiyona Ekle',
       items: 'gorsel',
+      back: 'Geri',
+      emptyCollection: 'Bu koleksiyonda henuz gorsel yok',
     },
     onModel: {
       frontImage: 'Urun On Gorseli',
@@ -97,7 +105,8 @@ export const tr = {
       noProductImage: 'Lutfen bir urun gorseli yukleyin',
     },
     catalog: {
-      productImage: 'Urun Gorseli',
+      productImage: 'Urun On Gorseli',
+      productBackImage: 'Urun Arka Gorseli',
       angles: 'Acilar',
       angleFront: 'On',
       angleBack: 'Arka',
@@ -119,6 +128,13 @@ export const tr = {
       noColors: 'En az bir renk ekleyin',
       maxColors: 'En fazla 8 renk',
     },
+    designCopy: {
+      referenceImage: 'Referans Gorsel',
+      modifications: 'Degisiklikler',
+      modPlaceholder: 'Degisiklikleri tanimlayin: renk, yazi, detaylar...',
+      hint: 'Bir urun gorseli yukleyin ve neleri degistirmek istediginizi tanimlayin. Gorsel dil korunacaktir.',
+      noReferenceImage: 'Lutfen bir referans gorseli yukleyin',
+    },
     controls: {
       steps: 'Adim Sayisi',
       guidance: 'Rehberlik Olcegi',
@@ -129,6 +145,7 @@ export const tr = {
       qualityDraft: 'Taslak',
       qualityStandard: 'Standart',
       qualityHigh: 'Yuksek',
+      numImages: 'Gorsel Sayisi',
       generating: 'Olusturuluyor...',
       promptRequired: 'Prompt gerekli',
     },

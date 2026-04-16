@@ -2,6 +2,8 @@ export type CanvasViewMode = 'single' | 'grid'
 
 export type GenerationMode = 'on-model' | 'catalog' | 'colorway' | 'design-copy' | 'text-to-image'
 
+export type ActiveView = 'workspace' | 'brand-face' | 'collections'
+
 export type GenerationStatus = 'idle' | 'pending' | 'processing' | 'completed' | 'failed'
 
 export interface GenerationParams {

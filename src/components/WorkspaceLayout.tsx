@@ -1,5 +1,7 @@
 import { Sidebar } from '@/components/Sidebar'
 import { Canvas } from '@/components/Canvas'
+import { BrandFaceView } from '@/components/BrandFaceView'
+import { CollectionsView } from '@/components/CollectionsView'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useGenerations } from '@/hooks/useGenerations'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -7,6 +9,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 export function WorkspaceLayout() {
   const sidebarOpen = useWorkspaceStore((s) => s.sidebarOpen)
   const setSidebarOpen = useWorkspaceStore((s) => s.setSidebarOpen)
+  const activeView = useWorkspaceStore((s) => s.activeView)
   const { loading } = useGenerations()
   const { t } = useTranslation()
 
@@ -30,7 +33,10 @@ export function WorkspaceLayout() {
         />
       )}
 
-      <Canvas />
+      {/* Main content area — switches based on activeView */}
+      {activeView === 'workspace' && <Canvas />}
+      {activeView === 'brand-face' && <BrandFaceView />}
+      {activeView === 'collections' && <CollectionsView />}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { LogOut } from 'lucide-react'
+import { LogOut, User, FolderOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useAuth } from '@/hooks/useAuth'
@@ -11,22 +11,30 @@ import { GenerationControls } from '@/components/GenerationControls'
 import { OnModelPanel } from '@/components/OnModelPanel'
 import { CatalogPanel } from '@/components/CatalogPanel'
 import { ColorwayPanel } from '@/components/ColorwayPanel'
+import { DesignCopyPanel } from '@/components/DesignCopyPanel'
 import { BrandFacePanel } from '@/components/BrandFacePanel'
 import { CollectionsPanel } from '@/components/CollectionsPanel'
-import type { GenerationMode } from '@/types/workspace'
+import type { GenerationMode, ActiveView } from '@/types/workspace'
 
 const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolean }[] = [
   { key: 'on-model', labelKey: 'workspace.sidebar.onModel', enabled: true },
   { key: 'catalog', labelKey: 'workspace.sidebar.catalog', enabled: true },
   { key: 'colorway', labelKey: 'workspace.sidebar.colorway', enabled: true },
-  { key: 'design-copy', labelKey: 'workspace.sidebar.designCopy', enabled: false },
+  { key: 'design-copy', labelKey: 'workspace.sidebar.designCopy', enabled: true },
   { key: 'text-to-image', labelKey: 'workspace.sidebar.textToImage', enabled: false },
+]
+
+const VIEW_TABS: { key: ActiveView; labelKey: string; icon: typeof User }[] = [
+  { key: 'brand-face', labelKey: 'workspace.sidebar.brandFaceNav', icon: User },
+  { key: 'collections', labelKey: 'workspace.sidebar.collectionsNav', icon: FolderOpen },
 ]
 
 export function Sidebar() {
   const sidebarOpen = useWorkspaceStore((s) => s.sidebarOpen)
   const currentMode = useWorkspaceStore((s) => s.currentMode)
   const setCurrentMode = useWorkspaceStore((s) => s.setCurrentMode)
+  const activeView = useWorkspaceStore((s) => s.activeView)
+  const setActiveView = useWorkspaceStore((s) => s.setActiveView)
   const { user } = useAuth()
   const { t } = useTranslation()
 
@@ -38,7 +46,7 @@ export function Sidebar() {
     <aside
       className={`
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        fixed inset-y-0 left-0 z-40 w-64 border-r border-border bg-background
+        fixed inset-y-0 left-0 z-40 w-[32rem] border-r border-border bg-background
         flex flex-col
         lg:static lg:translate-x-0
       `}
@@ -50,62 +58,97 @@ export function Sidebar() {
 
       {/* Navigation */}
       <div className="border-b border-border px-3 py-3">
-        <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
+        <p className="mb-2 px-1 text-sm font-semibold uppercase text-muted-foreground">
           {t('workspace.sidebar.navigation')}
         </p>
-        <nav className="flex flex-col gap-0.5">
+        <nav className="flex flex-col gap-1">
           {GENERATION_MODES.map((mode) => (
             <Button
               key={mode.key}
               variant="ghost"
-              size="sm"
+              size="default"
               disabled={!mode.enabled}
               onClick={() => setCurrentMode(mode.key)}
               className={`
-                justify-start rounded-none text-left
-                ${currentMode === mode.key ? 'bg-accent text-accent-foreground' : ''}
+                justify-start rounded-none text-left text-base
+                ${activeView === 'workspace' && currentMode === mode.key ? 'bg-accent text-accent-foreground' : ''}
               `}
             >
               {t(mode.labelKey)}
             </Button>
           ))}
+
+          {/* Separator */}
+          <div className="my-1 border-t border-border" />
+
+          {/* View tabs: Brand Face, Collections */}
+          {VIEW_TABS.map((tab) => (
+            <Button
+              key={tab.key}
+              variant="ghost"
+              size="default"
+              onClick={() => setActiveView(tab.key)}
+              className={`
+                justify-start rounded-none text-left text-base gap-2
+                ${activeView === tab.key ? 'bg-accent text-accent-foreground' : ''}
+              `}
+            >
+              <tab.icon className="size-4" />
+              {t(tab.labelKey)}
+            </Button>
+          ))}
         </nav>
       </div>
 
-      {/* Prompt & Controls (scrollable) */}
-      <div className="flex-1 overflow-y-auto border-b border-border px-3 py-3 scrollbar-thin">
-        <BrandFacePanel />
-        <div className="my-3 border-t border-border" />
-        <CollectionsPanel />
-        <div className="my-3 border-t border-border" />
-        {currentMode === 'on-model' && (
-          <>
-            <OnModelPanel />
-            <div className="my-3 border-t border-border" />
-          </>
-        )}
-        {currentMode === 'catalog' && (
-          <>
-            <CatalogPanel />
-            <div className="my-3 border-t border-border" />
-          </>
-        )}
-        {currentMode === 'colorway' && (
-          <>
-            <ColorwayPanel />
-            <div className="my-3 border-t border-border" />
-          </>
-        )}
-        <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
-          {t('workspace.sidebar.prompt')}
-        </p>
-        <PromptPanel />
-        <div className="my-3 border-t border-border" />
-        <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
-          {t('workspace.sidebar.controls')}
-        </p>
-        <GenerationControls />
-      </div>
+      {/* Prompt & Controls (scrollable) — only shown when in workspace view */}
+      {activeView === 'workspace' && (
+        <div className="flex-1 overflow-y-auto border-b border-border px-3 py-3 scrollbar-thin">
+          <BrandFacePanel />
+          <div className="my-3 border-t border-border" />
+          <CollectionsPanel />
+          <div className="my-3 border-t border-border" />
+          {currentMode === 'on-model' && (
+            <>
+              <OnModelPanel />
+              <div className="my-3 border-t border-border" />
+            </>
+          )}
+          {currentMode === 'catalog' && (
+            <>
+              <CatalogPanel />
+              <div className="my-3 border-t border-border" />
+            </>
+          )}
+          {currentMode === 'colorway' && (
+            <>
+              <ColorwayPanel />
+              <div className="my-3 border-t border-border" />
+            </>
+          )}
+          {currentMode === 'design-copy' && (
+            <>
+              <DesignCopyPanel />
+              <div className="my-3 border-t border-border" />
+            </>
+          )}
+          {currentMode !== 'colorway' && (
+            <>
+              <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
+                {t('workspace.sidebar.prompt')}
+              </p>
+              <PromptPanel />
+              <div className="my-3 border-t border-border" />
+            </>
+          )}
+          <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
+            {t('workspace.sidebar.controls')}
+          </p>
+          <GenerationControls />
+        </div>
+      )}
+
+      {/* Spacer when not in workspace view */}
+      {activeView !== 'workspace' && <div className="flex-1" />}
 
       {/* Account */}
       <div className="border-t border-border px-3 py-3">

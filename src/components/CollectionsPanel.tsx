@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { X, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCollections } from '@/hooks/useCollections'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -15,6 +15,7 @@ export function CollectionsPanel() {
   } = useCollections()
   const { t } = useTranslation()
 
+  const [collapsed, setCollapsed] = useState(true)
   const [view, setView] = useState<'list' | 'create'>('list')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -27,10 +28,18 @@ export function CollectionsPanel() {
     setView('list')
   }
 
-  if (loading) {
+  if (loading && !collapsed) {
     return (
-      <div className="px-1">
-        <p className="text-xs text-muted-foreground">
+      <div className="flex flex-col gap-2">
+        <button
+          type="button"
+          onClick={() => setCollapsed((v) => !v)}
+          className="flex items-center gap-1 px-1 text-xs font-semibold uppercase text-muted-foreground hover:text-foreground"
+        >
+          <ChevronRight className={`size-3 transition-transform ${collapsed ? '' : 'rotate-90'}`} />
+          {t('workspace.collections.title')}
+        </button>
+        <p className="px-1 text-xs text-muted-foreground">
           {t('workspace.brandFace.loading')}
         </p>
       </div>
@@ -39,11 +48,16 @@ export function CollectionsPanel() {
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="px-1 text-xs font-semibold uppercase text-muted-foreground">
+      <button
+        type="button"
+        onClick={() => setCollapsed((v) => !v)}
+        className="flex items-center gap-1 px-1 text-xs font-semibold uppercase text-muted-foreground hover:text-foreground"
+      >
+        <ChevronRight className={`size-3 transition-transform ${collapsed ? '' : 'rotate-90'}`} />
         {t('workspace.collections.title')}
-      </p>
+      </button>
 
-      {view === 'list' ? (
+      {!collapsed && (view === 'list' ? (
         <>
           {/* All button */}
           <Button
@@ -142,7 +156,7 @@ export function CollectionsPanel() {
             </Button>
           </div>
         </>
-      )}
+      ))}
     </div>
   )
 }

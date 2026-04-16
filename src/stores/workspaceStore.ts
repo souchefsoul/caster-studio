@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { CanvasViewMode, GenerationParams, Generation, GenerationMode } from '@/types/workspace'
+import type { CanvasViewMode, GenerationParams, Generation, GenerationMode, ActiveView } from '@/types/workspace'
 import { DEFAULT_GENERATION_PARAMS } from '@/types/workspace'
 
 type Theme = 'light' | 'dark'
@@ -29,6 +29,10 @@ interface WorkspaceState {
   setSidebarOpen: (open: boolean) => void
   toggleSidebar: () => void
 
+  // Active view (workspace / brand-face / collections)
+  activeView: ActiveView
+  setActiveView: (view: ActiveView) => void
+
   // Canvas
   canvasViewMode: CanvasViewMode
   setCanvasViewMode: (mode: CanvasViewMode) => void
@@ -55,12 +59,20 @@ interface WorkspaceState {
   setCatalogAngles: (angles: string[]) => void
   catalogProductImage: string | null
   setCatalogProductImage: (url: string | null) => void
+  catalogProductBackImage: string | null
+  setCatalogProductBackImage: (url: string | null) => void
 
   // Colorway mode
   colorwayColors: string[]
   setColorwayColors: (colors: string[]) => void
   colorwayProductImage: string | null
   setColorwayProductImage: (url: string | null) => void
+
+  // Design copy mode
+  designCopyReferenceImage: string | null
+  setDesignCopyReferenceImage: (url: string | null) => void
+  designCopyModifications: string
+  setDesignCopyModifications: (text: string) => void
 
   // Collection filter
   filterCollectionId: string | null
@@ -73,6 +85,7 @@ interface WorkspaceState {
   setGenerations: (gens: Generation[]) => void
   addGeneration: (gen: Generation) => void
   updateGeneration: (id: string, update: Partial<Generation>) => void
+  clearFailedGenerations: () => void
 }
 
 export const useWorkspaceStore = create<WorkspaceState>((set) => {
@@ -98,11 +111,14 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
     toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
 
+    activeView: 'workspace',
+    setActiveView: (activeView) => set({ activeView }),
+
     canvasViewMode: 'single',
     setCanvasViewMode: (canvasViewMode) => set({ canvasViewMode }),
 
     currentMode: 'on-model',
-    setCurrentMode: (currentMode) => set({ currentMode }),
+    setCurrentMode: (currentMode) => set({ currentMode, activeView: 'workspace' }),
 
     params: { ...DEFAULT_GENERATION_PARAMS },
     setParams: (params) => set((s) => ({ params: { ...s.params, ...params } })),
@@ -120,11 +136,18 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     setCatalogAngles: (catalogAngles) => set({ catalogAngles }),
     catalogProductImage: null,
     setCatalogProductImage: (catalogProductImage) => set({ catalogProductImage }),
+    catalogProductBackImage: null,
+    setCatalogProductBackImage: (catalogProductBackImage) => set({ catalogProductBackImage }),
 
     colorwayColors: ['Red', 'Blue', 'Green'],
     setColorwayColors: (colorwayColors) => set({ colorwayColors }),
     colorwayProductImage: null,
     setColorwayProductImage: (colorwayProductImage) => set({ colorwayProductImage }),
+
+    designCopyReferenceImage: null,
+    setDesignCopyReferenceImage: (designCopyReferenceImage) => set({ designCopyReferenceImage }),
+    designCopyModifications: '',
+    setDesignCopyModifications: (designCopyModifications) => set({ designCopyModifications }),
 
     filterCollectionId: null,
     setFilterCollectionId: (filterCollectionId) => set({ filterCollectionId }),
@@ -136,6 +159,9 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     addGeneration: (gen) => set((s) => ({ generations: [gen, ...s.generations] })),
     updateGeneration: (id, update) => set((s) => ({
       generations: s.generations.map((g) => g.id === id ? { ...g, ...update } : g),
+    })),
+    clearFailedGenerations: () => set((s) => ({
+      generations: s.generations.filter((g) => g.status !== 'failed'),
     })),
   }
 })
