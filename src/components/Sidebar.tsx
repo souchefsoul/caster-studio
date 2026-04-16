@@ -9,14 +9,16 @@ import { ThemeToggle } from '@/components/ThemeToggle'
 import { PromptPanel } from '@/components/PromptPanel'
 import { GenerationControls } from '@/components/GenerationControls'
 import { OnModelPanel } from '@/components/OnModelPanel'
+import { CatalogPanel } from '@/components/CatalogPanel'
+import { ColorwayPanel } from '@/components/ColorwayPanel'
 import { BrandFacePanel } from '@/components/BrandFacePanel'
 import { CollectionsPanel } from '@/components/CollectionsPanel'
 import type { GenerationMode } from '@/types/workspace'
 
 const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolean }[] = [
   { key: 'on-model', labelKey: 'workspace.sidebar.onModel', enabled: true },
-  { key: 'catalog', labelKey: 'workspace.sidebar.catalog', enabled: false },
-  { key: 'colorway', labelKey: 'workspace.sidebar.colorway', enabled: false },
+  { key: 'catalog', labelKey: 'workspace.sidebar.catalog', enabled: true },
+  { key: 'colorway', labelKey: 'workspace.sidebar.colorway', enabled: true },
   { key: 'design-copy', labelKey: 'workspace.sidebar.designCopy', enabled: false },
   { key: 'text-to-image', labelKey: 'workspace.sidebar.textToImage', enabled: false },
 ]
@@ -79,6 +81,18 @@ export function Sidebar() {
         {currentMode === 'on-model' && (
           <>
             <OnModelPanel />
+            <div className="my-3 border-t border-border" />
+          </>
+        )}
+        {currentMode === 'catalog' && (
+          <>
+            <CatalogPanel />
+            <div className="my-3 border-t border-border" />
+          </>
+        )}
+        {currentMode === 'colorway' && (
+          <>
+            <ColorwayPanel />
             <div className="my-3 border-t border-border" />
           </>
         )}

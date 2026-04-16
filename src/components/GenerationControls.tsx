@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useGenerations } from '@/hooks/useGenerations'
-import { generateImage, generateOnModel } from '@/lib/fal'
+import { generateImage, generateOnModel, generateCatalog, generateColorway } from '@/lib/fal'
 
 const ASPECT_RATIOS = ['1:1', '4:3', '3:4', '16:9', '9:16'] as const
 const QUALITY_LEVELS = ['draft', 'standard', 'high'] as const
@@ -14,6 +14,10 @@ export function GenerationControls() {
   const setParams = useWorkspaceStore((s) => s.setParams)
   const currentMode = useWorkspaceStore((s) => s.currentMode)
   const productImageDataUrl = useWorkspaceStore((s) => s.productImageDataUrl)
+  const catalogAngles = useWorkspaceStore((s) => s.catalogAngles)
+  const catalogProductImage = useWorkspaceStore((s) => s.catalogProductImage)
+  const colorwayColors = useWorkspaceStore((s) => s.colorwayColors)
+  const colorwayProductImage = useWorkspaceStore((s) => s.colorwayProductImage)
   const addGeneration = useWorkspaceStore((s) => s.addGeneration)
   const updateGeneration = useWorkspaceStore((s) => s.updateGeneration)
   const { t } = useTranslation()
@@ -31,13 +35,110 @@ export function GenerationControls() {
       setError(t('workspace.onModel.noProductImage'))
       return
     }
+    if (currentMode === 'catalog' && !catalogProductImage) {
+      setError(t('workspace.catalog.noProductImage'))
+      return
+    }
+    if (currentMode === 'catalog' && catalogAngles.length === 0) {
+      setError(t('workspace.catalog.noAngles'))
+      return
+    }
+    if (currentMode === 'colorway' && !colorwayProductImage) {
+      setError(t('workspace.colorway.noProductImage'))
+      return
+    }
+    if (currentMode === 'colorway' && colorwayColors.length === 0) {
+      setError(t('workspace.colorway.noColors'))
+      return
+    }
     setError(null)
     setIsGenerating(true)
 
-    const id = crypto.randomUUID()
     const createdAt = new Date().toISOString()
     const genParams = { ...params }
 
+    // Catalog mode: one generation per angle
+    if (currentMode === 'catalog' && catalogProductImage) {
+      const entries = catalogAngles.map((angle) => {
+        const id = crypto.randomUUID()
+        const gen = {
+          id,
+          mode: currentMode,
+          prompt: `${params.prompt} (${angle})`,
+          imageUrl: null as string | null,
+          thumbnailUrl: null as string | null,
+          status: 'pending' as const,
+          errorMessage: null as string | null,
+          params: genParams,
+          createdAt,
+        }
+        addGeneration(gen)
+        return { id, angle, gen }
+      })
+
+      const results = await Promise.allSettled(
+        entries.map(({ angle }) => generateCatalog(genParams, catalogProductImage, angle))
+      )
+
+      results.forEach((result, i) => {
+        const { id, gen } = entries[i]
+        if (result.status === 'fulfilled') {
+          const imageUrl = result.value.images[0]?.url ?? null
+          updateGeneration(id, { status: 'completed', imageUrl })
+          persistGeneration({ ...gen, status: 'completed', imageUrl })
+        } else {
+          const message = result.reason instanceof Error ? result.reason.message : 'Generation failed'
+          updateGeneration(id, { status: 'failed', errorMessage: message })
+          persistGeneration({ ...gen, status: 'failed', errorMessage: message })
+        }
+      })
+
+      setIsGenerating(false)
+      return
+    }
+
+    // Colorway mode: one generation per color
+    if (currentMode === 'colorway' && colorwayProductImage) {
+      const entries = colorwayColors.map((color) => {
+        const id = crypto.randomUUID()
+        const gen = {
+          id,
+          mode: currentMode,
+          prompt: `${params.prompt} (${color})`,
+          imageUrl: null as string | null,
+          thumbnailUrl: null as string | null,
+          status: 'pending' as const,
+          errorMessage: null as string | null,
+          params: genParams,
+          createdAt,
+        }
+        addGeneration(gen)
+        return { id, color, gen }
+      })
+
+      const results = await Promise.allSettled(
+        entries.map(({ color }) => generateColorway(genParams, colorwayProductImage, color))
+      )
+
+      results.forEach((result, i) => {
+        const { id, gen } = entries[i]
+        if (result.status === 'fulfilled') {
+          const imageUrl = result.value.images[0]?.url ?? null
+          updateGeneration(id, { status: 'completed', imageUrl })
+          persistGeneration({ ...gen, status: 'completed', imageUrl })
+        } else {
+          const message = result.reason instanceof Error ? result.reason.message : 'Generation failed'
+          updateGeneration(id, { status: 'failed', errorMessage: message })
+          persistGeneration({ ...gen, status: 'failed', errorMessage: message })
+        }
+      })
+
+      setIsGenerating(false)
+      return
+    }
+
+    // Default: on-model or text-to-image
+    const id = crypto.randomUUID()
     const baseGen = {
       id,
       mode: currentMode,
