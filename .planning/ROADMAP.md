@@ -45,11 +45,12 @@ Plans:
   3. Generated image appears on the canvas; user can toggle between full-screen single image and grid view
   4. User can upload a flat/mannequin product photo and generate an on-model shot with an AI model in a scene
   5. Layout adapts cleanly to desktop, tablet, and mobile viewports with dark/light theme toggle
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Workspace layout with sidebar, canvas, theme toggle, and responsive design
+- [ ] 02-02-PLAN.md — Prompt controls panel and generation API integration
+- [ ] 02-03-PLAN.md — On-Model generation mode with product image upload
 
 ### Phase 3: Full Generation Suite & Organization
 **Goal**: Users have access to all generation modes and can organize, persist, and download their work
@@ -75,5 +76,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Auth | 3/3 | Complete | 2026-04-16 |
-| 2. Workspace & First Generation | 0/? | Not started | - |
+| 2. Workspace & First Generation | 0/3 | Not started | - |
 | 3. Full Generation Suite & Organization | 0/? | Not started | - |
