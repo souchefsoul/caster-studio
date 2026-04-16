@@ -67,6 +67,17 @@ export const en: TranslationKeys = {
       negative: 'Negative Prompt',
       negativePlaceholder: 'Describe what you do not want in the image...',
     },
+    brandFace: {
+      title: 'Brand Face',
+      add: 'Add',
+      save: 'Save',
+      cancel: 'Cancel',
+      namePlaceholder: 'Model name',
+      hint: 'Create a brand face for consistent AI models',
+      active: 'Active',
+      uploadFace: 'Upload face image',
+      loading: 'Loading...',
+    },
     onModel: {
       frontImage: 'Product Front Image',
       backImage: 'Product Back Image',

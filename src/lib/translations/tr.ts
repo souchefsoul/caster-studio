@@ -65,6 +65,17 @@ export const tr = {
       negative: 'Negatif Prompt',
       negativePlaceholder: 'Gorselde istemediginiz ogeleri belirtin...',
     },
+    brandFace: {
+      title: 'Marka Yuz',
+      add: 'Ekle',
+      save: 'Kaydet',
+      cancel: 'Iptal',
+      namePlaceholder: 'Model adi',
+      hint: 'Marka tutarliligi icin bir yuz olusturun',
+      active: 'Aktif',
+      uploadFace: 'Yuz gorseli yukleyin',
+      loading: 'Yukleniyor...',
+    },
     onModel: {
       frontImage: 'Urun On Gorseli',
       backImage: 'Urun Arka Gorseli',

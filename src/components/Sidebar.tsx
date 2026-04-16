@@ -9,6 +9,7 @@ import { ThemeToggle } from '@/components/ThemeToggle'
 import { PromptPanel } from '@/components/PromptPanel'
 import { GenerationControls } from '@/components/GenerationControls'
 import { OnModelPanel } from '@/components/OnModelPanel'
+import { BrandFacePanel } from '@/components/BrandFacePanel'
 import type { GenerationMode } from '@/types/workspace'
 
 const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolean }[] = [
@@ -70,6 +71,8 @@ export function Sidebar() {
 
       {/* Prompt & Controls (scrollable) */}
       <div className="flex-1 overflow-y-auto border-b border-border px-3 py-3 scrollbar-thin">
+        <BrandFacePanel />
+        <div className="my-3 border-t border-border" />
         {currentMode === 'on-model' && (
           <>
             <OnModelPanel />
