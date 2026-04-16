@@ -29,7 +29,7 @@
 
 - [x] **BRAND-01**: Brand Face — create and save persistent AI model face for brand consistency
 - [x] **BRAND-02**: History timeline of all generations (chronological)
-- [ ] **BRAND-03**: Collections — organize generations into named groups (season, line, etc.)
+- [x] **BRAND-03**: Collections — organize generations into named groups (season, line, etc.)
 - [x] **BRAND-04**: Download generated images in full resolution
 
 ### Infrastructure
@@ -90,7 +90,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GEN-05 | Phase 2 | Complete |
 | BRAND-01 | Phase 3 | Complete |
 | BRAND-02 | Phase 3 | Complete |
-| BRAND-03 | Phase 3 | Pending |
+| BRAND-03 | Phase 3 | Complete |
 | BRAND-04 | Phase 3 | Complete |
 | INFRA-01 | Phase 1 | Complete |
 | INFRA-02 | Phase 1 | Complete |
