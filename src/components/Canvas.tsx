@@ -1,7 +1,9 @@
-import { Download, Grid3x3, Maximize2, Menu } from 'lucide-react'
+import { useState, useRef, useEffect } from 'react'
+import { Check, Download, FolderPlus, Grid3x3, Maximize2, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useCollections } from '@/hooks/useCollections'
 
 export function Canvas() {
   const canvasViewMode = useWorkspaceStore((s) => s.canvasViewMode)
@@ -11,6 +13,33 @@ export function Canvas() {
   const setSelectedGenerationId = useWorkspaceStore((s) => s.setSelectedGenerationId)
   const toggleSidebar = useWorkspaceStore((s) => s.toggleSidebar)
   const { t } = useTranslation()
+  const {
+    collections,
+    activeCollectionId,
+    activeCollectionItemIds,
+    addItem,
+  } = useCollections()
+
+  const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setCollectionDropdownOpen(false)
+      }
+    }
+    if (collectionDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [collectionDropdownOpen])
+
+  // Filter generations by active collection in grid view
+  const filteredGenerations = activeCollectionId
+    ? generations.filter((g) => activeCollectionItemIds.includes(g.id))
+    : generations
 
   // Find the selected generation, or fall back to the most recent one
   const selectedGen = generations.find((g) => g.id === selectedGenerationId) ?? generations[0] ?? null
@@ -50,19 +79,65 @@ export function Canvas() {
           </span>
           {generations.length > 0 && (
             <span className="ml-2 text-xs text-muted-foreground">
-              {generations.length} {t('workspace.canvas.generationCount')}
+              {canvasViewMode === 'grid' && activeCollectionId
+                ? `${filteredGenerations.length} / ${generations.length}`
+                : generations.length}{' '}
+              {t('workspace.canvas.generationCount')}
             </span>
           )}
           {canvasViewMode === 'single' && selectedGen?.status === 'completed' && selectedGen?.imageUrl && (
-            <a
-              href={selectedGen.imageUrl}
-              download={`${selectedGen.prompt.slice(0, 30)}.png`}
-              className="ml-2 inline-flex h-7 items-center gap-1 border border-border bg-background px-2 text-xs hover:bg-accent rounded-none"
-              title={t('workspace.canvas.download')}
-            >
-              <Download className="size-4" />
-              {t('workspace.canvas.download')}
-            </a>
+            <>
+              <a
+                href={selectedGen.imageUrl}
+                download={`${selectedGen.prompt.slice(0, 30)}.png`}
+                className="ml-2 inline-flex h-7 items-center gap-1 border border-border bg-background px-2 text-xs hover:bg-accent rounded-none"
+                title={t('workspace.canvas.download')}
+              >
+                <Download className="size-4" />
+                {t('workspace.canvas.download')}
+              </a>
+              {/* Add to Collection dropdown */}
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setCollectionDropdownOpen((v) => !v)}
+                  className="ml-1 inline-flex h-7 items-center gap-1 border border-border bg-background px-2 text-xs hover:bg-accent rounded-none"
+                  title={t('workspace.collections.addTo')}
+                >
+                  <FolderPlus className="size-4" />
+                  {t('workspace.collections.addTo')}
+                </button>
+                {collectionDropdownOpen && (
+                  <div className="absolute left-0 top-full z-50 mt-1 min-w-48 border border-border bg-background shadow-sm">
+                    {collections.length === 0 ? (
+                      <p className="px-3 py-2 text-xs text-muted-foreground">
+                        {t('workspace.collections.empty')}
+                      </p>
+                    ) : (
+                      collections.map((col) => {
+                        const isInCollection = activeCollectionItemIds.includes(selectedGen.id)
+                          && activeCollectionId === col.id
+                        return (
+                          <button
+                            key={col.id}
+                            onClick={() => {
+                              addItem(col.id, selectedGen.id)
+                              setCollectionDropdownOpen(false)
+                            }}
+                            className="flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs hover:bg-accent"
+                          >
+                            {isInCollection && <Check className="size-3 text-green-500" />}
+                            <span className="truncate">{col.name}</span>
+                            <span className="ml-auto shrink-0 text-muted-foreground">
+                              {col.itemCount}
+                            </span>
+                          </button>
+                        )
+                      })
+                    )}
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </div>
 
@@ -107,7 +182,7 @@ export function Canvas() {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
-            {generations.map((gen) => (
+            {filteredGenerations.map((gen) => (
               <div
                 key={gen.id}
                 onClick={() => handleGridClick(gen.id)}

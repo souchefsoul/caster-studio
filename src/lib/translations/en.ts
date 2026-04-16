@@ -78,6 +78,18 @@ export const en: TranslationKeys = {
       uploadFace: 'Upload face image',
       loading: 'Loading...',
     },
+    collections: {
+      title: 'Collections',
+      all: 'All',
+      new: 'New Collection',
+      create: 'Create',
+      cancel: 'Cancel',
+      namePlaceholder: 'Collection name',
+      descriptionPlaceholder: 'Description (optional)',
+      empty: 'No collections yet',
+      addTo: 'Add to Collection',
+      items: 'images',
+    },
     onModel: {
       frontImage: 'Product Front Image',
       backImage: 'Product Back Image',

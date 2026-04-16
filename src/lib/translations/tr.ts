@@ -76,6 +76,18 @@ export const tr = {
       uploadFace: 'Yuz gorseli yukleyin',
       loading: 'Yukleniyor...',
     },
+    collections: {
+      title: 'Koleksiyonlar',
+      all: 'Tumu',
+      new: 'Yeni Koleksiyon',
+      create: 'Olustur',
+      cancel: 'Iptal',
+      namePlaceholder: 'Koleksiyon adi',
+      descriptionPlaceholder: 'Aciklama (istege bagli)',
+      empty: 'Henuz koleksiyon yok',
+      addTo: 'Koleksiyona Ekle',
+      items: 'gorsel',
+    },
     onModel: {
       frontImage: 'Urun On Gorseli',
       backImage: 'Urun Arka Gorseli',
