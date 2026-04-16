@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
-import { generateImage } from '@/lib/fal'
+import { generateImage, generateOnModel } from '@/lib/fal'
 
 const ASPECT_RATIOS = ['1:1', '4:3', '3:4', '16:9', '9:16'] as const
 const QUALITY_LEVELS = ['draft', 'standard', 'high'] as const
@@ -14,6 +14,7 @@ export function GenerationControls() {
   const params = useWorkspaceStore((s) => s.params)
   const setParams = useWorkspaceStore((s) => s.setParams)
   const currentMode = useWorkspaceStore((s) => s.currentMode)
+  const productImageDataUrl = useWorkspaceStore((s) => s.productImageDataUrl)
   const addGeneration = useWorkspaceStore((s) => s.addGeneration)
   const updateGeneration = useWorkspaceStore((s) => s.updateGeneration)
   const { t } = useTranslation()
@@ -24,6 +25,10 @@ export function GenerationControls() {
   const handleGenerate = async () => {
     if (!params.prompt.trim()) {
       setError(t('workspace.controls.promptRequired'))
+      return
+    }
+    if (currentMode === 'on-model' && !productImageDataUrl) {
+      setError(t('workspace.onModel.noProductImage'))
       return
     }
     setError(null)
@@ -43,7 +48,9 @@ export function GenerationControls() {
     })
 
     try {
-      const result = await generateImage(params)
+      const result = currentMode === 'on-model' && productImageDataUrl
+        ? await generateOnModel(params, productImageDataUrl)
+        : await generateImage(params)
       updateGeneration(id, {
         status: 'completed',
         imageUrl: result.images[0]?.url ?? null,

@@ -60,8 +60,14 @@ export function Canvas() {
             </p>
           </div>
         ) : canvasViewMode === 'single' ? (
-          <div className="flex h-full items-center justify-center">
-            {generations[0].imageUrl && (
+          <div className="flex h-full flex-col items-center justify-center gap-2">
+            {(generations[0].status === 'pending' || generations[0].status === 'processing') && (
+              <p className="animate-pulse text-sm text-muted-foreground">Generating...</p>
+            )}
+            {generations[0].status === 'failed' && (
+              <p className="text-sm text-destructive">{generations[0].errorMessage || 'Generation failed'}</p>
+            )}
+            {generations[0].status === 'completed' && generations[0].imageUrl && (
               <img
                 src={generations[0].imageUrl}
                 alt={generations[0].prompt}
@@ -74,17 +80,32 @@ export function Canvas() {
             {generations.map((gen) => (
               <div
                 key={gen.id}
-                className="aspect-square border border-border bg-muted"
+                className="relative aspect-square border border-border bg-muted"
               >
-                {gen.thumbnailUrl || gen.imageUrl ? (
+                {/* Status dot */}
+                <span
+                  className={`absolute right-1 top-1 z-10 size-2 ${
+                    gen.status === 'completed'
+                      ? 'bg-green-500'
+                      : gen.status === 'failed'
+                        ? 'bg-red-500'
+                        : 'bg-yellow-500'
+                  }`}
+                />
+
+                {gen.status === 'completed' && (gen.thumbnailUrl || gen.imageUrl) ? (
                   <img
                     src={gen.thumbnailUrl ?? gen.imageUrl!}
                     alt={gen.prompt}
                     className="h-full w-full object-cover"
                   />
+                ) : gen.status === 'failed' ? (
+                  <div className="flex h-full flex-col items-center justify-center gap-1 p-2">
+                    <p className="text-xs text-destructive">{gen.errorMessage || 'Failed'}</p>
+                  </div>
                 ) : (
-                  <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
-                    {gen.status}
+                  <div className="flex h-full items-center justify-center">
+                    <p className="animate-pulse text-xs text-muted-foreground">Generating...</p>
                   </div>
                 )}
               </div>

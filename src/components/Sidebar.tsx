@@ -8,6 +8,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { PromptPanel } from '@/components/PromptPanel'
 import { GenerationControls } from '@/components/GenerationControls'
+import { OnModelPanel } from '@/components/OnModelPanel'
 import type { GenerationMode } from '@/types/workspace'
 
 const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolean }[] = [
@@ -69,6 +70,12 @@ export function Sidebar() {
 
       {/* Prompt & Controls (scrollable) */}
       <div className="flex-1 overflow-y-auto border-b border-border px-3 py-3 scrollbar-thin">
+        {currentMode === 'on-model' && (
+          <>
+            <OnModelPanel />
+            <div className="my-3 border-t border-border" />
+          </>
+        )}
         <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
           {t('workspace.sidebar.prompt')}
         </p>
