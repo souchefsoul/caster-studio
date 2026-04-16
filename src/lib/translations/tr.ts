@@ -60,6 +60,13 @@ export const tr = {
       negative: 'Negatif Prompt',
       negativePlaceholder: 'Gorselde istemediginiz ogeleri belirtin...',
     },
+    onModel: {
+      productImage: 'Urun Gorseli',
+      uploadHint: 'Duz veya manken uzerindeki urun fotografinizi yukleyin',
+      uploadText: 'Tiklayarak veya surukleyerek yukleyin',
+      fileTooLarge: 'Dosya boyutu 10MB\'dan kucuk olmalidir',
+      noProductImage: 'Lutfen bir urun gorseli yukleyin',
+    },
     controls: {
       steps: 'Adim Sayisi',
       guidance: 'Rehberlik Olcegi',

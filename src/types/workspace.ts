@@ -13,6 +13,7 @@ export interface GenerationParams {
   seed: number | null     // null = random
   aspectRatio: string     // '1:1' | '4:3' | '3:4' | '16:9' | '9:16'
   quality: 'draft' | 'standard' | 'high'
+  productImageUrl: string | null
 }
 
 export interface Generation {
@@ -36,4 +37,5 @@ export const DEFAULT_GENERATION_PARAMS: GenerationParams = {
   seed: null,
   aspectRatio: '1:1',
   quality: 'standard',
+  productImageUrl: null,
 }

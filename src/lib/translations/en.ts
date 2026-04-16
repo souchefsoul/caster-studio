@@ -62,6 +62,13 @@ export const en: TranslationKeys = {
       negative: 'Negative Prompt',
       negativePlaceholder: 'Describe what you do not want in the image...',
     },
+    onModel: {
+      productImage: 'Product Image',
+      uploadHint: 'Upload a flat lay or mannequin photo of your product',
+      uploadText: 'Click or drag to upload',
+      fileTooLarge: 'File size must be less than 10MB',
+      noProductImage: 'Please upload a product image',
+    },
     controls: {
       steps: 'Steps',
       guidance: 'Guidance Scale',

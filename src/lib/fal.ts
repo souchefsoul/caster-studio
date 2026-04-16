@@ -3,7 +3,7 @@ import type { GenerationParams } from '@/types/workspace'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 
-interface FalImageResult {
+export interface FalImageResult {
   images: Array<{ url: string; width: number; height: number }>
   seed: number
   prompt: string
@@ -59,6 +59,46 @@ export async function generateImage(params: GenerationParams): Promise<FalImageR
 
   if (!response.ok) {
     const err = await response.json().catch(() => ({ error: 'Generation failed' }))
+    throw new Error(err.error || `HTTP ${response.status}`)
+  }
+
+  return response.json()
+}
+
+export async function generateOnModel(
+  params: GenerationParams,
+  productImageDataUrl: string
+): Promise<FalImageResult> {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) throw new Error('Not authenticated')
+
+  const size = aspectToSize(params.aspectRatio)
+  const steps = qualitySteps(params.quality, params.steps)
+
+  const body = {
+    endpoint: 'fal-ai/nano-banana-pro/edit',
+    input: {
+      prompt: params.prompt,
+      negative_prompt: params.negativePrompt || undefined,
+      image_url: productImageDataUrl,
+      num_inference_steps: steps,
+      guidance_scale: params.guidance,
+      seed: params.seed ?? undefined,
+      image_size: size,
+    },
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${session.access_token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'On-model generation failed' }))
     throw new Error(err.error || `HTTP ${response.status}`)
   }
 
