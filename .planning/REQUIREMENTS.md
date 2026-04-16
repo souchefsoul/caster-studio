@@ -12,10 +12,10 @@
 
 ### Workspace
 
-- [ ] **WORK-01**: Left sidebar with navigation, prompt input, generation controls, and account info
-- [ ] **WORK-02**: Canvas area with toggle between full-screen single image and grid view
-- [ ] **WORK-03**: Dark/light theme toggle
-- [ ] **WORK-04**: Responsive layout (desktop, tablet, mobile)
+- [x] **WORK-01**: Left sidebar with navigation, prompt input, generation controls, and account info
+- [x] **WORK-02**: Canvas area with toggle between full-screen single image and grid view
+- [x] **WORK-03**: Dark/light theme toggle
+- [x] **WORK-04**: Responsive layout (desktop, tablet, mobile)
 
 ### Generation
 
@@ -79,10 +79,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | AUTH-01 | Phase 1 | Complete |
 | AUTH-02 | Phase 1 | Complete |
-| WORK-01 | Phase 2 | Pending |
-| WORK-02 | Phase 2 | Pending |
-| WORK-03 | Phase 2 | Pending |
-| WORK-04 | Phase 2 | Pending |
+| WORK-01 | Phase 2 | Complete |
+| WORK-02 | Phase 2 | Complete |
+| WORK-03 | Phase 2 | Complete |
+| WORK-04 | Phase 2 | Complete |
 | GEN-01 | Phase 2 | Pending |
 | GEN-02 | Phase 3 | Pending |
 | GEN-03 | Phase 3 | Pending |
