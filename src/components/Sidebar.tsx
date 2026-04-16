@@ -12,6 +12,7 @@ import { OnModelPanel } from '@/components/OnModelPanel'
 import { CatalogPanel } from '@/components/CatalogPanel'
 import { ColorwayPanel } from '@/components/ColorwayPanel'
 import { DesignCopyPanel } from '@/components/DesignCopyPanel'
+import { VideoPanel } from '@/components/VideoPanel'
 import { BrandFacePanel } from '@/components/BrandFacePanel'
 import { CollectionsPanel } from '@/components/CollectionsPanel'
 import type { GenerationMode, ActiveView } from '@/types/workspace'
@@ -21,7 +22,7 @@ const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolea
   { key: 'catalog', labelKey: 'workspace.sidebar.catalog', enabled: true },
   { key: 'colorway', labelKey: 'workspace.sidebar.colorway', enabled: true },
   { key: 'design-copy', labelKey: 'workspace.sidebar.designCopy', enabled: true },
-  { key: 'text-to-image', labelKey: 'workspace.sidebar.textToImage', enabled: false },
+  { key: 'video', labelKey: 'workspace.sidebar.video', enabled: true },
 ]
 
 const VIEW_TABS: { key: ActiveView; labelKey: string; icon: typeof User }[] = [
@@ -131,7 +132,13 @@ export function Sidebar() {
               <div className="my-3 border-t border-border" />
             </>
           )}
-          {currentMode !== 'colorway' && (
+          {currentMode === 'video' && (
+            <>
+              <VideoPanel />
+              <div className="my-3 border-t border-border" />
+            </>
+          )}
+          {currentMode !== 'colorway' && currentMode !== 'video' && (
             <>
               <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
                 {t('workspace.sidebar.prompt')}
@@ -140,10 +147,14 @@ export function Sidebar() {
               <div className="my-3 border-t border-border" />
             </>
           )}
-          <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
-            {t('workspace.sidebar.controls')}
-          </p>
-          <GenerationControls />
+          {currentMode !== 'video' && (
+            <>
+              <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
+                {t('workspace.sidebar.controls')}
+              </p>
+              <GenerationControls />
+            </>
+          )}
         </div>
       )}
 

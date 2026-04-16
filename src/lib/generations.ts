@@ -27,6 +27,17 @@ export async function saveGeneration(userId: string, gen: Generation): Promise<v
 }
 
 /**
+ * Delete a generation row from Supabase.
+ */
+export async function deleteGeneration(genId: string): Promise<void> {
+  const { error } = await supabase.from('generations').delete().eq('id', genId)
+  if (error) {
+    console.error('Failed to delete generation:', error)
+    throw error
+  }
+}
+
+/**
  * Fetch all generations for a user, ordered by created_at DESC, limit 200.
  * Maps DB rows back to frontend Generation type.
  */

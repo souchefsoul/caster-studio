@@ -1,6 +1,6 @@
 export type CanvasViewMode = 'single' | 'grid'
 
-export type GenerationMode = 'on-model' | 'catalog' | 'colorway' | 'design-copy' | 'text-to-image'
+export type GenerationMode = 'on-model' | 'catalog' | 'colorway' | 'design-copy' | 'text-to-image' | 'video'
 
 export type ActiveView = 'workspace' | 'brand-face' | 'collections'
 
@@ -9,7 +9,7 @@ export type GenerationStatus = 'idle' | 'pending' | 'processing' | 'completed' |
 export interface GenerationParams {
   prompt: string
   model: string           // FAL model endpoint
-  aspectRatio: string     // '1:1' | '4:3' | '3:4' | '16:9' | '9:16'
+  aspectRatio: string     // '1:1' | '5:4' | '16:9' | '9:16'
   quality: 'draft' | 'standard' | 'high'
   productImageUrl: string | null
 }

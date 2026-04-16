@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
-import { fetchGenerations, saveGeneration } from '@/lib/generations'
+import { fetchGenerations, saveGeneration, deleteGeneration } from '@/lib/generations'
 import type { Generation } from '@/types/workspace'
 
 export function useGenerations() {
@@ -44,5 +44,20 @@ export function useGenerations() {
     [user]
   )
 
-  return { generations, persistGeneration, loading }
+  const removeGeneration = useWorkspaceStore((s) => s.removeGeneration)
+
+  const removeAndDelete = useCallback(
+    async (genId: string) => {
+      removeGeneration(genId)
+      try {
+        await deleteGeneration(genId)
+        console.log('[generations] deleted from DB:', genId)
+      } catch (err) {
+        console.error('[generations] DB delete failed (removed locally):', err)
+      }
+    },
+    [removeGeneration]
+  )
+
+  return { generations, persistGeneration, removeAndDelete, loading }
 }

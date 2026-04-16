@@ -20,8 +20,7 @@ function qualityToResolution(quality: string): '1K' | '2K' | '4K' {
 // Map our aspect ratio format to FAL's format
 function mapAspectRatio(ratio: string): string {
   switch (ratio) {
-    case '4:3': return '4:3'
-    case '3:4': return '3:4'
+    case '5:4': return '5:4'
     case '16:9': return '16:9'
     case '9:16': return '9:16'
     default: return '1:1'
@@ -49,8 +48,7 @@ const PROMPT_TEMPLATES = {
       `${faceRef} ` +
       `Pose: ${angle}. ` +
       `IMPORTANT: Only one person in the photo, no other people, no split frames, no collage. ` +
-      `Single full-body shot, seamless studio backdrop, soft diffused lighting, ` +
-      `sharp focus, high-end e-commerce editorial quality.`
+      `Single full-body shot, soft diffused lighting, sharp focus, high-end editorial quality.`
     )
   },
 
@@ -180,6 +178,27 @@ export async function generateDesignCopy(
     aspect_ratio: mapAspectRatio(params.aspectRatio),
     resolution: qualityToResolution(params.quality),
   })
+}
+
+export interface VideoGenerationOptions {
+  imageUrl: string
+  prompt: string
+  duration?: string
+  aspectRatio?: string
+  generateAudio?: boolean
+}
+
+export async function generateVideo(opts: VideoGenerationOptions): Promise<{ video: { url: string } }> {
+  const result = await falRequest('fal-ai/kling-video/v3/pro/image-to-video', {
+    prompt: opts.prompt,
+    start_image_url: opts.imageUrl,
+    duration: opts.duration || '5',
+    aspect_ratio: opts.aspectRatio || '16:9',
+    generate_audio: opts.generateAudio ?? true,
+    negative_prompt: 'blur, distort, and low quality',
+    cfg_scale: 0.5,
+  })
+  return result as unknown as { video: { url: string } }
 }
 
 export async function generateColorway(

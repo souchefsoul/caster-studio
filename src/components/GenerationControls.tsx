@@ -5,17 +5,11 @@ import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useGenerations } from '@/hooks/useGenerations'
 import { generateImage, generateOnModel, generateCatalog, generateColorway, generateDesignCopy } from '@/lib/fal'
+import { ON_MODEL_ANGLES } from '@/components/OnModelPanel'
 
-const ASPECT_RATIOS = ['1:1', '4:3', '3:4', '16:9', '9:16'] as const
+const ASPECT_RATIOS = ['1:1', '5:4', '16:9', '9:16'] as const
 const QUALITY_LEVELS = ['draft', 'standard', 'high'] as const
 const IMAGE_COUNTS = [1, 2, 3, 4] as const
-
-const ON_MODEL_ANGLES = [
-  'front-facing confident pose',
-  'three-quarter view from the left',
-  'three-quarter view from the right',
-  'full side profile view',
-]
 
 export function GenerationControls() {
   const params = useWorkspaceStore((s) => s.params)
@@ -31,6 +25,7 @@ export function GenerationControls() {
   const colorwayProductImage = useWorkspaceStore((s) => s.colorwayProductImage)
   const designCopyReferenceImage = useWorkspaceStore((s) => s.designCopyReferenceImage)
   const designCopyModifications = useWorkspaceStore((s) => s.designCopyModifications)
+  const onModelAngles = useWorkspaceStore((s) => s.onModelAngles)
   const addGeneration = useWorkspaceStore((s) => s.addGeneration)
   const updateGeneration = useWorkspaceStore((s) => s.updateGeneration)
   const { t } = useTranslation()
@@ -47,6 +42,10 @@ export function GenerationControls() {
     }
     if (currentMode === 'on-model' && !productImageDataUrl) {
       setError(t('workspace.onModel.noProductImage'))
+      return
+    }
+    if (currentMode === 'on-model' && onModelAngles.length === 0) {
+      setError(t('workspace.onModel.noAngles'))
       return
     }
     if (currentMode === 'catalog' && !catalogProductImage) {
@@ -190,13 +189,13 @@ export function GenerationControls() {
       return
     }
 
-    // On-model: one request per angle with same references
+    // On-model: one request per selected angle
     if (currentMode === 'on-model' && productImageDataUrl) {
-      const angles = ON_MODEL_ANGLES.slice(0, numImages)
-      const entries = angles.map((angle) => {
+      const selectedAngles = ON_MODEL_ANGLES.filter((a) => onModelAngles.includes(a.key))
+      const entries = selectedAngles.map((angle) => {
         const id = crypto.randomUUID()
         const gen = {
-          id, mode: currentMode, prompt: `${params.prompt} (${angle})`,
+          id, mode: currentMode, prompt: `${params.prompt} (${angle.key})`,
           imageUrl: null as string | null, thumbnailUrl: null as string | null,
           status: 'pending' as const, errorMessage: null as string | null,
           params: genParams, createdAt,
@@ -207,7 +206,7 @@ export function GenerationControls() {
 
       const results = await Promise.allSettled(
         entries.map(({ angle }) =>
-          generateOnModel(params, productImageDataUrl, productImageBackDataUrl, activeBrandFaceUrl, angle)
+          generateOnModel(params, productImageDataUrl, productImageBackDataUrl, activeBrandFaceUrl, angle.prompt)
         )
       )
 
@@ -300,23 +299,25 @@ export function GenerationControls() {
         </div>
       </div>
 
-      {/* Number of Images */}
-      <div className="flex flex-col gap-1.5">
-        <Label className="text-xs">{t('workspace.controls.numImages')}</Label>
-        <div className="flex gap-1">
-          {IMAGE_COUNTS.map((count) => (
-            <Button
-              key={count}
-              variant={numImages === count ? 'default' : 'outline'}
-              size="xs"
-              onClick={() => setNumImages(count)}
-              className="flex-1 rounded-none"
-            >
-              {count}
-            </Button>
-          ))}
+      {/* Number of Images — hidden for on-model (angles control count) and catalog (angles control count) */}
+      {currentMode !== 'on-model' && currentMode !== 'catalog' && (
+        <div className="flex flex-col gap-1.5">
+          <Label className="text-xs">{t('workspace.controls.numImages')}</Label>
+          <div className="flex gap-1">
+            {IMAGE_COUNTS.map((count) => (
+              <Button
+                key={count}
+                variant={numImages === count ? 'default' : 'outline'}
+                size="xs"
+                onClick={() => setNumImages(count)}
+                className="flex-1 rounded-none"
+              >
+                {count}
+              </Button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Error message */}
       {error && (

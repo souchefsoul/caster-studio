@@ -50,6 +50,10 @@ interface WorkspaceState {
   productImageBackDataUrl: string | null
   setProductImageBackDataUrl: (url: string | null) => void
 
+  // On-model pose angles
+  onModelAngles: string[]
+  setOnModelAngles: (angles: string[]) => void
+
   // Brand face
   activeBrandFaceUrl: string | null
   setActiveBrandFaceUrl: (url: string | null) => void
@@ -74,6 +78,12 @@ interface WorkspaceState {
   designCopyModifications: string
   setDesignCopyModifications: (text: string) => void
 
+  // Video mode
+  videoSourceImage: string | null
+  setVideoSourceImage: (url: string | null) => void
+  videoPrompt: string
+  setVideoPrompt: (text: string) => void
+
   // Collection filter
   filterCollectionId: string | null
   setFilterCollectionId: (id: string | null) => void
@@ -85,6 +95,7 @@ interface WorkspaceState {
   setGenerations: (gens: Generation[]) => void
   addGeneration: (gen: Generation) => void
   updateGeneration: (id: string, update: Partial<Generation>) => void
+  removeGeneration: (id: string) => void
   clearFailedGenerations: () => void
 }
 
@@ -114,7 +125,7 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     activeView: 'workspace',
     setActiveView: (activeView) => set({ activeView }),
 
-    canvasViewMode: 'single',
+    canvasViewMode: 'grid',
     setCanvasViewMode: (canvasViewMode) => set({ canvasViewMode }),
 
     currentMode: 'on-model',
@@ -128,6 +139,9 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     setProductImageDataUrl: (productImageDataUrl) => set({ productImageDataUrl }),
     productImageBackDataUrl: null,
     setProductImageBackDataUrl: (productImageBackDataUrl) => set({ productImageBackDataUrl }),
+
+    onModelAngles: ['front'],
+    setOnModelAngles: (onModelAngles) => set({ onModelAngles }),
 
     activeBrandFaceUrl: null,
     setActiveBrandFaceUrl: (activeBrandFaceUrl) => set({ activeBrandFaceUrl }),
@@ -149,6 +163,11 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     designCopyModifications: '',
     setDesignCopyModifications: (designCopyModifications) => set({ designCopyModifications }),
 
+    videoSourceImage: null,
+    setVideoSourceImage: (videoSourceImage) => set({ videoSourceImage }),
+    videoPrompt: '',
+    setVideoPrompt: (videoPrompt) => set({ videoPrompt }),
+
     filterCollectionId: null,
     setFilterCollectionId: (filterCollectionId) => set({ filterCollectionId }),
 
@@ -159,6 +178,9 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     addGeneration: (gen) => set((s) => ({ generations: [gen, ...s.generations] })),
     updateGeneration: (id, update) => set((s) => ({
       generations: s.generations.map((g) => g.id === id ? { ...g, ...update } : g),
+    })),
+    removeGeneration: (id) => set((s) => ({
+      generations: s.generations.filter((g) => g.id !== id),
     })),
     clearFailedGenerations: () => set((s) => ({
       generations: s.generations.filter((g) => g.status !== 'failed'),
