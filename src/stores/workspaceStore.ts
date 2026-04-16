@@ -46,6 +46,10 @@ interface WorkspaceState {
   productImageBackDataUrl: string | null
   setProductImageBackDataUrl: (url: string | null) => void
 
+  // Brand face
+  activeBrandFaceUrl: string | null
+  setActiveBrandFaceUrl: (url: string | null) => void
+
   // Generations list
   selectedGenerationId: string | null
   setSelectedGenerationId: (id: string | null) => void
@@ -92,6 +96,9 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     setProductImageDataUrl: (productImageDataUrl) => set({ productImageDataUrl }),
     productImageBackDataUrl: null,
     setProductImageBackDataUrl: (productImageBackDataUrl) => set({ productImageBackDataUrl }),
+
+    activeBrandFaceUrl: null,
+    setActiveBrandFaceUrl: (activeBrandFaceUrl) => set({ activeBrandFaceUrl }),
 
     selectedGenerationId: null,
     setSelectedGenerationId: (selectedGenerationId) => set({ selectedGenerationId }),

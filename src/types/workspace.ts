@@ -24,6 +24,14 @@ export interface Generation {
   createdAt: string
 }
 
+export interface BrandModel {
+  id: string
+  name: string
+  faceImageUrl: string
+  isActive: boolean
+  createdAt: string
+}
+
 export const DEFAULT_GENERATION_PARAMS: GenerationParams = {
   prompt: '',
   model: 'fal-ai/nano-banana-pro/edit',
