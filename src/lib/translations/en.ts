@@ -51,6 +51,10 @@ export const en: TranslationKeys = {
       singleView: 'Single View',
       gridView: 'Grid View',
       failed: 'Generation failed',
+      download: 'Download',
+      history: 'History',
+      loadingHistory: 'Loading history...',
+      generationCount: 'images',
     },
     theme: {
       light: 'Light Theme',

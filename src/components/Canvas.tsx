@@ -1,4 +1,4 @@
-import { Grid3x3, Maximize2, Menu } from 'lucide-react'
+import { Download, Grid3x3, Maximize2, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -48,6 +48,22 @@ export function Canvas() {
               ? t('workspace.canvas.singleView')
               : t('workspace.canvas.gridView')}
           </span>
+          {generations.length > 0 && (
+            <span className="ml-2 text-xs text-muted-foreground">
+              {generations.length} {t('workspace.canvas.generationCount')}
+            </span>
+          )}
+          {canvasViewMode === 'single' && selectedGen?.status === 'completed' && selectedGen?.imageUrl && (
+            <a
+              href={selectedGen.imageUrl}
+              download={`${selectedGen.prompt.slice(0, 30)}.png`}
+              className="ml-2 inline-flex h-7 items-center gap-1 border border-border bg-background px-2 text-xs hover:bg-accent rounded-none"
+              title={t('workspace.canvas.download')}
+            >
+              <Download className="size-4" />
+              {t('workspace.canvas.download')}
+            </a>
+          )}
         </div>
 
         {/* Hamburger - visible below lg */}

@@ -49,6 +49,10 @@ export const tr = {
       singleView: 'Tekli Gorunum',
       gridView: 'Izgara Gorunum',
       failed: 'Olusturma basarisiz',
+      download: 'Indir',
+      history: 'Gecmis',
+      loadingHistory: 'Gecmis yukleniyor...',
+      generationCount: 'gorsel',
     },
     theme: {
       light: 'Acik Tema',

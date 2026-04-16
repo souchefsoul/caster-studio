@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useGenerations } from '@/hooks/useGenerations'
 import { generateImage, generateOnModel } from '@/lib/fal'
 
 const ASPECT_RATIOS = ['1:1', '4:3', '3:4', '16:9', '9:16'] as const
@@ -16,6 +17,7 @@ export function GenerationControls() {
   const addGeneration = useWorkspaceStore((s) => s.addGeneration)
   const updateGeneration = useWorkspaceStore((s) => s.updateGeneration)
   const { t } = useTranslation()
+  const { persistGeneration } = useGenerations()
 
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -33,32 +35,40 @@ export function GenerationControls() {
     setIsGenerating(true)
 
     const id = crypto.randomUUID()
-    addGeneration({
+    const createdAt = new Date().toISOString()
+    const genParams = { ...params }
+
+    const baseGen = {
       id,
       mode: currentMode,
       prompt: params.prompt,
-      imageUrl: null,
-      thumbnailUrl: null,
-      status: 'pending',
-      errorMessage: null,
-      params: { ...params },
-      createdAt: new Date().toISOString(),
-    })
+      imageUrl: null as string | null,
+      thumbnailUrl: null as string | null,
+      status: 'pending' as const,
+      errorMessage: null as string | null,
+      params: genParams,
+      createdAt,
+    }
+
+    addGeneration(baseGen)
 
     try {
       const result = currentMode === 'on-model' && productImageDataUrl
         ? await generateOnModel(params, productImageDataUrl)
         : await generateImage(params)
+      const imageUrl = result.images[0]?.url ?? null
       updateGeneration(id, {
         status: 'completed',
-        imageUrl: result.images[0]?.url ?? null,
+        imageUrl,
       })
+      persistGeneration({ ...baseGen, status: 'completed', imageUrl })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Generation failed'
       updateGeneration(id, {
         status: 'failed',
         errorMessage: message,
       })
+      persistGeneration({ ...baseGen, status: 'failed', errorMessage: message })
     } finally {
       setIsGenerating(false)
     }
