@@ -1,0 +1,66 @@
+import { ImageUpload } from '@/components/ImageUpload'
+import { useWorkspaceStore } from '@/stores/workspaceStore'
+import { useTranslation } from '@/hooks/useTranslation'
+
+const AVAILABLE_ANGLES = [
+  { key: 'front', labelKey: 'workspace.catalog.angleFront' },
+  { key: 'back', labelKey: 'workspace.catalog.angleBack' },
+  { key: 'side-left', labelKey: 'workspace.catalog.angleSideLeft' },
+  { key: 'side-right', labelKey: 'workspace.catalog.angleSideRight' },
+  { key: '3/4-front', labelKey: 'workspace.catalog.angle34Front' },
+  { key: '3/4-back', labelKey: 'workspace.catalog.angle34Back' },
+] as const
+
+export function CatalogPanel() {
+  const catalogAngles = useWorkspaceStore((s) => s.catalogAngles)
+  const setCatalogAngles = useWorkspaceStore((s) => s.setCatalogAngles)
+  const catalogProductImage = useWorkspaceStore((s) => s.catalogProductImage)
+  const setCatalogProductImage = useWorkspaceStore((s) => s.setCatalogProductImage)
+  const { t } = useTranslation()
+
+  const toggleAngle = (angle: string) => {
+    if (catalogAngles.includes(angle)) {
+      setCatalogAngles(catalogAngles.filter((a) => a !== angle))
+    } else {
+      setCatalogAngles([...catalogAngles, angle])
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      {/* Product image */}
+      <div className="flex flex-col gap-1.5">
+        <p className="text-xs font-medium">{t('workspace.catalog.productImage')}</p>
+        <ImageUpload
+          value={catalogProductImage}
+          onChange={setCatalogProductImage}
+        />
+      </div>
+
+      {/* Angles */}
+      <div className="flex flex-col gap-1.5">
+        <p className="text-xs font-medium">{t('workspace.catalog.angles')}</p>
+        <div className="flex flex-col gap-1">
+          {AVAILABLE_ANGLES.map((angle) => (
+            <label
+              key={angle.key}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                checked={catalogAngles.includes(angle.key)}
+                onChange={() => toggleAngle(angle.key)}
+                className="rounded-none"
+              />
+              <span className="text-xs">{t(angle.labelKey)}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <p className="text-xs text-muted-foreground">
+        {t('workspace.catalog.hint')}
+      </p>
+    </div>
+  )
+}

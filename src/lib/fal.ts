@@ -98,3 +98,79 @@ export async function generateOnModel(
 
   return response.json()
 }
+
+export async function generateCatalog(
+  params: GenerationParams,
+  productImageDataUrl: string,
+  angle: string
+): Promise<FalImageResult> {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) throw new Error('Not authenticated')
+
+  const size = aspectToSize(params.aspectRatio)
+  const steps = qualitySteps(params.quality)
+
+  const body = {
+    endpoint: 'fal-ai/nano-banana-pro/edit',
+    input: {
+      prompt: `${params.prompt}, ${angle} view, product photography, consistent lighting`,
+      image_url: productImageDataUrl,
+      num_inference_steps: steps,
+      image_size: size,
+    },
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${session.access_token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'Catalog generation failed' }))
+    throw new Error(err.error || `HTTP ${response.status}`)
+  }
+
+  return response.json()
+}
+
+export async function generateColorway(
+  params: GenerationParams,
+  productImageDataUrl: string,
+  color: string
+): Promise<FalImageResult> {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) throw new Error('Not authenticated')
+
+  const size = aspectToSize(params.aspectRatio)
+  const steps = qualitySteps(params.quality)
+
+  const body = {
+    endpoint: 'fal-ai/nano-banana-pro/edit',
+    input: {
+      prompt: `${params.prompt}, in ${color} color, same garment design, product photography`,
+      image_url: productImageDataUrl,
+      num_inference_steps: steps,
+      image_size: size,
+    },
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${session.access_token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ error: 'Colorway generation failed' }))
+    throw new Error(err.error || `HTTP ${response.status}`)
+  }
+
+  return response.json()
+}

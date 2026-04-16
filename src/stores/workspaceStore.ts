@@ -50,6 +50,18 @@ interface WorkspaceState {
   activeBrandFaceUrl: string | null
   setActiveBrandFaceUrl: (url: string | null) => void
 
+  // Catalog mode
+  catalogAngles: string[]
+  setCatalogAngles: (angles: string[]) => void
+  catalogProductImage: string | null
+  setCatalogProductImage: (url: string | null) => void
+
+  // Colorway mode
+  colorwayColors: string[]
+  setColorwayColors: (colors: string[]) => void
+  colorwayProductImage: string | null
+  setColorwayProductImage: (url: string | null) => void
+
   // Collection filter
   filterCollectionId: string | null
   setFilterCollectionId: (id: string | null) => void
@@ -103,6 +115,16 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
 
     activeBrandFaceUrl: null,
     setActiveBrandFaceUrl: (activeBrandFaceUrl) => set({ activeBrandFaceUrl }),
+
+    catalogAngles: ['front', 'back', 'side-left', 'side-right'],
+    setCatalogAngles: (catalogAngles) => set({ catalogAngles }),
+    catalogProductImage: null,
+    setCatalogProductImage: (catalogProductImage) => set({ catalogProductImage }),
+
+    colorwayColors: ['Red', 'Blue', 'Green'],
+    setColorwayColors: (colorwayColors) => set({ colorwayColors }),
+    colorwayProductImage: null,
+    setColorwayProductImage: (colorwayProductImage) => set({ colorwayProductImage }),
 
     filterCollectionId: null,
     setFilterCollectionId: (filterCollectionId) => set({ filterCollectionId }),
