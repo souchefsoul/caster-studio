@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { signIn, signUp } from '@/lib/auth'
+import { signIn } from '@/lib/auth'
 import { useTranslation } from '@/hooks/useTranslation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,54 +14,22 @@ import {
 } from '@/components/ui/card'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
-type AuthMode = 'signin' | 'signup'
-
 export function AuthPage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const [mode, setMode] = useState<AuthMode>('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [fullName, setFullName] = useState('')
   const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
-
-  const resetForm = () => {
-    setEmail('')
-    setPassword('')
-    setConfirmPassword('')
-    setFullName('')
-    setError('')
-    setMessage('')
-  }
-
-  const toggleMode = () => {
-    resetForm()
-    setMode(mode === 'signin' ? 'signup' : 'signin')
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setMessage('')
-
-    if (mode === 'signup' && password !== confirmPassword) {
-      setError(t('auth.passwordMismatch'))
-      return
-    }
-
     setLoading(true)
 
     try {
-      if (mode === 'signin') {
-        await signIn(email, password)
-        navigate('/')
-      } else {
-        await signUp(email, password, fullName || undefined)
-        setMessage(t('auth.checkEmail'))
-      }
+      await signIn(email, password)
+      navigate('/')
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : t('common.error')
       setError(msg)
@@ -78,28 +46,14 @@ export function AuthPage() {
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">
-            {mode === 'signin' ? t('auth.signInTitle') : t('auth.signUpTitle')}
+            {t('auth.signInTitle')}
           </CardTitle>
           <CardDescription>
-            {mode === 'signin'
-              ? t('auth.signInDescription')
-              : t('auth.signUpDescription')}
+            {t('auth.signInDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {mode === 'signup' && (
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="fullName">{t('common.fullName')}</Label>
-                <Input
-                  id="fullName"
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                />
-              </div>
-            )}
-
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="email">{t('common.email')}</Label>
               <Input
@@ -122,60 +76,13 @@ export function AuthPage() {
               />
             </div>
 
-            {mode === 'signup' && (
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="confirmPassword">{t('common.confirmPassword')}</Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
-            )}
-
             {error && (
               <p className="text-sm text-destructive">{error}</p>
             )}
 
-            {message && (
-              <p className="text-sm text-green-600">{message}</p>
-            )}
-
             <Button type="submit" disabled={loading} className="w-full">
-              {loading
-                ? t('auth.pleaseWait')
-                : mode === 'signin'
-                  ? t('common.signIn')
-                  : t('common.signUp')}
+              {loading ? t('auth.pleaseWait') : t('common.signIn')}
             </Button>
-
-            <p className="text-sm text-center text-muted-foreground">
-              {mode === 'signin' ? (
-                <>
-                  {t('auth.noAccount')}{' '}
-                  <button
-                    type="button"
-                    onClick={toggleMode}
-                    className="text-primary underline underline-offset-4 hover:text-primary/80"
-                  >
-                    {t('auth.noAccountAction')}
-                  </button>
-                </>
-              ) : (
-                <>
-                  {t('auth.hasAccount')}{' '}
-                  <button
-                    type="button"
-                    onClick={toggleMode}
-                    className="text-primary underline underline-offset-4 hover:text-primary/80"
-                  >
-                    {t('auth.hasAccountAction')}
-                  </button>
-                </>
-              )}
-            </p>
           </form>
         </CardContent>
       </Card>
