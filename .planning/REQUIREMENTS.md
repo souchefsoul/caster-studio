@@ -20,8 +20,8 @@
 ### Generation
 
 - [x] **GEN-01**: On-Model Generation — upload flat/mannequin product, generate or select AI model, place on model in scene (includes built-in AI model generator)
-- [ ] **GEN-02**: Catalog Mode — generate consistent multi-angle product shots
-- [ ] **GEN-03**: Colorway Generator — show same garment in multiple color variations
+- [x] **GEN-02**: Catalog Mode — generate consistent multi-angle product shots
+- [x] **GEN-03**: Colorway Generator — show same garment in multiple color variations
 - [ ] **GEN-04**: Design Language Copier — copy visual style of a given product, change text and make small modifications
 - [x] **GEN-05**: Full prompt controls (model, steps, guidance, seed, aspect ratio, quality)
 
@@ -84,8 +84,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WORK-03 | Phase 2 | Complete |
 | WORK-04 | Phase 2 | Complete |
 | GEN-01 | Phase 2 | Complete |
-| GEN-02 | Phase 3 | Pending |
-| GEN-03 | Phase 3 | Pending |
+| GEN-02 | Phase 3 | Complete |
+| GEN-03 | Phase 3 | Complete |
 | GEN-04 | Phase 3 | Pending |
 | GEN-05 | Phase 2 | Complete |
 | BRAND-01 | Phase 3 | Complete |
