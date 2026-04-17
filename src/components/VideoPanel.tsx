@@ -3,7 +3,9 @@ import { ImageUpload } from '@/components/ImageUpload'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useGenerations } from '@/hooks/useGenerations'
 import { generateVideo } from '@/lib/fal'
+import { DEFAULT_GENERATION_PARAMS } from '@/types/workspace'
 
 const DURATION_OPTIONS = ['5', '8', '10', '12', '15'] as const
 const VIDEO_ASPECT_RATIOS = ['16:9', '9:16', '1:1'] as const
@@ -14,14 +16,18 @@ export function VideoPanel() {
   const videoPrompt = useWorkspaceStore((s) => s.videoPrompt)
   const setVideoPrompt = useWorkspaceStore((s) => s.setVideoPrompt)
   const generations = useWorkspaceStore((s) => s.generations)
+  const addGeneration = useWorkspaceStore((s) => s.addGeneration)
+  const updateGeneration = useWorkspaceStore((s) => s.updateGeneration)
+  const setSelectedGenerationId = useWorkspaceStore((s) => s.setSelectedGenerationId)
+  const setCanvasViewMode = useWorkspaceStore((s) => s.setCanvasViewMode)
   const { t } = useTranslation()
+  const { persistGeneration } = useGenerations()
 
   const [duration, setDuration] = useState('5')
   const [aspectRatio, setAspectRatio] = useState('16:9')
   const [generateAudio, setGenerateAudio] = useState(true)
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [videoUrl, setVideoUrl] = useState<string | null>(null)
   const [showGallery, setShowGallery] = useState(false)
 
   const completedGenerations = generations.filter(
@@ -44,7 +50,23 @@ export function VideoPanel() {
     }
     setError(null)
     setIsGenerating(true)
-    setVideoUrl(null)
+
+    const id = crypto.randomUUID()
+    const pendingGen = {
+      id,
+      mode: 'video' as const,
+      prompt: videoPrompt.trim(),
+      imageUrl: null as string | null,
+      thumbnailUrl: videoSourceImage,
+      status: 'pending' as const,
+      errorMessage: null as string | null,
+      params: { ...DEFAULT_GENERATION_PARAMS, prompt: videoPrompt.trim(), aspectRatio },
+      createdAt: new Date().toISOString(),
+    }
+    addGeneration(pendingGen)
+    setSelectedGenerationId(id)
+    setCanvasViewMode('single')
+
     try {
       const result = await generateVideo({
         imageUrl: videoSourceImage,
@@ -53,10 +75,14 @@ export function VideoPanel() {
         aspectRatio,
         generateAudio,
       })
-      setVideoUrl(result.video.url)
+      const videoUrl = result.video.url
+      updateGeneration(id, { status: 'completed', imageUrl: videoUrl })
+      persistGeneration({ ...pendingGen, status: 'completed', imageUrl: videoUrl })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Video generation failed'
       setError(message)
+      updateGeneration(id, { status: 'failed', errorMessage: message })
+      persistGeneration({ ...pendingGen, status: 'failed', errorMessage: message })
     } finally {
       setIsGenerating(false)
     }
@@ -178,26 +204,6 @@ export function VideoPanel() {
       >
         {isGenerating ? t('workspace.video.generating') : t('workspace.video.generate')}
       </Button>
-
-      {/* Video result */}
-      {videoUrl && (
-        <div className="flex flex-col gap-2">
-          <video
-            src={videoUrl}
-            controls
-            autoPlay
-            loop
-            className="w-full border border-border"
-          />
-          <a
-            href={videoUrl}
-            download="video.mp4"
-            className="inline-flex h-7 items-center justify-center border border-border bg-background px-2 text-xs hover:bg-accent rounded-none"
-          >
-            {t('workspace.canvas.downloadVideo')}
-          </a>
-        </div>
-      )}
     </div>
   )
 }

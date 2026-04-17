@@ -1,23 +1,25 @@
-import { supabase } from './supabase'
+import { fal } from '@fal-ai/client'
 import type { GenerationParams } from '@/types/workspace'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 
+fal.config({
+  proxyUrl: `${SUPABASE_URL}/functions/v1/fal-proxy`,
+})
+
 export interface FalImageResult {
-  images: Array<{ url: string; width: number; height: number; content_type?: string }>
+  images: Array<{ url: string; width?: number; height?: number; content_type?: string }>
   description?: string
 }
 
-// Map quality to resolution
 function qualityToResolution(quality: string): '1K' | '2K' | '4K' {
   switch (quality) {
     case 'draft': return '1K'
     case 'high': return '4K'
-    default: return '2K' // standard
+    default: return '2K'
   }
 }
 
-// Map our aspect ratio format to FAL's format
 function mapAspectRatio(ratio: string): string {
   switch (ratio) {
     case '5:4': return '5:4'
@@ -27,28 +29,20 @@ function mapAspectRatio(ratio: string): string {
   }
 }
 
-// ── Prompt Templates ──────────────────────────────────────────────
+// ── Prompt templates ──────────────────────────────────────────────
 
 const PROMPT_TEMPLATES = {
-  'on-model': (userPrompt: string, angle: string, opts: { hasFront: boolean; hasBack: boolean; hasFace: boolean }) => {
-    const imageRefs: string[] = []
-    if (opts.hasFront && opts.hasBack) {
-      imageRefs.push('Image 1 is the front of the garment, Image 2 is the back of the garment.')
-    } else if (opts.hasFront) {
-      imageRefs.push('Image 1 is the front of the garment.')
-    }
-    const faceIdx = opts.hasFront && opts.hasBack ? 'third' : 'second'
-    const faceRef = opts.hasFace
-      ? ` The model must have the exact same face, facial features, and appearance as the person in the ${faceIdx} reference image.`
-      : ''
+  'on-model': (userPrompt: string, _numGarmentRefs: number, _hasFace: boolean, view: 'front' | 'back' = 'front') => {
+    const viewClause = view === 'front'
+      ? `The output must show exactly one person from the front so the front of the garment is fully visible`
+      : `The output must show exactly one person from behind so the back of the garment is fully visible`
+    const extra = userPrompt.trim() ? ` ${userPrompt.trim()}.` : ''
     return (
-      `Professional fashion photograph of a single model: ${userPrompt}. ` +
-      `${imageRefs.join(' ')}` +
-      ` Dress exactly one person in this garment with precise fabric texture, color, pattern, and design reproduction.` +
-      `${faceRef} ` +
-      `Pose: ${angle}. ` +
-      `IMPORTANT: Only one person in the photo, no other people, no split frames, no collage. ` +
-      `Single full-body shot, soft diffused lighting, sharp focus, high-end editorial quality.`
+      `Dress one model in the garments shown in the reference images, ` +
+      `preserving exact fabric texture, color, pattern, stitching and design details. ` +
+      `${viewClause} — ` +
+      `no collage, no split frames, no side-by-side views, do not show front and back together. ` +
+      `Professional fashion photography, sharp focus, high-end editorial quality.${extra}`
     )
   },
 
@@ -56,8 +50,9 @@ const PROMPT_TEMPLATES = {
     const imageRef = hasBack
       ? 'Image 1 is the front of the garment, Image 2 is the back of the garment. '
       : 'Image 1 is the garment. '
+    const extra = userPrompt.trim() ? ` ${userPrompt.trim()}.` : ''
     return (
-      `E-commerce product catalog photograph: ${userPrompt}, ${angle} view. ` +
+      `E-commerce product catalog photograph, ${angle} view.${extra} ` +
       `${imageRef}` +
       `Show this exact garment from the ${angle} angle. ` +
       `Clean white background, even studio lighting with no harsh shadows, ` +
@@ -82,40 +77,39 @@ const PROMPT_TEMPLATES = {
     `Professional fashion/textile photography quality, studio lighting, sharp focus.`,
 }
 
-// ── Helper: authenticated FAL request ─────────────────────────────
+// ── Upload helper (data URL → fal storage URL) ────────────────────
 
-async function falRequest(endpoint: string, input: Record<string, unknown>): Promise<FalImageResult> {
-  const { data: { session } } = await supabase.auth.getSession()
-  if (!session) throw new Error('Not authenticated')
+async function toFalUrl(urlOrDataUrl: string): Promise<string> {
+  if (urlOrDataUrl.startsWith('http')) return urlOrDataUrl
+  const res = await fetch(urlOrDataUrl)
+  const blob = await res.blob()
+  const ext = blob.type.split('/')[1] || 'jpg'
+  const file = new File([blob], `ref.${ext}`, { type: blob.type || 'image/jpeg' })
+  return fal.storage.upload(file)
+}
 
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/fal-proxy`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${session.access_token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ endpoint, input }),
+async function toFalUrls(urls: string[]): Promise<string[]> {
+  return Promise.all(urls.map(toFalUrl))
+}
+
+// ── Generation functions ──────────────────────────────────────────
+
+async function subscribeImage(
+  endpoint: string,
+  input: Record<string, unknown>
+): Promise<FalImageResult> {
+  console.log('[fal] subscribe', endpoint, { num_images: input.num_images, image_urls: (input.image_urls as string[] | undefined)?.length })
+  const result = await fal.subscribe(endpoint, {
+    input,
+    logs: false,
   })
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}))
-    console.error('[fal] error response:', response.status, err)
-    const message = err.error
-      || err.detail?.[0]?.msg
-      || (typeof err.detail === 'string' ? err.detail : null)
-      || `HTTP ${response.status}`
-    throw new Error(message)
-  }
-
-  const data = await response.json()
-  console.log('[fal] success:', data.images?.length, 'images, first url:', data.images?.[0]?.url?.slice(0, 80))
+  const data = result.data as FalImageResult
+  console.log('[fal] result', endpoint, { imageCount: data.images?.length, firstUrl: data.images?.[0]?.url?.slice(0, 80) })
   return data
 }
 
-// ── Generation Functions ──────────────────────────────────────────
-
 export async function generateImage(params: GenerationParams, numImages = 1): Promise<FalImageResult> {
-  return falRequest('fal-ai/nano-banana', {
+  return subscribeImage('fal-ai/nano-banana', {
     prompt: PROMPT_TEMPLATES['text-to-image'](params.prompt),
     num_images: numImages,
     aspect_ratio: mapAspectRatio(params.aspectRatio),
@@ -125,22 +119,18 @@ export async function generateImage(params: GenerationParams, numImages = 1): Pr
 
 export async function generateOnModel(
   params: GenerationParams,
-  frontImageDataUrl: string,
-  backImageDataUrl: string | null,
+  productImages: string[],
   brandFaceUrl: string | null,
-  angle: string
+  numImages = 1,
+  view: 'front' | 'back' = 'front'
 ): Promise<FalImageResult> {
-  const imageUrls: string[] = [frontImageDataUrl]
-  if (backImageDataUrl) imageUrls.push(backImageDataUrl)
-  if (brandFaceUrl) imageUrls.push(brandFaceUrl)
+  const uploadedRefs = await toFalUrls(productImages)
+  if (brandFaceUrl) uploadedRefs.push(await toFalUrl(brandFaceUrl))
 
-  return falRequest('fal-ai/nano-banana-pro/edit', {
-    prompt: PROMPT_TEMPLATES['on-model'](params.prompt, angle, {
-      hasFront: true,
-      hasBack: !!backImageDataUrl,
-      hasFace: !!brandFaceUrl,
-    }),
-    image_urls: imageUrls,
+  return subscribeImage('fal-ai/nano-banana-pro/edit', {
+    prompt: PROMPT_TEMPLATES['on-model'](params.prompt, productImages.length, !!brandFaceUrl, view),
+    image_urls: uploadedRefs,
+    num_images: numImages,
     aspect_ratio: mapAspectRatio(params.aspectRatio),
     resolution: qualityToResolution(params.quality),
   })
@@ -153,10 +143,10 @@ export async function generateCatalog(
   angle: string,
   numImages = 1
 ): Promise<FalImageResult> {
-  const imageUrls: string[] = [frontImageDataUrl]
-  if (backImageDataUrl) imageUrls.push(backImageDataUrl)
+  const imageUrls = [await toFalUrl(frontImageDataUrl)]
+  if (backImageDataUrl) imageUrls.push(await toFalUrl(backImageDataUrl))
 
-  return falRequest('fal-ai/nano-banana-pro/edit', {
+  return subscribeImage('fal-ai/nano-banana-pro/edit', {
     prompt: PROMPT_TEMPLATES['catalog'](params.prompt, angle, !!backImageDataUrl),
     image_urls: imageUrls,
     num_images: numImages,
@@ -171,9 +161,26 @@ export async function generateDesignCopy(
   modifications: string,
   numImages = 1
 ): Promise<FalImageResult> {
-  return falRequest('fal-ai/nano-banana-pro/edit', {
+  const ref = await toFalUrl(referenceImageDataUrl)
+  return subscribeImage('fal-ai/nano-banana-pro/edit', {
     prompt: PROMPT_TEMPLATES['design-copy'](params.prompt, modifications),
-    image_urls: [referenceImageDataUrl],
+    image_urls: [ref],
+    num_images: numImages,
+    aspect_ratio: mapAspectRatio(params.aspectRatio),
+    resolution: qualityToResolution(params.quality),
+  })
+}
+
+export async function generateColorway(
+  params: GenerationParams,
+  productImageDataUrl: string,
+  color: string,
+  numImages = 1
+): Promise<FalImageResult> {
+  const product = await toFalUrl(productImageDataUrl)
+  return subscribeImage('fal-ai/nano-banana-pro/edit', {
+    prompt: PROMPT_TEMPLATES['colorway'](params.prompt, color),
+    image_urls: [product],
     num_images: numImages,
     aspect_ratio: mapAspectRatio(params.aspectRatio),
     resolution: qualityToResolution(params.quality),
@@ -189,28 +196,17 @@ export interface VideoGenerationOptions {
 }
 
 export async function generateVideo(opts: VideoGenerationOptions): Promise<{ video: { url: string } }> {
-  const result = await falRequest('fal-ai/kling-video/v3/pro/image-to-video', {
-    prompt: opts.prompt,
-    start_image_url: opts.imageUrl,
-    duration: opts.duration || '5',
-    generate_audio: opts.generateAudio ?? true,
-    negative_prompt: 'blur, distort, and low quality',
-    cfg_scale: 0.5,
+  const startUrl = await toFalUrl(opts.imageUrl)
+  const result = await fal.subscribe('fal-ai/kling-video/v3/pro/image-to-video', {
+    input: {
+      prompt: opts.prompt,
+      start_image_url: startUrl,
+      duration: opts.duration || '5',
+      generate_audio: opts.generateAudio ?? true,
+      negative_prompt: 'blur, distort, and low quality',
+      cfg_scale: 0.5,
+    },
+    logs: false,
   })
-  return result as unknown as { video: { url: string } }
-}
-
-export async function generateColorway(
-  params: GenerationParams,
-  productImageDataUrl: string,
-  color: string,
-  numImages = 1
-): Promise<FalImageResult> {
-  return falRequest('fal-ai/nano-banana-pro/edit', {
-    prompt: PROMPT_TEMPLATES['colorway'](params.prompt, color),
-    image_urls: [productImageDataUrl],
-    num_images: numImages,
-    aspect_ratio: mapAspectRatio(params.aspectRatio),
-    resolution: qualityToResolution(params.quality),
-  })
+  return result.data as { video: { url: string } }
 }

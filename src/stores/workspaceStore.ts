@@ -44,15 +44,15 @@ interface WorkspaceState {
   setParams: (params: Partial<GenerationParams>) => void
   resetParams: () => void
 
-  // Product images (on-model mode) — front and back
-  productImageDataUrl: string | null
-  setProductImageDataUrl: (url: string | null) => void
-  productImageBackDataUrl: string | null
-  setProductImageBackDataUrl: (url: string | null) => void
+  // Product images (on-model mode) — up to 10 reference images
+  productImages: string[]
+  setProductImages: (urls: string[]) => void
+  addProductImage: (url: string) => void
+  removeProductImage: (index: number) => void
 
-  // On-model pose angles
-  onModelAngles: string[]
-  setOnModelAngles: (angles: string[]) => void
+  // On-model view: which side of the model should be shown
+  onModelView: 'front' | 'back'
+  setOnModelView: (view: 'front' | 'back') => void
 
   // Brand face
   activeBrandFaceUrl: string | null
@@ -83,10 +83,6 @@ interface WorkspaceState {
   setVideoSourceImage: (url: string | null) => void
   videoPrompt: string
   setVideoPrompt: (text: string) => void
-
-  // Collection filter
-  filterCollectionId: string | null
-  setFilterCollectionId: (id: string | null) => void
 
   // Generations list
   selectedGenerationId: string | null
@@ -135,13 +131,17 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     setParams: (params) => set((s) => ({ params: { ...s.params, ...params } })),
     resetParams: () => set({ params: { ...DEFAULT_GENERATION_PARAMS } }),
 
-    productImageDataUrl: null,
-    setProductImageDataUrl: (productImageDataUrl) => set({ productImageDataUrl }),
-    productImageBackDataUrl: null,
-    setProductImageBackDataUrl: (productImageBackDataUrl) => set({ productImageBackDataUrl }),
+    productImages: [],
+    setProductImages: (productImages) => set({ productImages }),
+    addProductImage: (url) => set((s) => ({
+      productImages: s.productImages.length >= 10 ? s.productImages : [...s.productImages, url],
+    })),
+    removeProductImage: (index) => set((s) => ({
+      productImages: s.productImages.filter((_, i) => i !== index),
+    })),
 
-    onModelAngles: ['front'],
-    setOnModelAngles: (onModelAngles) => set({ onModelAngles }),
+    onModelView: 'front',
+    setOnModelView: (onModelView) => set({ onModelView }),
 
     activeBrandFaceUrl: null,
     setActiveBrandFaceUrl: (activeBrandFaceUrl) => set({ activeBrandFaceUrl }),
@@ -167,9 +167,6 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     setVideoSourceImage: (videoSourceImage) => set({ videoSourceImage }),
     videoPrompt: '',
     setVideoPrompt: (videoPrompt) => set({ videoPrompt }),
-
-    filterCollectionId: null,
-    setFilterCollectionId: (filterCollectionId) => set({ filterCollectionId }),
 
     selectedGenerationId: null,
     setSelectedGenerationId: (selectedGenerationId) => set({ selectedGenerationId }),

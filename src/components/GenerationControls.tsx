@@ -5,7 +5,6 @@ import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
 import { useGenerations } from '@/hooks/useGenerations'
 import { generateImage, generateOnModel, generateCatalog, generateColorway, generateDesignCopy } from '@/lib/fal'
-import { ON_MODEL_ANGLES } from '@/components/OnModelPanel'
 
 const ASPECT_RATIOS = ['1:1', '5:4', '16:9', '9:16'] as const
 const QUALITY_LEVELS = ['draft', 'standard', 'high'] as const
@@ -15,8 +14,8 @@ export function GenerationControls() {
   const params = useWorkspaceStore((s) => s.params)
   const setParams = useWorkspaceStore((s) => s.setParams)
   const currentMode = useWorkspaceStore((s) => s.currentMode)
-  const productImageDataUrl = useWorkspaceStore((s) => s.productImageDataUrl)
-  const productImageBackDataUrl = useWorkspaceStore((s) => s.productImageBackDataUrl)
+  const productImages = useWorkspaceStore((s) => s.productImages)
+  const onModelView = useWorkspaceStore((s) => s.onModelView)
   const activeBrandFaceUrl = useWorkspaceStore((s) => s.activeBrandFaceUrl)
   const catalogAngles = useWorkspaceStore((s) => s.catalogAngles)
   const catalogProductImage = useWorkspaceStore((s) => s.catalogProductImage)
@@ -25,7 +24,6 @@ export function GenerationControls() {
   const colorwayProductImage = useWorkspaceStore((s) => s.colorwayProductImage)
   const designCopyReferenceImage = useWorkspaceStore((s) => s.designCopyReferenceImage)
   const designCopyModifications = useWorkspaceStore((s) => s.designCopyModifications)
-  const onModelAngles = useWorkspaceStore((s) => s.onModelAngles)
   const addGeneration = useWorkspaceStore((s) => s.addGeneration)
   const updateGeneration = useWorkspaceStore((s) => s.updateGeneration)
   const { t } = useTranslation()
@@ -36,16 +34,12 @@ export function GenerationControls() {
   const [error, setError] = useState<string | null>(null)
 
   const handleGenerate = async () => {
-    if (currentMode !== 'colorway' && !params.prompt.trim()) {
+    if (currentMode !== 'colorway' && currentMode !== 'catalog' && currentMode !== 'on-model' && !params.prompt.trim()) {
       setError(t('workspace.controls.promptRequired'))
       return
     }
-    if (currentMode === 'on-model' && !productImageDataUrl) {
+    if (currentMode === 'on-model' && productImages.length === 0) {
       setError(t('workspace.onModel.noProductImage'))
-      return
-    }
-    if (currentMode === 'on-model' && onModelAngles.length === 0) {
-      setError(t('workspace.onModel.noAngles'))
       return
     }
     if (currentMode === 'catalog' && !catalogProductImage) {
@@ -78,10 +72,11 @@ export function GenerationControls() {
     if (currentMode === 'catalog' && catalogProductImage) {
       const entries = catalogAngles.map((angle) => {
         const id = crypto.randomUUID()
+        const label = params.prompt.trim() ? `${params.prompt} (${angle})` : angle
         const gen = {
           id,
           mode: currentMode,
-          prompt: `${params.prompt} (${angle})`,
+          prompt: label,
           imageUrl: null as string | null,
           thumbnailUrl: null as string | null,
           status: 'pending' as const,
@@ -154,68 +149,34 @@ export function GenerationControls() {
       return
     }
 
-    // Design copy mode
+    // Design copy: fan out N parallel calls
     if (currentMode === 'design-copy' && designCopyReferenceImage) {
-      const pendingId = crypto.randomUUID()
-      const pendingGen = {
-        id: pendingId, mode: currentMode, prompt: params.prompt,
-        imageUrl: null as string | null, thumbnailUrl: null as string | null,
-        status: 'pending' as const, errorMessage: null as string | null,
-        params: genParams, createdAt,
-      }
-      addGeneration(pendingGen)
-      try {
-        const result = await generateDesignCopy(params, designCopyReferenceImage, designCopyModifications, numImages)
-        result.images.forEach((img, i) => {
-          if (i === 0) {
-            updateGeneration(pendingId, { status: 'completed', imageUrl: img.url })
-            persistGeneration({ ...pendingGen, status: 'completed', imageUrl: img.url })
-          } else {
-            const extraGen = { ...pendingGen, id: crypto.randomUUID(), imageUrl: img.url, status: 'completed' as const }
-            addGeneration(extraGen)
-            persistGeneration(extraGen)
-          }
-        })
-        if (result.images.length === 0) {
-          updateGeneration(pendingId, { status: 'failed', errorMessage: 'No images returned' })
-        }
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Generation failed'
-        updateGeneration(pendingId, { status: 'failed', errorMessage: message })
-        persistGeneration({ ...pendingGen, status: 'failed', errorMessage: message })
-      } finally {
-        setIsGenerating(false)
-      }
-      return
-    }
-
-    // On-model: one request per selected angle
-    if (currentMode === 'on-model' && productImageDataUrl) {
-      const selectedAngles = ON_MODEL_ANGLES.filter((a) => onModelAngles.includes(a.key))
-      const entries = selectedAngles.map((angle) => {
+      const entries = Array.from({ length: numImages }, () => {
         const id = crypto.randomUUID()
         const gen = {
-          id, mode: currentMode, prompt: `${params.prompt} (${angle.key})`,
+          id, mode: currentMode, prompt: params.prompt,
           imageUrl: null as string | null, thumbnailUrl: null as string | null,
           status: 'pending' as const, errorMessage: null as string | null,
           params: genParams, createdAt,
         }
         addGeneration(gen)
-        return { id, angle, gen }
+        return { id, gen }
       })
 
       const results = await Promise.allSettled(
-        entries.map(({ angle }) =>
-          generateOnModel(params, productImageDataUrl, productImageBackDataUrl, activeBrandFaceUrl, angle.prompt)
-        )
+        entries.map(() => generateDesignCopy(params, designCopyReferenceImage, designCopyModifications, 1))
       )
 
       results.forEach((result, i) => {
         const { id, gen } = entries[i]
         if (result.status === 'fulfilled') {
           const imageUrl = result.value.images[0]?.url ?? null
-          updateGeneration(id, { status: 'completed', imageUrl })
-          persistGeneration({ ...gen, status: 'completed', imageUrl })
+          if (imageUrl) {
+            updateGeneration(id, { status: 'completed', imageUrl })
+            persistGeneration({ ...gen, status: 'completed', imageUrl })
+          } else {
+            updateGeneration(id, { status: 'failed', errorMessage: 'No image returned' })
+          }
         } else {
           const message = result.reason instanceof Error ? result.reason.message : 'Generation failed'
           updateGeneration(id, { status: 'failed', errorMessage: message })
@@ -227,38 +188,81 @@ export function GenerationControls() {
       return
     }
 
-    // Default: text-to-image
-    const pendingId = crypto.randomUUID()
-    const pendingGen = {
-      id: pendingId, mode: currentMode, prompt: params.prompt,
-      imageUrl: null as string | null, thumbnailUrl: null as string | null,
-      status: 'pending' as const, errorMessage: null as string | null,
-      params: genParams, createdAt,
-    }
-    addGeneration(pendingGen)
+    // On-model: fan out N parallel calls, each returns 1 image
+    if (currentMode === 'on-model' && productImages.length > 0) {
+      const entries = Array.from({ length: numImages }, () => {
+        const id = crypto.randomUUID()
+        const gen = {
+          id, mode: currentMode, prompt: params.prompt,
+          imageUrl: null as string | null, thumbnailUrl: null as string | null,
+          status: 'pending' as const, errorMessage: null as string | null,
+          params: genParams, createdAt,
+        }
+        addGeneration(gen)
+        return { id, gen }
+      })
 
-    try {
-      const result = await generateImage(params, numImages)
-      result.images.forEach((img, i) => {
-        if (i === 0) {
-          updateGeneration(pendingId, { status: 'completed', imageUrl: img.url })
-          persistGeneration({ ...pendingGen, status: 'completed', imageUrl: img.url })
+      const results = await Promise.allSettled(
+        entries.map(() => generateOnModel(params, productImages, activeBrandFaceUrl, 1, onModelView))
+      )
+
+      results.forEach((result, i) => {
+        const { id, gen } = entries[i]
+        if (result.status === 'fulfilled') {
+          const imageUrl = result.value.images[0]?.url ?? null
+          if (imageUrl) {
+            updateGeneration(id, { status: 'completed', imageUrl })
+            persistGeneration({ ...gen, status: 'completed', imageUrl })
+          } else {
+            updateGeneration(id, { status: 'failed', errorMessage: 'No image returned' })
+            persistGeneration({ ...gen, status: 'failed', errorMessage: 'No image returned' })
+          }
         } else {
-          const extraGen = { ...pendingGen, id: crypto.randomUUID(), imageUrl: img.url, status: 'completed' as const }
-          addGeneration(extraGen)
-          persistGeneration(extraGen)
+          const message = result.reason instanceof Error ? result.reason.message : 'Generation failed'
+          updateGeneration(id, { status: 'failed', errorMessage: message })
+          persistGeneration({ ...gen, status: 'failed', errorMessage: message })
         }
       })
-      if (result.images.length === 0) {
-        updateGeneration(pendingId, { status: 'failed', errorMessage: 'No images returned' })
-      }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Generation failed'
-      updateGeneration(pendingId, { status: 'failed', errorMessage: message })
-      persistGeneration({ ...pendingGen, status: 'failed', errorMessage: message })
-    } finally {
+
       setIsGenerating(false)
+      return
     }
+
+    // Default: text-to-image — fan out N parallel calls
+    const entries = Array.from({ length: numImages }, () => {
+      const id = crypto.randomUUID()
+      const gen = {
+        id, mode: currentMode, prompt: params.prompt,
+        imageUrl: null as string | null, thumbnailUrl: null as string | null,
+        status: 'pending' as const, errorMessage: null as string | null,
+        params: genParams, createdAt,
+      }
+      addGeneration(gen)
+      return { id, gen }
+    })
+
+    const results = await Promise.allSettled(
+      entries.map(() => generateImage(params, 1))
+    )
+
+    results.forEach((result, i) => {
+      const { id, gen } = entries[i]
+      if (result.status === 'fulfilled') {
+        const imageUrl = result.value.images[0]?.url ?? null
+        if (imageUrl) {
+          updateGeneration(id, { status: 'completed', imageUrl })
+          persistGeneration({ ...gen, status: 'completed', imageUrl })
+        } else {
+          updateGeneration(id, { status: 'failed', errorMessage: 'No image returned' })
+        }
+      } else {
+        const message = result.reason instanceof Error ? result.reason.message : 'Generation failed'
+        updateGeneration(id, { status: 'failed', errorMessage: message })
+        persistGeneration({ ...gen, status: 'failed', errorMessage: message })
+      }
+    })
+
+    setIsGenerating(false)
   }
 
   return (
@@ -299,8 +303,8 @@ export function GenerationControls() {
         </div>
       </div>
 
-      {/* Number of Images — hidden for on-model (angles control count) and catalog (angles control count) */}
-      {currentMode !== 'on-model' && currentMode !== 'catalog' && (
+      {/* Number of Images — hidden for catalog (angles control count) */}
+      {currentMode !== 'catalog' && (
         <div className="flex flex-col gap-1.5">
           <Label className="text-xs">{t('workspace.controls.numImages')}</Label>
           <div className="flex gap-1">

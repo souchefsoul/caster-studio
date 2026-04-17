@@ -1,4 +1,4 @@
-import { LogOut, User, FolderOpen } from 'lucide-react'
+import { LogOut, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useAuth } from '@/hooks/useAuth'
@@ -14,7 +14,6 @@ import { ColorwayPanel } from '@/components/ColorwayPanel'
 import { DesignCopyPanel } from '@/components/DesignCopyPanel'
 import { VideoPanel } from '@/components/VideoPanel'
 import { BrandFacePanel } from '@/components/BrandFacePanel'
-import { CollectionsPanel } from '@/components/CollectionsPanel'
 import type { GenerationMode, ActiveView } from '@/types/workspace'
 
 const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolean }[] = [
@@ -27,7 +26,6 @@ const GENERATION_MODES: { key: GenerationMode; labelKey: string; enabled: boolea
 
 const VIEW_TABS: { key: ActiveView; labelKey: string; icon: typeof User }[] = [
   { key: 'brand-face', labelKey: 'workspace.sidebar.brandFaceNav', icon: User },
-  { key: 'collections', labelKey: 'workspace.sidebar.collectionsNav', icon: FolderOpen },
 ]
 
 export function Sidebar() {
@@ -106,8 +104,6 @@ export function Sidebar() {
         <div className="flex-1 overflow-y-auto border-b border-border px-3 py-3 scrollbar-thin">
           <BrandFacePanel />
           <div className="my-3 border-t border-border" />
-          <CollectionsPanel />
-          <div className="my-3 border-t border-border" />
           {currentMode === 'on-model' && (
             <>
               <OnModelPanel />
@@ -138,7 +134,7 @@ export function Sidebar() {
               <div className="my-3 border-t border-border" />
             </>
           )}
-          {currentMode !== 'colorway' && currentMode !== 'video' && (
+          {currentMode !== 'colorway' && currentMode !== 'video' && currentMode !== 'catalog' && (
             <>
               <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
                 {t('workspace.sidebar.prompt')}

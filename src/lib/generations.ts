@@ -7,7 +7,7 @@ import { DEFAULT_GENERATION_PARAMS } from '@/types/workspace'
  * Maps frontend Generation type to DB column names.
  */
 export async function saveGeneration(userId: string, gen: Generation): Promise<void> {
-  const { error } = await supabase.from('generations').upsert({
+  const row = {
     id: gen.id,
     user_id: userId,
     mode: gen.mode,
@@ -18,12 +18,14 @@ export async function saveGeneration(userId: string, gen: Generation): Promise<v
     status: gen.status,
     error_message: gen.errorMessage,
     created_at: gen.createdAt,
-  })
+  }
+  const { error } = await supabase.from('generations').upsert(row)
 
   if (error) {
-    console.error('Failed to save generation:', error)
+    console.error('[generations] save failed', { code: error.code, message: error.message, details: error.details, hint: error.hint, row })
     throw error
   }
+  console.log('[generations] saved', gen.id, gen.mode, gen.status)
 }
 
 /**

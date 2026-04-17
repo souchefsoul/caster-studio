@@ -1,14 +1,15 @@
 import { ImageUpload } from '@/components/ImageUpload'
+import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
 
 const AVAILABLE_ANGLES = [
-  { key: 'front', labelKey: 'workspace.catalog.angleFront' },
-  { key: 'back', labelKey: 'workspace.catalog.angleBack' },
-  { key: 'side-left', labelKey: 'workspace.catalog.angleSideLeft' },
-  { key: 'side-right', labelKey: 'workspace.catalog.angleSideRight' },
-  { key: '3/4-front', labelKey: 'workspace.catalog.angle34Front' },
-  { key: '3/4-back', labelKey: 'workspace.catalog.angle34Back' },
+  { key: 'front', label: 'Önden' },
+  { key: 'back', label: 'Arkadan' },
+  { key: 'side-left', label: 'Sol Yan' },
+  { key: 'side-right', label: 'Sağ Yan' },
+  { key: '3/4-front', label: '3/4 Ön' },
+  { key: '3/4-back', label: '3/4 Arka' },
 ] as const
 
 export function CatalogPanel() {
@@ -30,7 +31,6 @@ export function CatalogPanel() {
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Product front image */}
       <div className="flex flex-col gap-1.5">
         <p className="text-xs font-medium">{t('workspace.catalog.productImage')}</p>
         <ImageUpload
@@ -39,7 +39,6 @@ export function CatalogPanel() {
         />
       </div>
 
-      {/* Product back image */}
       <div className="flex flex-col gap-1.5">
         <p className="text-xs font-medium">{t('workspace.catalog.productBackImage')}</p>
         <ImageUpload
@@ -48,30 +47,25 @@ export function CatalogPanel() {
         />
       </div>
 
-      {/* Angles */}
       <div className="flex flex-col gap-1.5">
-        <p className="text-xs font-medium">{t('workspace.catalog.angles')}</p>
-        <div className="flex flex-col gap-1">
+        <p className="text-xs font-medium">Açılar</p>
+        <div className="grid grid-cols-4 gap-1">
           {AVAILABLE_ANGLES.map((angle) => (
-            <label
+            <Button
               key={angle.key}
-              className="flex items-center gap-2 cursor-pointer"
+              variant={catalogAngles.includes(angle.key) ? 'default' : 'outline'}
+              size="xs"
+              onClick={() => toggleAngle(angle.key)}
+              className="rounded-none"
             >
-              <input
-                type="checkbox"
-                checked={catalogAngles.includes(angle.key)}
-                onChange={() => toggleAngle(angle.key)}
-                className="rounded-none"
-              />
-              <span className="text-xs">{t(angle.labelKey)}</span>
-            </label>
+              {angle.label}
+            </Button>
           ))}
         </div>
+        <p className="text-xs text-muted-foreground">
+          Her seçilen açı için bir görsel üretilir.
+        </p>
       </div>
-
-      <p className="text-xs text-muted-foreground">
-        {t('workspace.catalog.hint')}
-      </p>
     </div>
   )
 }

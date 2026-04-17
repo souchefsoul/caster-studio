@@ -1,7 +1,6 @@
 import { Sidebar } from '@/components/Sidebar'
 import { Canvas } from '@/components/Canvas'
 import { BrandFaceView } from '@/components/BrandFaceView'
-import { CollectionsView } from '@/components/CollectionsView'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useGenerations } from '@/hooks/useGenerations'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -36,7 +35,6 @@ export function WorkspaceLayout() {
       {/* Main content area — switches based on activeView */}
       {activeView === 'workspace' && <Canvas />}
       {activeView === 'brand-face' && <BrandFaceView />}
-      {activeView === 'collections' && <CollectionsView />}
     </div>
   )
 }

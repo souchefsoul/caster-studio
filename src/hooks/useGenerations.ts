@@ -9,19 +9,24 @@ export function useGenerations() {
   const generations = useWorkspaceStore((s) => s.generations)
   const setGenerations = useWorkspaceStore((s) => s.setGenerations)
   const [loading, setLoading] = useState(false)
+  const userId = user?.id
 
-  // Load generations from Supabase on mount when user is available
+  // Load generations from Supabase once per user. Merges with in-memory
+  // state so in-flight pending generations aren't clobbered if this runs again.
   useEffect(() => {
-    if (!user) return
+    if (!userId) return
 
     let cancelled = false
     setLoading(true)
 
-    fetchGenerations(user.id)
+    fetchGenerations(userId)
       .then((result) => {
-        if (!cancelled) {
-          setGenerations(result)
-        }
+        if (cancelled) return
+        // Merge: keep any in-memory generations not present in DB (pending/just-completed)
+        const current = useWorkspaceStore.getState().generations
+        const dbIds = new Set(result.map((g) => g.id))
+        const localOnly = current.filter((g) => !dbIds.has(g.id))
+        setGenerations([...localOnly, ...result])
       })
       .catch((err) => {
         console.error('Failed to load generation history:', err)
@@ -31,17 +36,17 @@ export function useGenerations() {
       })
 
     return () => { cancelled = true }
-  }, [user, setGenerations])
+  }, [userId, setGenerations])
 
   // Fire-and-forget persist function
   const persistGeneration = useCallback(
     (gen: Generation) => {
-      if (!user) return
-      saveGeneration(user.id, gen).catch((err) => {
+      if (!userId) return
+      saveGeneration(userId, gen).catch((err) => {
         console.error('Failed to persist generation:', err)
       })
     },
-    [user]
+    [userId]
   )
 
   const removeGeneration = useWorkspaceStore((s) => s.removeGeneration)

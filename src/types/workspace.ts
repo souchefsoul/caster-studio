@@ -2,7 +2,7 @@ export type CanvasViewMode = 'single' | 'grid'
 
 export type GenerationMode = 'on-model' | 'catalog' | 'colorway' | 'design-copy' | 'text-to-image' | 'video'
 
-export type ActiveView = 'workspace' | 'brand-face' | 'collections'
+export type ActiveView = 'workspace' | 'brand-face'
 
 export type GenerationStatus = 'idle' | 'pending' | 'processing' | 'completed' | 'failed'
 
@@ -23,14 +23,6 @@ export interface Generation {
   status: GenerationStatus
   errorMessage: string | null
   params: GenerationParams
-  createdAt: string
-}
-
-export interface Collection {
-  id: string
-  name: string
-  description: string | null
-  itemCount: number
   createdAt: string
 }
 
