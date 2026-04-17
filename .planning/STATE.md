@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03-05-PLAN.md
-last_updated: "2026-04-16T02:30:00.000Z"
+stopped_at: Completed 03-06-SUMMARY (stabilization)
+last_updated: "2026-04-17T00:00:00.000Z"
 progress:
   total_phases: 3
   completed_phases: 3
@@ -93,6 +93,15 @@ Recent decisions affecting current work:
 - [Phase 03-03]: Collection item count fetched per-collection via separate count queries for accuracy
 - [Phase 03-04]: Catalog/colorway parallel generation via Promise.allSettled for fault-tolerant multi-image output
 - [Phase 03-04]: Each angle/color creates separate generation entry for independent tracking in grid view
+- [Phase 03-06]: Adopted @fal-ai/client; fal-proxy reduced to dumb x-fal-target-url pass-through
+- [Phase 03-06]: Reference images uploaded directly to fal.storage, not Supabase Storage — eliminates WORKER_RESOURCE_LIMIT
+- [Phase 03-06]: Queue polling moved to browser via fal.subscribe(); edge function no longer blocks on Kling jobs
+- [Phase 03-06]: numImages fan-out: N parallel calls with num_images=1 for reliable count and isolated failures
+- [Phase 03-06]: useAuth preserves user reference across silent token refreshes; useGenerations merges fetched + in-memory
+- [Phase 03-06]: On-Model redesigned — single multi-image grid (up to 10) + Front/Back view toggle, no per-angle UI
+- [Phase 03-06]: Collections feature removed from UI and DB (migration 002 drops tables)
+- [Phase 03-06]: fal-proxy deployed with --no-verify-jwt to work around ES256 JWT signing keys
+- [Phase 03-06]: Migration 002 adds 'video' to generations.mode CHECK, adds DELETE RLS policy, creates uploads bucket
 
 ### Pending Todos
 
@@ -104,6 +113,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-16T02:05:54.871Z
-Stopped at: Completed 03-04-PLAN.md
+Last session: 2026-04-17T00:00:00.000Z
+Stopped at: Completed 03-06 post-phase stabilization
 Resume file: None
