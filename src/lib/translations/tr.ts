@@ -135,7 +135,7 @@ export const tr = {
       hint: 'Eklenecek renkler. Her renk için bir varyasyon.',
       noProductImage: 'Lütfen bir ürün görseli yükleyin',
       noColors: 'En az bir renk ekleyin',
-      maxColors: 'En fazla 8 renk',
+      maxColors: 'En fazla 4 renk',
     },
     designCopy: {
       referenceImage: 'Referans Görsel',

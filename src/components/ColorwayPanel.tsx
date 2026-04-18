@@ -5,7 +5,7 @@ import { ImageUpload } from '@/components/ImageUpload'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
 
-const MAX_COLORS = 8
+const MAX_COLORS = 4
 
 export function ColorwayPanel() {
   const colorwayColors = useWorkspaceStore((s) => s.colorwayColors)

@@ -137,7 +137,7 @@ export const en: TranslationKeys = {
       hint: 'Add colors to generate. One image per color variation.',
       noProductImage: 'Please upload a product image',
       noColors: 'Add at least one color',
-      maxColors: 'Maximum 8 colors',
+      maxColors: 'Maximum 4 colors',
     },
     designCopy: {
       referenceImage: 'Reference Image',

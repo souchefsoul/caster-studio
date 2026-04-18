@@ -22,7 +22,7 @@ function qualityToResolution(quality: string): '1K' | '2K' | '4K' {
 
 function mapAspectRatio(ratio: string): string {
   switch (ratio) {
-    case '5:4': return '5:4'
+    case '4:5': return '4:5'
     case '16:9': return '16:9'
     case '9:16': return '9:16'
     default: return '1:1'
@@ -50,15 +50,36 @@ const PROMPT_TEMPLATES = {
     const imageRef = hasBack
       ? 'Image 1 is the front of the garment, Image 2 is the back of the garment. '
       : 'Image 1 is the garment. '
+
+    // Shared rules from Tam Katalog recipe (Represent/Zara luxury e-commerce feel)
+    const allProductKeep = `ABSOLUTELY CRITICAL OUTFIT RULE: The model must wear the EXACT uploaded garment as shown in the reference image(s), preserving exact color, print, graphic, texture, fabric, and fit. DO NOT omit, substitute, hide, or alter the garment. USE THE EXACT UPLOADED GARMENT.`
+    const ironRule = `ABSOLUTELY CRITICAL GARMENT PRESENTATION: Even if the uploaded reference images show wrinkled, creased, crumpled, or unironed garments, the garments on the model MUST appear PERFECTLY IRONED, FRESHLY PRESSED, SMOOTH and CRISP — as if just steamed by a professional e-commerce studio stylist. NO wrinkles, NO creases, NO crumples, NO folds, NO pressed-in storage lines, NO wavy hems. Fabric must lay completely flat and smooth on the body with only natural clean drape from the oversize fit. This is a luxury editorial catalog — all clothing must look brand-new and perfectly steamed.`
+    const sideInfo = hasBack
+      ? 'front and back reference provided — use both exactly'
+      : 'ONLY front reference provided — the back side must be plain/blank with NO print, NO graphic, NO design, just the base fabric color'
+    const studio = `Seamless cool-toned pale blue-grey studio backdrop (around #D9E3EB), very subtle cool cyan-blue undertone, soft gradient from slightly brighter top to cooler bottom. Slightly darker neutral grey floor meeting the backdrop in a soft horizon line at roughly the lower quarter of the frame. Soft even diffused studio lighting from the front, minimal shadow on the wall. Editorial e-commerce fashion photography, high-end catalog quality. Single photo only. Photorealistic 8k.`
+    const studioNoFloor = `Seamless cool-toned pale blue-grey studio backdrop (around #D9E3EB) with a subtle cyan-blue undertone, NO floor visible in this crop. Soft even diffused studio lighting. Editorial e-commerce fashion photography, high-end PDP style. Single photo only. Photorealistic 8k.`
+    const pb = `${imageRef}IMPORTANT RULE FOR MISSING SIDES: ${sideInfo}.`
+    const base = `${allProductKeep} ${pb} ${ironRule}`
+
+    const angleDescriptions: Record<string, string> = {
+      'front': `${base} FULL BODY HERO SHOT, model positioned at exact 0 degrees to camera (straight front). MANDATORY SPECIFIC POSE: weight shifted onto the RIGHT LEG creating a subtle S-curve silhouette through the body, left foot placed slightly forward and relaxed, BOTH HANDS TUCKED DEEP INTO THE FRONT POCKETS of the pants (not holding anything, not crossed), both elbows angled gently OUTWARD and AWAY from the torso so the arms form soft triangular shapes, shoulders relaxed. Head turned very slightly to the right, chin relaxed, confident editorial gaze. Head-to-toe entirely inside the frame with ~8% margin above the head and ~5% margin below the feet. ${studio} Medium format 50mm lens, sharp focus.`,
+
+      'back': `${base} FULL BODY BACK SHOT, head to toe. Model turned EXACTLY 180 degrees away from camera, completely facing the backdrop, back of the head visible. Standing straight, arms relaxed at sides slightly away from body forming a soft gap between arm and torso, feet shoulder-width apart. Small margin above head and below feet. Back of the garment fully visible with any back graphic, print or seam clearly shown. ${studio} Medium format 50mm lens, sharp focus.`,
+
+      'side-left': `${base} FULL BODY PURE SIDE PROFILE at exactly 90 degrees to camera, model facing frame RIGHT. Head to toe entirely inside the frame with small top and bottom margins. Standing naturally, front hand (closer to camera) tucked in front pocket, back arm relaxed at side, weight balanced. The silhouette from the side clearly shows the oversize drape, dropped shoulder line, and full body length of the garment. ${studio} Medium format 85mm lens, sharp focus.`,
+
+      'side-right': `${base} FULL BODY PURE SIDE PROFILE at exactly 90 degrees to camera, model facing frame LEFT. Head to toe entirely inside the frame with small top and bottom margins. Standing naturally, front hand (closer to camera) tucked in front pocket, back arm relaxed at side, weight balanced. The silhouette from the side clearly shows the oversize drape, dropped shoulder line, and full body length of the garment. ${studio} Medium format 85mm lens, sharp focus.`,
+
+      '3/4-front': `${base} CLOSE-UP upper body shot with a SLIGHT 15 degree diagonal (model rotated slightly toward his left). Cropped from top of head down to mid-chest / just below the chest print area. Head slightly tilted, gaze directed DOWN and off-camera to the right, mouth slightly parted in a candid editorial moment. One hand visible ENTERING THE FRAME FROM THE BOTTOM LEFT EDGE, fingers relaxed. Fabric texture, shoulder seam, and chest area hyper-sharp. ${studioNoFloor} Medium format 85mm lens, shallow depth of field.`,
+
+      '3/4-back': `${base} UPPER BODY THREE-QUARTER BACK SHOT — NOT a full body. ABSOLUTE MANDATORY CROP RULE: cropped from TOP OF HEAD down to MID-BACK / LOWER-SHOULDER-BLADE level. Everything below mid-back — lower back, hips, legs, feet — is CUT OFF and INVISIBLE. Model rotated approximately 160-170 degrees away from camera with head turned sharply toward his own LEFT SHOULDER so the side profile of the face is visible (jawline, ear, sunglasses). Back of the garment with its back print dominates the frame. ${studioNoFloor} Medium format 85mm lens, sharp focus.`,
+    }
+
+    const prompt = angleDescriptions[angle] || `${base} E-commerce product catalog photograph, ${angle} view. Show this exact garment from the ${angle} angle. ${studio}`
+
     const extra = userPrompt.trim() ? ` ${userPrompt.trim()}.` : ''
-    return (
-      `E-commerce product catalog photograph, ${angle} view.${extra} ` +
-      `${imageRef}` +
-      `Show this exact garment from the ${angle} angle. ` +
-      `Clean white background, even studio lighting with no harsh shadows, ` +
-      `color-accurate reproduction, sharp focus on garment details, ` +
-      `professional product photography for online store.`
-    )
+    return prompt + extra
   },
 
   'colorway': (_userPrompt: string, color: string) =>

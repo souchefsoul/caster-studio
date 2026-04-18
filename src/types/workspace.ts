@@ -9,7 +9,7 @@ export type GenerationStatus = 'idle' | 'pending' | 'processing' | 'completed' |
 export interface GenerationParams {
   prompt: string
   model: string           // FAL model endpoint
-  aspectRatio: string     // '1:1' | '5:4' | '16:9' | '9:16'
+  aspectRatio: string     // '1:1' | '4:5' | '16:9' | '9:16'
   quality: 'draft' | 'standard' | 'high'
   productImageUrl: string | null
 }

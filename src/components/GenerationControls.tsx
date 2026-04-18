@@ -6,7 +6,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 import { useGenerations } from '@/hooks/useGenerations'
 import { generateImage, generateOnModel, generateCatalog, generateColorway, generateDesignCopy } from '@/lib/fal'
 
-const ASPECT_RATIOS = ['1:1', '5:4', '16:9', '9:16'] as const
+const ASPECT_RATIOS = ['1:1', '4:5', '16:9', '9:16'] as const
 const QUALITY_LEVELS = ['draft', 'standard', 'high'] as const
 const IMAGE_COUNTS = [1, 2, 3, 4] as const
 
@@ -303,8 +303,8 @@ export function GenerationControls() {
         </div>
       </div>
 
-      {/* Number of Images — hidden for catalog (angles control count) */}
-      {currentMode !== 'catalog' && (
+      {/* Number of Images — hidden for catalog (angles) and colorway (colors) */}
+      {currentMode !== 'catalog' && currentMode !== 'colorway' && (
         <div className="flex flex-col gap-1.5">
           <Label className="text-xs">{t('workspace.controls.numImages')}</Label>
           <div className="flex gap-1">
