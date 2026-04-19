@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: in_progress
-stopped_at: Completed 06-02 (catalog) plan — 3->4 col angle grid + full localization + 40px tap-target floor; Wave 2 continues with 06-03..06-06
-last_updated: "2026-04-19T14:07:06Z"
+stopped_at: Completed 06-03 (colorway) plan — wrap-grid chips + 40px tap targets + 16px input for iOS no-auto-zoom; Wave 2 continues with 06-04..06-06
+last_updated: "2026-04-19T14:11:31Z"
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 13
-  completed_plans: 9
-  percent: 69
-  bar: "[███████░░░] 69%"
+  completed_plans: 10
+  percent: 77
+  bar: "[████████░░] 77%"
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 06 (mode-panels-on-mobile) — EXECUTING
-Plan: 3 of 6
+Plan: 4 of 6
 
 ## Milestone Progress
 
@@ -93,10 +93,13 @@ Recent decisions affecting current work:
 - [Phase 06-01]: Tap-size retrofit for shadcn xs buttons — add `min-h-10` alongside `size="xs"` to get 40px mobile tap target without introducing a new button variant; xs density preserved on desktop where vertical constraint doesn't bite
 - [Phase 06-02]: Responsive grid step at md: grid-cols-3 gap-1 md:grid-cols-4 reflows Catalog angles 3-col mobile to 4-col md+; desktop (lg+) byte-preserved because grid-cols-4 already applied at lg
 - [Phase 06-02]: labelKey indirection on module-scope arrays: store i18n key strings in AVAILABLE_ANGLES then resolve via t(angle.labelKey) at render, keeps array static while enabling runtime locale switching
+- [Phase 06-03]: flex flex-wrap gap-1 (not CSS grid) for bounded-count chip reflow — wraps naturally on mobile, packs on desktop without media queries; applicable to any tag/chip list with small hard cap
+- [Phase 06-03]: Decoupled hit-area pattern: 40x40 flex container wrapping a size-3 icon lets chips/dense UI meet touch-target floor without visual bloat
+- [Phase 06-03]: text-base (16px) on color text input to prevent iOS Safari auto-zoom on focus; Phase 7 TOUCH-02 will enforce globally but Phase 6 preemptively complies where inputs land
 
 ### Pending Todos
 
-- Execute Plans 06-03..06-06 (Wave 2 can run in parallel — zero tr.ts/en.ts contention; 06-02 catalog complete)
+- Execute Plans 06-04..06-06 (Wave 2 continues — zero tr.ts/en.ts contention; 06-03 colorway complete)
 
 ### Blockers/Concerns
 
@@ -104,6 +107,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T14:07:06Z
-Stopped at: Completed 06-02 (catalog) plan — 3->4 col angle grid + full localization + 40px tap-target floor; Wave 2 continues with 06-03..06-06
+Last session: 2026-04-19T14:11:31.607Z
+Stopped at: Completed 06-03 (colorway) plan — wrap-grid chips + 40px tap targets + 16px input for iOS no-auto-zoom; Wave 2 continues with 06-04..06-06
 Resume file: None
