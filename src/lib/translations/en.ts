@@ -34,6 +34,10 @@ export const en: TranslationKeys = {
     welcome: 'Welcome to Caster Studio. Workspace coming in Phase 2.',
   },
   workspace: {
+    topbar: {
+      gallery: 'Gallery',
+      closeGallery: 'Close Gallery',
+    },
     sidebar: {
       navigation: 'Navigation',
       prompt: 'Prompt',

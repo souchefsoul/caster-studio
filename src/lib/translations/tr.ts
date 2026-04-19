@@ -32,6 +32,10 @@ export const tr = {
     welcome: 'Caster Studio\'ya hoşgeldiniz. Çalışma alanı Faz 2\'de gelecek.',
   },
   workspace: {
+    topbar: {
+      gallery: 'Galeri',
+      closeGallery: 'Galeriyi Kapat',
+    },
     sidebar: {
       navigation: 'Navigasyon',
       prompt: 'Prompt',
