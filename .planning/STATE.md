@@ -1,16 +1,15 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.1
-milestone_name: mobile-usable-site
-status: ready-to-plan
+milestone_name: Mobile-Usable Site
+status: unknown
 stopped_at: Roadmap v1.1 created — ready to plan Phase 4
-last_updated: "2026-04-19T00:00:00.000Z"
+last_updated: "2026-04-19T00:29:16.737Z"
 progress:
-  total_phases: 8
-  completed_phases: 3
-  total_plans: 12
-  completed_plans: 12
-next_phase: 4
+  total_phases: 5
+  completed_phases: 0
+  total_plans: 3
+  completed_plans: 1
 ---
 
 # Project State
@@ -20,14 +19,12 @@ next_phase: 4
 See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
-**Current focus:** v1.1 — Mobile-Usable Site (Phases 4-8)
+**Current focus:** Phase 04 — responsive-shell
 
 ## Current Position
 
-Phase: 4 — Responsive Shell (not started)
-Plan: —
-Status: Roadmap defined, awaiting Phase 4 planning
-Last activity: 2026-04-19 — v1.1 roadmap created (Phases 4-8 derived from 24 v1.1 requirements)
+Phase: 04 (responsive-shell) — EXECUTING
+Plan: 2 of 3
 
 ## Milestone Progress
 
@@ -67,10 +64,14 @@ Recent decisions affecting current work:
 - [v1.1 Scope]: Keep Windows 95 flat aesthetic on mobile (no redesign)
 - [v1.1 Roadmap]: 5 phases (4-8) derived from natural requirement boundaries — Responsive Shell → Mobile Canvas → Mode Panels → Aux Views + Touch Ergonomics → Real-Device Verification
 - [v1.1 Roadmap]: Verification isolated as its own phase (Phase 8) because "runs on real iOS/Android" is a shippability gate, not a polish detail
+- [Phase 04-01]: viewport-fit=cover added to meta viewport — required for iOS env(safe-area-inset-*) to resolve to nonzero values
+- [Phase 04-01]: Global overflow-x: hidden on html+body as safety net for horizontal scroll; component-level fixes in 04-02/04-03 address root causes
+- [Phase 04-01]: Used raw CSS overflow-x: hidden (not @apply) inside @layer base to avoid Tailwind v4 @apply resolution ambiguity
 
 ### Pending Todos
 
-- Plan Phase 4 (`/gsd:plan-phase 4`) — Responsive Shell
+- Execute Plan 04-02 (safe-area insets + drawer mechanics)
+- Execute Plan 04-03 (sidebar width, toolbar flex-wrap, min-w-0)
 
 ### Blockers/Concerns
 
@@ -78,6 +79,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T00:00:00.000Z
-Stopped at: Roadmap v1.1 created — ready to plan Phase 4
-Resume file: .planning/ROADMAP.md
+Last session: 2026-04-19T00:28:40Z
+Stopped at: Completed 04-01-PLAN.md (viewport + overflow foundation)
+Resume file: .planning/phases/04-responsive-shell/04-02-PLAN.md
