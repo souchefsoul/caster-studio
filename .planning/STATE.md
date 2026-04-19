@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: in_progress
-stopped_at: Completed 06-03 (colorway) plan — wrap-grid chips + 40px tap targets + 16px input for iOS no-auto-zoom; Wave 2 continues with 06-04..06-06
-last_updated: "2026-04-19T14:11:31Z"
+stopped_at: Completed 06-04 (design copy) plan — textarea field-sizing-content auto-grow + 16px font + 5rem floor; Wave 2 continues with 06-05..06-06
+last_updated: "2026-04-19T14:16:32.104Z"
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 13
-  completed_plans: 10
-  percent: 77
-  bar: "[████████░░] 77%"
+  completed_plans: 11
+  percent: 85
+  bar: "[█████████░] 85%"
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 06 (mode-panels-on-mobile) — EXECUTING
-Plan: 4 of 6
+Plan: 5 of 6
 
 ## Milestone Progress
 
@@ -96,6 +96,9 @@ Recent decisions affecting current work:
 - [Phase 06-03]: flex flex-wrap gap-1 (not CSS grid) for bounded-count chip reflow — wraps naturally on mobile, packs on desktop without media queries; applicable to any tag/chip list with small hard cap
 - [Phase 06-03]: Decoupled hit-area pattern: 40x40 flex container wrapping a size-3 icon lets chips/dense UI meet touch-target floor without visual bloat
 - [Phase 06-03]: text-base (16px) on color text input to prevent iOS Safari auto-zoom on focus; Phase 7 TOUCH-02 will enforce globally but Phase 6 preemptively complies where inputs land
+- [Phase 06-04]: Tailwind v4 field-sizing-content utility chosen over JS auto-resize handler for textarea growth — declarative, zero listeners, zero SSR mismatch risk; Safari 17.4+ / Chrome 123+ native support with rows={3} HTML fallback for older engines
+- [Phase 06-04]: Triple-guard textarea sizing pattern: field-sizing-content (modern auto-grow) + min-h-[5rem] (3-row Tailwind floor) + rows={3} (SSR/HTML fallback) — composable guard stack for mobile-friendly long-input textareas
+- [Phase 06-04]: 16px text-base no-auto-zoom rule now enforced on both <input> (Plan 06-03) and <textarea> (this plan) surfaces in Phase 6 panels — uniform iOS Safari compliance precedent for Phase 7 TOUCH-02 global enforcement
 
 ### Pending Todos
 
@@ -107,6 +110,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T14:11:31.607Z
-Stopped at: Completed 06-03 (colorway) plan — wrap-grid chips + 40px tap targets + 16px input for iOS no-auto-zoom; Wave 2 continues with 06-04..06-06
+Last session: 2026-04-19T14:16:32.102Z
+Stopped at: Completed 06-04 (design copy) plan — textarea field-sizing-content auto-grow + 16px font + 5rem floor; Wave 2 continues with 06-05..06-06
 Resume file: None

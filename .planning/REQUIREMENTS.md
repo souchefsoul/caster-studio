@@ -28,7 +28,7 @@ Requirements for the Mobile-Usable Site milestone. Each maps to a roadmap phase.
 - [x] **MODES-01**: On-Model panel fully usable on mobile — multi-image grid uploads via file picker, each slot ≥ 80px, front/back view toggle tappable.
 - [x] **MODES-02**: Catalog panel fully usable on mobile — product image uploads, 4-column angle grid reflows to 3 on small screens, generates correctly.
 - [x] **MODES-03**: Colorway panel fully usable on mobile — color input, add/remove colors, generation count picker tappable.
-- [ ] **MODES-04**: Design Copy panel fully usable on mobile — reference image upload and modifications textarea usable without zoom.
+- [x] **MODES-04**: Design Copy panel fully usable on mobile — reference image upload and modifications textarea usable without zoom.
 - [ ] **MODES-05**: Video panel fully usable on mobile — source image (upload or gallery-picker), prompt textarea, duration/aspect/audio controls tappable, generated video plays in-panel.
 - [ ] **MODES-06**: Brand Face panel usable on mobile — active face preview visible, switch/clear buttons tappable, opens the Brand Face management view without layout break.
 
@@ -95,7 +95,7 @@ Which phases cover which requirements. Populated by roadmapper; confirmed by ROA
 | MODES-01 | Phase 6 | Complete |
 | MODES-02 | Phase 6 | Complete |
 | MODES-03 | Phase 6 | Complete |
-| MODES-04 | Phase 6 | Pending |
+| MODES-04 | Phase 6 | Complete |
 | MODES-05 | Phase 6 | Pending |
 | MODES-06 | Phase 6 | Pending |
 | AUX-01 | Phase 7 | Pending |
