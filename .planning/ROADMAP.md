@@ -101,7 +101,12 @@ Plans:
   2. Below the `lg` breakpoint, the sidebar is hidden behind a hamburger; tapping the hamburger slides in a full-height drawer; tapping outside or selecting a mode closes it and returns focus to the canvas
   3. On `lg` and up, the sidebar is back to its fixed desktop column — no regressions for desktop users
   4. On iPhones with a notch or home indicator, no sidebar item, toolbar control, or account button is clipped by system UI (safe-area insets respected)
-**Plans:** TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Viewport meta (viewport-fit=cover) + global overflow-x hygiene
+- [ ] 04-02-PLAN.md — Responsive sidebar drawer (width, safe-area insets, focus-return, responsive default)
+- [ ] 04-03-PLAN.md — Auto-close drawer on navigation + canvas toolbar safe-area & flex-wrap hardening
 
 ### Phase 5: Mobile Canvas
 **Goal**: The canvas — grid and single view — reflows cleanly on phones, and every canvas-level action is reachable by touch
@@ -159,7 +164,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 1. Foundation & Auth | v1.0 | 3/3 | Complete | 2026-04-16 |
 | 2. Workspace & First Generation | v1.0 | 3/3 | Complete | 2026-04-16 |
 | 3. Full Generation Suite & Organization | v1.0 | 6/6 | Complete | 2026-04-18 |
-| 4. Responsive Shell | v1.1 | 0/TBD | Not started | - |
+| 4. Responsive Shell | v1.1 | 0/3 | Not started | - |
 | 5. Mobile Canvas | v1.1 | 0/TBD | Not started | - |
 | 6. Mode Panels on Mobile | v1.1 | 0/TBD | Not started | - |
 | 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
