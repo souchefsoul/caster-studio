@@ -62,6 +62,7 @@ export function AuthPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="text-base"
               />
             </div>
 
@@ -73,6 +74,7 @@ export function AuthPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="text-base"
               />
             </div>
 
@@ -80,7 +82,7 @@ export function AuthPage() {
               <p className="text-sm text-destructive">{error}</p>
             )}
 
-            <Button type="submit" disabled={loading} className="w-full">
+            <Button type="submit" disabled={loading} className="w-full min-h-10">
               {loading ? t('auth.pleaseWait') : t('common.signIn')}
             </Button>
           </form>
