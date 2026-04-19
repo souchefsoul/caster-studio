@@ -45,13 +45,13 @@ export function Sidebar() {
     <aside
       className={`
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        fixed inset-y-0 left-0 z-40 w-[32rem] border-r border-border bg-background
+        fixed inset-y-0 left-0 z-40 w-[85vw] max-w-[360px] border-r border-border bg-background
         flex flex-col
-        lg:static lg:translate-x-0
+        lg:static lg:translate-x-0 lg:w-[32rem] lg:max-w-none
       `}
     >
       {/* Header */}
-      <div className="border-b border-border px-4 py-3">
+      <div className="border-b border-border px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
         <h1 className="text-base font-bold">{t('app.title')}</h1>
       </div>
 
@@ -158,7 +158,7 @@ export function Sidebar() {
       {activeView !== 'workspace' && <div className="flex-1" />}
 
       {/* Account */}
-      <div className="border-t border-border px-3 py-3">
+      <div className="border-t border-border px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <p className="mb-2 px-1 text-xs font-semibold uppercase text-muted-foreground">
           {t('workspace.sidebar.account')}
         </p>
