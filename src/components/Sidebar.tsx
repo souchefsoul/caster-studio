@@ -55,24 +55,18 @@ export function Sidebar() {
           {t('workspace.sidebar.navigation')}
         </p>
         <nav className="flex flex-col gap-1">
-          {GENERATION_MODES.map((mode) => (
-            <Button
-              key={mode.key}
-              variant="ghost"
-              size="default"
-              disabled={!mode.enabled}
-              onClick={() => setCurrentMode(mode.key)}
-              className={`
-                justify-start rounded-none text-left text-base
-                ${activeView === 'workspace' && currentMode === mode.key ? 'bg-accent text-accent-foreground' : ''}
-              `}
-            >
-              {t(mode.labelKey)}
-            </Button>
-          ))}
-
-          {/* Separator */}
-          <div className="my-1 border-t border-border" />
+          <select
+            value={activeView === 'workspace' ? currentMode : ''}
+            onChange={(e) => setCurrentMode(e.target.value as GenerationMode)}
+            className="w-full rounded-none border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-1 focus:ring-ring"
+          >
+            {activeView !== 'workspace' && <option value="" disabled hidden />}
+            {GENERATION_MODES.map((mode) => (
+              <option key={mode.key} value={mode.key} disabled={!mode.enabled}>
+                {t(mode.labelKey)}
+              </option>
+            ))}
+          </select>
 
           {/* View tabs: Brand Face, Collections */}
           {VIEW_TABS.map((tab) => (
