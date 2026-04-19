@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 07-01-PLAN.md — global tap-target & font-size audit; TOUCH-01/02 satisfied across chrome/canvas/controls; ready for Wave 2 (07-02, 07-04, 07-05)
-last_updated: "2026-04-19T14:57:08.422Z"
+stopped_at: Completed 07-02-PLAN.md — shared PromptPanel textarea auto-grow (TOUCH-04 closed); triple-guard recipe now uniform across DesignCopy/Video/PromptPanel; ready for Wave 2 continuation (07-03, 07-04, 07-05)
+last_updated: "2026-04-19T15:01:28.479Z"
 progress:
   total_phases: 6
   completed_phases: 4
   total_plans: 18
-  completed_plans: 14
+  completed_plans: 15
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 07 (auxiliary-views-touch-ergonomics) — EXECUTING
-Plan: 2 of 5
+Plan: 3 of 5
 
 ## Milestone Progress
 
@@ -108,10 +108,14 @@ Recent decisions affecting current work:
 - [Phase 07]: Phase 07-01: Bare <button> h-7 -> min-h-10 swap (replace, not append) because h-7 and min-h-10 would conflict on the same element; applied to Canvas toolbarBtn const and clear-failed bare button
 - [Phase 07]: Phase 07-01: Grid-item hover-reveal overlay (text-[11px] inside lg:opacity-0 lg:group-hover:opacity-100 bar) intentionally NOT lifted — Phase 5 touch-overlay pattern treats the entire overlay bar as the hit area; TOUCH-01 decorative-icon exemption applies
 - [Phase 07]: Phase 07-01: Shared Shadcn Button and Input components remain unmodified — only call-site className lifts applied. Preserves xs/sm/icon-sm density on desktop and avoids rippling changes into ungoverned call-sites
+- [Phase 07-02]: Triple-guard textarea recipe (field-sizing-content + min-h-[5rem] + rows={3} + text-base + resize-none) now applied uniformly across three long-input textareas: DesignCopy (06-04), Video (06-05), PromptPanel (07-02). Pattern is stable and portable — future long-input textareas should adopt the same token set
+- [Phase 07-02]: TOUCH-04 closed for the last shared long-input textarea (On-Model/Catalog/Colorway all feed through PromptPanel). iOS Safari no-auto-zoom + 3-row floor + auto-grow now universal on the mode-panel surface
+- [Phase 07-02]: Recipe application preserves per-component focus style (PromptPanel's focus:border-ring focus:outline-none kept distinct from DesignCopy's focus-visible variant) — TOUCH-04 mandates sizing/typography/growth tokens only, not focus styling
+- [Phase 07-02]: font-mono retained alongside text-base on PromptPanel — Windows 95 prompt-console typewriter feel survives the 14px → 16px iOS-compliance bump
 
 ### Pending Todos
 
-- Execute Phase 07 Wave 2 plans (07-02 PromptPanel, 07-03 ImageUpload accept audit, 07-04 BrandFaceView reflow, 07-05 AuthPage reflow)
+- Execute remaining Phase 07 Wave 2 plans (07-03 ImageUpload accept audit, 07-04 BrandFaceView reflow, 07-05 AuthPage reflow)
 - Optional: lint-cleanup plan for the 3 pre-existing lint errors tracked in `.planning/phases/06-mode-panels-on-mobile/deferred-items.md`
 
 ### Blockers/Concerns
@@ -120,6 +124,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T14:56:57.575Z
-Stopped at: Completed 07-01-PLAN.md — global tap-target & font-size audit; TOUCH-01/02 satisfied across chrome/canvas/controls; ready for Wave 2 (07-02, 07-04, 07-05)
+Last session: 2026-04-19T15:01:28.479Z
+Stopped at: Completed 07-02-PLAN.md — shared PromptPanel textarea auto-grow (TOUCH-04 closed); triple-guard recipe now uniform across DesignCopy/Video/PromptPanel; ready for Wave 2 continuation (07-03, 07-04, 07-05)
 Resume file: None

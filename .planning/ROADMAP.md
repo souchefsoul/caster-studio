@@ -24,7 +24,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Mobile Canvas** - Grid + single-view reflow, touch-equivalent overlay controls, inline mobile video playback *(v1.1, 2026-04-19)*
 - [x] **Phase 5.1: Mobile Layout Flip (INSERTED)** - On mobile, generator becomes primary; canvas hidden behind Gallery button *(v1.1, 2026-04-19)*
 - [ ] **Phase 6: Mode Panels on Mobile** - All five generation modes + Brand Face panel fully operable on a phone *(v1.1)*
-- [ ] **Phase 7: Auxiliary Views & Touch Ergonomics** - Brand Face management + auth views reflow; 40px tap targets, 16px inputs, sane file pickers *(v1.1)*
+- [ ] **Phase 7: Auxiliary Views & Touch Ergonomics** - Brand Face management + auth views reflow; 40px tap targets, 16px inputs, sane file pickers *(v1.1, in progress)*
 - [ ] **Phase 8: Real-Device Verification** - End-to-end runs on real iOS Safari + Android Chrome; visual QA across phone viewports *(v1.1)*
 
 ## Phase Details
@@ -175,8 +175,8 @@ Plans:
 **Plans:** 5 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Tap-target + font-size audit and sweep across global chrome, canvas, controls (TOUCH-01, TOUCH-02)
-- [ ] 07-02-PLAN.md — Shared PromptPanel textarea auto-grow via field-sizing-content + 16px floor (TOUCH-04)
+- [x] 07-01-PLAN.md — Tap-target + font-size audit and sweep across global chrome, canvas, controls (TOUCH-01, TOUCH-02)
+- [x] 07-02-PLAN.md — Shared PromptPanel textarea auto-grow via field-sizing-content + 16px floor (TOUCH-04)
 - [ ] 07-03-PLAN.md — File-input accept=image/* audit + no-capture regression lock (TOUCH-03)
 - [ ] 07-04-PLAN.md — BrandFaceView mobile reflow: 1-col grid + 40px tap controls + 16px name input (AUX-01)
 - [ ] 07-05-PLAN.md — AuthPage mobile reflow: 16px inputs + 40px submit + 667px-fit (AUX-02)
@@ -204,5 +204,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 6 → 7 �
 | 5. Mobile Canvas | v1.1 | 2/2 | Complete | 2026-04-19 |
 | 5.1. Mobile Layout Flip (INSERTED) | v1.1 | 2/2 | Complete | 2026-04-19 |
 | 6. Mode Panels on Mobile | v1.1 | 6/6 | Complete | 2026-04-19 |
-| 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
+| 7. Auxiliary Views & Touch Ergonomics | v1.1 | 2/5 | In progress | - |
 | 8. Real-Device Verification | v1.1 | 0/TBD | Not started | - |
