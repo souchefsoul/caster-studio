@@ -34,6 +34,10 @@ export function VideoPanel() {
     (g) => g.status === 'completed' && g.imageUrl
   )
 
+  const latestVideoGeneration = generations.find(
+    (g) => g.mode === 'video' && g.status === 'completed' && g.imageUrl
+  )
+
   const handleSelectFromGallery = (imageUrl: string) => {
     setVideoSourceImage(imageUrl)
     setShowGallery(false)
@@ -159,7 +163,7 @@ export function VideoPanel() {
           onChange={(e) => setVideoPrompt(e.target.value)}
           placeholder={t('workspace.video.promptPlaceholder')}
           rows={3}
-          className="w-full resize-none border border-border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring rounded-none"
+          className="w-full resize-none rounded-none border border-border bg-background px-3 py-2 text-base min-h-[5rem] field-sizing-content placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
         />
       </div>
 
@@ -223,6 +227,22 @@ export function VideoPanel() {
       >
         {isGenerating ? t('workspace.video.generating') : t('workspace.video.generate')}
       </Button>
+
+      {/* Inline player — most recent completed video */}
+      {latestVideoGeneration?.imageUrl && (
+        <div className="flex flex-col gap-1.5">
+          <p className="text-xs font-medium">{t('workspace.canvas.videoReady')}</p>
+          <video
+            key={latestVideoGeneration.id}
+            src={latestVideoGeneration.imageUrl}
+            controls
+            playsInline
+            muted
+            className="w-full rounded-none border border-border bg-black"
+            style={{ aspectRatio: (latestVideoGeneration.params?.aspectRatio ?? '16:9').replace(':', ' / ') }}
+          />
+        </div>
+      )}
     </div>
   )
 }
