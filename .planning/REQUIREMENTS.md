@@ -78,7 +78,7 @@ Deferred to future releases. Tracked but not in this roadmap.
 
 ## Traceability
 
-Which phases cover which requirements. Populated by roadmapper.
+Which phases cover which requirements. Populated by roadmapper; confirmed by ROADMAP.md v1.1.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
@@ -114,4 +114,4 @@ Which phases cover which requirements. Populated by roadmapper.
 
 ---
 *Requirements defined: 2026-04-19*
-*Last updated: 2026-04-19 after initial definition*
+*Last updated: 2026-04-19 — roadmap v1.1 created, phase assignments confirmed (Phases 4-8)*
