@@ -26,7 +26,7 @@ export function DesignCopyPanel() {
           value={designCopyModifications}
           onChange={(e) => setDesignCopyModifications(e.target.value)}
           placeholder={t('workspace.designCopy.modPlaceholder')}
-          className="rounded-none border border-input bg-background px-3 py-2 font-mono text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-none w-full"
+          className="w-full rounded-none border border-input bg-background px-3 py-2 font-mono text-base min-h-[5rem] field-sizing-content resize-none placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
       </div>
 
