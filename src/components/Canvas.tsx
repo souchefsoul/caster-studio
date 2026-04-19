@@ -181,7 +181,7 @@ export function Canvas() {
                       </div>
                     )}
                     {/* Hover overlay with text buttons */}
-                    <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-black/70 px-2 py-1.5 opacity-0 transition-opacity group-hover:opacity-100">
+                    <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-black/70 px-2 py-1.5 opacity-100 transition-opacity lg:opacity-0 lg:group-hover:opacity-100">
                       <div className="flex gap-3">
                         <button
                           onClick={(e) => { e.stopPropagation(); handleDelete(gen.id) }}
