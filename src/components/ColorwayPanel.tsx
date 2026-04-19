@@ -52,18 +52,19 @@ export function ColorwayPanel() {
         <p className="text-xs font-medium">{t('workspace.colorway.colors')}</p>
 
         {/* Color list */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-wrap gap-1">
           {colorwayColors.map((color, index) => (
             <div
               key={index}
-              className="flex items-center justify-between border border-border bg-muted/50 px-2 py-1"
+              className="flex items-center gap-1 border border-border bg-muted/50 px-2 py-1"
             >
               <span className="text-xs">{color}</span>
               <button
                 type="button"
                 onClick={() => removeColor(index)}
-                className="text-muted-foreground hover:text-foreground"
+                className="flex h-10 w-10 items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={colorwayColors.length <= 1}
+                aria-label="Remove color"
               >
                 <X className="size-3" />
               </button>
@@ -80,13 +81,13 @@ export function ColorwayPanel() {
               onChange={(e) => setNewColor(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={t('workspace.colorway.colorPlaceholder')}
-              className="flex-1 border border-border bg-background px-2 py-1 text-xs rounded-none"
+              className="flex-1 rounded-none border border-border bg-background px-2 py-1 text-base min-h-10"
             />
             <Button
               variant="outline"
               size="sm"
               onClick={addColor}
-              className="rounded-none text-xs px-2 py-1 h-auto"
+              className="rounded-none text-xs px-3 min-h-10"
             >
               {t('workspace.colorway.addColor')}
             </Button>
