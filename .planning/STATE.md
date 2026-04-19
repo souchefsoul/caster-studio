@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: "Completed 07-04-PLAN.md — AUX-01 BrandFaceView mobile reflow (1-col/sm:2/lg:3 grid) + TOUCH-01 40px tap floors on all 5 controls + TOUCH-02 16px name input; 3 atomic commits, zero deviations, ready for 07-05 (AuthPage AUX-02 reflow)"
-last_updated: "2026-04-19T15:11:39.093Z"
+stopped_at: "Completed 07-05-PLAN.md — AUX-02 AuthPage reflow: text-base on email+password Inputs + min-h-10 on submit Button; 1 atomic commit, zero deviations. Phase 07 COMPLETE (5/5 plans). Ready for Phase 08 (Real-Device Verification)."
+last_updated: "2026-04-19T15:15:24.095Z"
 progress:
   total_phases: 6
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 18
-  completed_plans: 17
+  completed_plans: 18
 ---
 
 # Project State
@@ -19,17 +19,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
-**Current focus:** Phase 07 — auxiliary-views-touch-ergonomics
+**Current focus:** Phase 07 — auxiliary-views-touch-ergonomics (COMPLETE); next Phase 08 — real-device-verification
 
 ## Current Position
 
-Phase: 07 (auxiliary-views-touch-ergonomics) — EXECUTING
-Plan: 5 of 5
+Phase: 07 (auxiliary-views-touch-ergonomics) — COMPLETE
+Plan: 5 of 5 (complete)
 
 ## Milestone Progress
 
 - v1.0 MVP: Phases 1-3 — **Complete** (shipped 2026-04-18)
-- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (3/5 phases complete)
+- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (4/5 phases complete)
 
 ## Accumulated Context
 
@@ -119,6 +119,9 @@ Recent decisions affecting current work:
 - [Phase 07-04]: Icon-only remove-X grows via flex centering + min-h-10 + min-w-10 — X icon stays size-3 (12px), hit-area grows via container; matches Phase 6 06-03 decoupled hit-area pattern
 - [Phase 07-04]: Decorative 10px caption text on per-tile set-active button unchanged — TOUCH-01 exempts decorative text when paired with larger hit area (entire tile face image is primary tap surface)
 - [Phase 07-04]: Name input adds w-full alongside text-base + min-h-10 upgrade; wrapper style maxWidth:320 preserved so form fills 320px on mobile and caps at 320px on desktop
+- [Phase 07]: Phase 07-05: Per-call-site text-base override on AuthPage Inputs (two places) — defeats Shadcn Input's md:text-sm reduction at md+ without touching src/components/ui/input.tsx; preserves xs/sm/icon-sm density on all other ungoverned call-sites
+- [Phase 07]: Phase 07-05: min-h-10 appended (not replaced) onto AuthPage submit Button's existing w-full — preserves full-width layout while lifting 32px h-8 default to the 40px TOUCH-01 floor; consistent with Phase 07-01 append-not-replace retrofit pattern
+- [Phase 07]: Phase 07-05: Sign-up mode toggle explicitly NOT added — CONTEXT mentioned it as nice-to-have but AuthPage is sign-in-only today and AUX-02 requires only viewport-fit + 16px inputs + 40px submit; scope boundary respected
 
 ### Pending Todos
 
@@ -131,6 +134,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T15:11:39.090Z
-Stopped at: Completed 07-04-PLAN.md — AUX-01 BrandFaceView mobile reflow (1-col/sm:2/lg:3 grid) + TOUCH-01 40px tap floors on all 5 controls + TOUCH-02 16px name input; 3 atomic commits, zero deviations, ready for 07-05 (AuthPage AUX-02 reflow)
+Last session: 2026-04-19T15:15:24.092Z
+Stopped at: Completed 07-05-PLAN.md — AUX-02 AuthPage reflow: text-base on email+password Inputs + min-h-10 on submit Button; 1 atomic commit, zero deviations. Phase 07 COMPLETE (5/5 plans). Ready for Phase 08 (Real-Device Verification).
 Resume file: None

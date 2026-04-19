@@ -35,7 +35,7 @@ Requirements for the Mobile-Usable Site milestone. Each maps to a roadmap phase.
 ### Auxiliary Views
 
 - [x] **AUX-01**: Brand Face management view (BrandFaceView) reflows to a single column grid on mobile with tap-sized add/delete/set-active controls.
-- [ ] **AUX-02**: Auth page (Sign In / Sign Up) renders within the viewport with inputs ≥ 16px font-size (no iOS auto-zoom) and the submit button reachable without scroll on a 667px-tall screen.
+- [x] **AUX-02**: Auth page (Sign In / Sign Up) renders within the viewport with inputs ≥ 16px font-size (no iOS auto-zoom) and the submit button reachable without scroll on a 667px-tall screen.
 
 ### Touch & Input Ergonomics
 
@@ -99,7 +99,7 @@ Which phases cover which requirements. Populated by roadmapper; confirmed by ROA
 | MODES-05 | Phase 6 | Complete |
 | MODES-06 | Phase 6 | Complete |
 | AUX-01 | Phase 7 | Complete |
-| AUX-02 | Phase 7 | Pending |
+| AUX-02 | Phase 7 | Complete |
 | TOUCH-01 | Phase 7 | Complete |
 | TOUCH-02 | Phase 7 | Complete |
 | TOUCH-03 | Phase 7 | Complete |
