@@ -135,7 +135,11 @@ Plans:
   3. The gallery overlay has an explicit close/back affordance that returns focus to the generator view
   4. At `lg+`: layout is unchanged (sidebar + canvas side-by-side); zero desktop regression
   5. Phase 5 grid + single-view + iOS video work is reused inside the gallery overlay (not rebuilt)
-**Plans:** TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 05.1-01-PLAN.md — Add galleryOpen store slice + flip Sidebar from mobile-drawer to in-flow primary column
+- [ ] 05.1-02-PLAN.md — Mobile top bar with Gallery trigger + full-screen gallery overlay + Canvas close button (human-verify)
 
 ### Phase 6: Mode Panels on Mobile
 **Goal**: All five generation modes plus the Brand Face panel are fully operable on a phone with no feature cuts
@@ -183,7 +187,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 6 → 7 �
 | 3. Full Generation Suite & Organization | v1.0 | 6/6 | Complete | 2026-04-18 |
 | 4. Responsive Shell | v1.1 | 3/3 | Complete | 2026-04-19 |
 | 5. Mobile Canvas | v1.1 | 2/2 | Complete | 2026-04-19 |
-| 5.1. Mobile Layout Flip (INSERTED) | v1.1 | 0/TBD | Not started | - |
+| 5.1. Mobile Layout Flip (INSERTED) | v1.1 | 0/2 | Not started | - |
 | 6. Mode Panels on Mobile | v1.1 | 0/TBD | Not started | - |
 | 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
 | 8. Real-Device Verification | v1.1 | 0/TBD | Not started | - |
