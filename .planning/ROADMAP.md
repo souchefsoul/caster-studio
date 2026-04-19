@@ -177,7 +177,7 @@ Plans:
 Plans:
 - [x] 07-01-PLAN.md — Tap-target + font-size audit and sweep across global chrome, canvas, controls (TOUCH-01, TOUCH-02)
 - [x] 07-02-PLAN.md — Shared PromptPanel textarea auto-grow via field-sizing-content + 16px floor (TOUCH-04)
-- [ ] 07-03-PLAN.md — File-input accept=image/* audit + no-capture regression lock (TOUCH-03)
+- [x] 07-03-PLAN.md — File-input accept=image/* audit + no-capture regression lock (TOUCH-03)
 - [ ] 07-04-PLAN.md — BrandFaceView mobile reflow: 1-col grid + 40px tap controls + 16px name input (AUX-01)
 - [ ] 07-05-PLAN.md — AuthPage mobile reflow: 16px inputs + 40px submit + 667px-fit (AUX-02)
 

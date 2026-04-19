@@ -41,7 +41,7 @@ Requirements for the Mobile-Usable Site milestone. Each maps to a roadmap phase.
 
 - [x] **TOUCH-01**: All primary interactive controls (buttons, toggles, inputs, thumbnails) have a minimum 40×40px tap target; decorative icons may be smaller only when paired with a larger hit area.
 - [x] **TOUCH-02**: Text inputs and textareas use `font-size: 16px` (or larger) so iOS Safari does not auto-zoom the viewport on focus.
-- [ ] **TOUCH-03**: File upload inputs request `accept="image/*"` (and appropriate `capture` hints where useful) so the OS offers camera/library pickers natively.
+- [x] **TOUCH-03**: File upload inputs request `accept="image/*"` (and appropriate `capture` hints where useful) so the OS offers camera/library pickers natively.
 - [x] **TOUCH-04**: Long prompts don't break layout — textarea grows vertically; buttons next to it wrap to a new row rather than overflowing.
 
 ### Verification
@@ -102,7 +102,7 @@ Which phases cover which requirements. Populated by roadmapper; confirmed by ROA
 | AUX-02 | Phase 7 | Pending |
 | TOUCH-01 | Phase 7 | Complete |
 | TOUCH-02 | Phase 7 | Complete |
-| TOUCH-03 | Phase 7 | Pending |
+| TOUCH-03 | Phase 7 | Complete |
 | TOUCH-04 | Phase 7 | Complete |
 | VERIFY-01 | Phase 8 | Pending |
 | VERIFY-02 | Phase 8 | Pending |

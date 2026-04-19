@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 07-02-PLAN.md — shared PromptPanel textarea auto-grow (TOUCH-04 closed); triple-guard recipe now uniform across DesignCopy/Video/PromptPanel; ready for Wave 2 continuation (07-03, 07-04, 07-05)
-last_updated: "2026-04-19T15:01:28.479Z"
+stopped_at: Completed 07-03-PLAN.md — TOUCH-03 audit (file-input accept coverage + zero capture attrs) regression-locked via 07-03-AUDIT.md; zero source modifications on happy path; ready for Wave 2 continuation (07-04 BrandFaceView, 07-05 AuthPage)
+last_updated: "2026-04-19T15:06:50.289Z"
 progress:
   total_phases: 6
   completed_phases: 4
   total_plans: 18
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 07 (auxiliary-views-touch-ergonomics) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 
 ## Milestone Progress
 
@@ -112,6 +112,9 @@ Recent decisions affecting current work:
 - [Phase 07-02]: TOUCH-04 closed for the last shared long-input textarea (On-Model/Catalog/Colorway all feed through PromptPanel). iOS Safari no-auto-zoom + 3-row floor + auto-grow now universal on the mode-panel surface
 - [Phase 07-02]: Recipe application preserves per-component focus style (PromptPanel's focus:border-ring focus:outline-none kept distinct from DesignCopy's focus-visible variant) — TOUCH-04 mandates sizing/typography/growth tokens only, not focus styling
 - [Phase 07-02]: font-mono retained alongside text-base on PromptPanel — Windows 95 prompt-console typewriter feel survives the 14px → 16px iOS-compliance bump
+- [Phase 07-03]: Audit-only plan pattern — zero source modifications on the happy path; single commit lands a grep-capture audit document (07-03-AUDIT.md) that regression-locks TOUCH-03 / the Phase 6 accept='image/*' + no-capture invariants
+- [Phase 07-03]: Grep-based acceptance criteria over unit tests for HTML-attribute invariants — cheap to run, immune to framework churn, directly expressive of 'no capture attr anywhere' / 'accept=image/* on every file input' contracts
+- [Phase 07-03]: VideoPanel's data-video-source-upload bridge (06-05 pattern) confirmed NOT a new file input — line 114's type=file is inside a document.querySelector string literal; audit counts exactly 2 actual <input type=file> elements in src/ (ImageUpload, OnModelPanel)
 
 ### Pending Todos
 
@@ -124,6 +127,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T15:01:28.479Z
-Stopped at: Completed 07-02-PLAN.md — shared PromptPanel textarea auto-grow (TOUCH-04 closed); triple-guard recipe now uniform across DesignCopy/Video/PromptPanel; ready for Wave 2 continuation (07-03, 07-04, 07-05)
+Last session: 2026-04-19T15:06:50.285Z
+Stopped at: Completed 07-03-PLAN.md — TOUCH-03 audit (file-input accept coverage + zero capture attrs) regression-locked via 07-03-AUDIT.md; zero source modifications on happy path; ready for Wave 2 continuation (07-04 BrandFaceView, 07-05 AuthPage)
 Resume file: None
