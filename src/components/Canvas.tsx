@@ -151,6 +151,8 @@ export function Canvas() {
                   controls
                   autoPlay
                   loop
+                  muted
+                  playsInline
                   className="max-h-full max-w-full"
                 />
               ) : (
