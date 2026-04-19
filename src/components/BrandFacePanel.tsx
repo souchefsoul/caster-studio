@@ -33,7 +33,7 @@ export function BrandFacePanel() {
       <button
         type="button"
         onClick={() => setCollapsed((v) => !v)}
-        className="flex items-center gap-1 px-1 text-xs font-semibold uppercase text-muted-foreground hover:text-foreground"
+        className="flex min-h-10 items-center gap-1 px-1 text-xs font-semibold uppercase text-muted-foreground hover:text-foreground"
       >
         <ChevronRight className={`size-3 transition-transform ${collapsed ? '' : 'rotate-90'}`} />
         {t('workspace.brandFace.title')}
@@ -54,13 +54,13 @@ export function BrandFacePanel() {
           )}
 
           {!loading && gridModels.length > 0 && (
-            <div className="grid grid-cols-4 gap-1">
+            <div className="grid grid-cols-2 gap-1 lg:grid-cols-4">
               {gridModels.map((model) => (
                 <button
                   key={model.id}
                   type="button"
                   onClick={() => handleSetActive(model)}
-                  className={`relative aspect-square border overflow-hidden ${
+                  className={`relative aspect-square min-h-20 overflow-hidden border ${
                     model.isActive
                       ? 'border-foreground ring-1 ring-foreground'
                       : 'border-border hover:border-foreground'
@@ -86,7 +86,7 @@ export function BrandFacePanel() {
           <button
             type="button"
             onClick={() => setActiveView('brand-face')}
-            className="w-full border border-border px-2 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+            className="w-full min-h-10 border border-border px-2 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
           >
             {t('workspace.brandFace.viewAll')} &rarr;
           </button>
