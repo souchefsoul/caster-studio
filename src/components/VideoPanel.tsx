@@ -93,38 +93,57 @@ export function VideoPanel() {
       {/* Source image */}
       <div className="flex flex-col gap-1.5">
         <p className="text-xs font-medium">{t('workspace.video.sourceImage')}</p>
-        <ImageUpload
-          value={videoSourceImage}
-          onChange={setVideoSourceImage}
-        />
+        <div data-video-source-upload>
+          <ImageUpload
+            value={videoSourceImage}
+            onChange={setVideoSourceImage}
+          />
+        </div>
+        {completedGenerations.length > 0 && (
+          <div className="grid grid-cols-2 gap-1">
+            <Button
+              type="button"
+              variant="outline"
+              size="xs"
+              onClick={() => {
+                const hiddenInput = document.querySelector<HTMLInputElement>(
+                  '[data-video-source-upload] input[type="file"]'
+                )
+                hiddenInput?.click()
+              }}
+              className="rounded-none min-h-10"
+            >
+              {t('workspace.video.uploadFromDevice')}
+            </Button>
+            <Button
+              type="button"
+              variant={showGallery ? 'default' : 'outline'}
+              size="xs"
+              onClick={() => setShowGallery(!showGallery)}
+              className="rounded-none min-h-10"
+            >
+              {t('workspace.video.pickFromGallery')}
+            </Button>
+          </div>
+        )}
       </div>
 
-      {/* Select from gallery */}
-      {completedGenerations.length > 0 && (
-        <div className="flex flex-col gap-1.5">
-          <button
-            onClick={() => setShowGallery(!showGallery)}
-            className="text-xs text-left text-muted-foreground hover:text-foreground underline"
-          >
-            {t('workspace.video.selectFromGallery')}
-          </button>
-          {showGallery && (
-            <div className="grid grid-cols-4 gap-1 max-h-40 overflow-y-auto">
-              {completedGenerations.map((gen) => (
-                <img
-                  key={gen.id}
-                  src={gen.thumbnailUrl ?? gen.imageUrl!}
-                  alt={gen.prompt}
-                  onClick={() => handleSelectFromGallery(gen.imageUrl!)}
-                  className={`aspect-square w-full cursor-pointer object-cover border ${
-                    videoSourceImage === gen.imageUrl
-                      ? 'border-primary'
-                      : 'border-border hover:border-primary'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+      {/* Gallery picker (expanded state) */}
+      {showGallery && completedGenerations.length > 0 && (
+        <div className="grid grid-cols-3 gap-1 md:grid-cols-4 max-h-60 overflow-y-auto">
+          {completedGenerations.map((gen) => (
+            <img
+              key={gen.id}
+              src={gen.thumbnailUrl ?? gen.imageUrl!}
+              alt={gen.prompt}
+              onClick={() => handleSelectFromGallery(gen.imageUrl!)}
+              className={`aspect-square w-full cursor-pointer object-cover border ${
+                videoSourceImage === gen.imageUrl
+                  ? 'border-primary'
+                  : 'border-border hover:border-primary'
+              }`}
+            />
+          ))}
         </div>
       )}
 
@@ -154,7 +173,7 @@ export function VideoPanel() {
               variant={duration === d ? 'default' : 'outline'}
               size="xs"
               onClick={() => setDuration(d)}
-              className="flex-1 rounded-none"
+              className="flex-1 rounded-none min-h-10"
             >
               {d}s
             </Button>
@@ -172,7 +191,7 @@ export function VideoPanel() {
               variant={aspectRatio === ratio ? 'default' : 'outline'}
               size="xs"
               onClick={() => setAspectRatio(ratio)}
-              className="flex-1 rounded-none"
+              className="flex-1 rounded-none min-h-10"
             >
               {ratio}
             </Button>
@@ -181,7 +200,7 @@ export function VideoPanel() {
       </div>
 
       {/* Audio toggle */}
-      <label className="flex items-center gap-2 cursor-pointer">
+      <label className="flex items-center gap-2 cursor-pointer min-h-10">
         <input
           type="checkbox"
           checked={generateAudio}
