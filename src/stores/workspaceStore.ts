@@ -34,6 +34,11 @@ interface WorkspaceState {
   setSidebarOpen: (open: boolean) => void
   toggleSidebar: () => void
 
+  // Gallery overlay (mobile primary-flip — Phase 5.1)
+  galleryOpen: boolean
+  setGalleryOpen: (open: boolean) => void
+  toggleGallery: () => void
+
   // Active view (workspace / brand-face / collections)
   activeView: ActiveView
   setActiveView: (view: ActiveView) => void
@@ -122,6 +127,10 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     sidebarOpen: getInitialSidebarOpen(),
     setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
     toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
+
+    galleryOpen: false,
+    setGalleryOpen: (galleryOpen) => set({ galleryOpen }),
+    toggleGallery: () => set((s) => ({ galleryOpen: !s.galleryOpen })),
 
     activeView: 'workspace',
     setActiveView: (activeView) => set({ activeView }),
