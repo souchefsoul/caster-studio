@@ -152,7 +152,15 @@ Plans:
   4. User runs a Design Copy generation on a phone: uploads a reference image and edits the modifications textarea without any input zoom or layout break
   5. User runs a Video generation on a phone: picks a source image (upload or gallery), edits the prompt, sets duration/aspect/audio, and the generated video plays in-panel
   6. User opens the Brand Face panel on a phone, sees the active face preview, and can switch or clear it without layout break
-**Plans:** TBD
+**Plans:** 6 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Phase 6 foundation: i18n keys (OnModel/Catalog/Video) + ImageUpload accept=image/* + On-Model panel (3-col 80px grid, tap-sized Front/Back)
+- [ ] 06-02-PLAN.md — Catalog panel: angle grid 3→4 at md + localized labels + 40px tap targets
+- [ ] 06-03-PLAN.md — Colorway panel: wrap-grid chips + 16px input font + 40px add/remove tap targets
+- [ ] 06-04-PLAN.md — Design Copy panel: textarea auto-grow (field-sizing-content) + 16px font + 3-row minimum
+- [ ] 06-05-PLAN.md — Video panel: two-button source picker + 3-col gallery + auto-grow prompt + inline aspect-constrained player (playsInline+muted)
+- [ ] 06-06-PLAN.md — Brand Face panel: 2-col wrap grid on mobile / 4-col lg+ + 40px tap targets on collapse/View All
 
 ### Phase 7: Auxiliary Views & Touch Ergonomics
 **Goal**: Brand Face management and auth views work on phones, and input/tap ergonomics are correct across the whole app (no iOS zoom, 40px tap targets, native file pickers)
@@ -188,6 +196,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 6 → 7 �
 | 4. Responsive Shell | v1.1 | 3/3 | Complete | 2026-04-19 |
 | 5. Mobile Canvas | v1.1 | 2/2 | Complete | 2026-04-19 |
 | 5.1. Mobile Layout Flip (INSERTED) | v1.1 | 2/2 | Complete | 2026-04-19 |
-| 6. Mode Panels on Mobile | v1.1 | 0/TBD | Not started | - |
+| 6. Mode Panels on Mobile | v1.1 | 0/6 | Not started | - |
 | 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
 | 8. Real-Device Verification | v1.1 | 0/TBD | Not started | - |
