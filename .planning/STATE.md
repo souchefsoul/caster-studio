@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: in_progress
-stopped_at: Completed 06-01 (shared-foundation) plan — On-Model reflow + image/* accept + Phase 6 i18n keys staged; ready for Wave 2 (Plans 06-02..06-06)
-last_updated: "2026-04-19T14:01:36Z"
+stopped_at: Completed 06-02 (catalog) plan — 3->4 col angle grid + full localization + 40px tap-target floor; Wave 2 continues with 06-03..06-06
+last_updated: "2026-04-19T14:07:06Z"
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 13
-  completed_plans: 8
-  percent: 62
-  bar: "[██████░░░░] 62%"
+  completed_plans: 9
+  percent: 69
+  bar: "[███████░░░] 69%"
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 06 (mode-panels-on-mobile) — EXECUTING
-Plan: 2 of 6
+Plan: 3 of 6
 
 ## Milestone Progress
 
@@ -91,10 +91,12 @@ Recent decisions affecting current work:
 - [Phase 06-01]: 80x80 mobile slot floor via `aspect-square min-h-20 min-w-20` combo — min-h/w-20 is an explicit floor that becomes a no-op on desktop where aspect-square already exceeds 80px; avoids responsive media query
 - [Phase 06-01]: File input `accept="image/*"` over mime-subset whitelist — lets native OS sheet expose camera+library+files and unblocks iOS HEIC users; no `capture` attribute added (Phase 7 TOUCH-03 owns capture hints)
 - [Phase 06-01]: Tap-size retrofit for shadcn xs buttons — add `min-h-10` alongside `size="xs"` to get 40px mobile tap target without introducing a new button variant; xs density preserved on desktop where vertical constraint doesn't bite
+- [Phase 06-02]: Responsive grid step at md: grid-cols-3 gap-1 md:grid-cols-4 reflows Catalog angles 3-col mobile to 4-col md+; desktop (lg+) byte-preserved because grid-cols-4 already applied at lg
+- [Phase 06-02]: labelKey indirection on module-scope arrays: store i18n key strings in AVAILABLE_ANGLES then resolve via t(angle.labelKey) at render, keeps array static while enabling runtime locale switching
 
 ### Pending Todos
 
-- Execute Plans 06-02..06-06 (Wave 2 can run in parallel — zero tr.ts/en.ts contention)
+- Execute Plans 06-03..06-06 (Wave 2 can run in parallel — zero tr.ts/en.ts contention; 06-02 catalog complete)
 
 ### Blockers/Concerns
 
@@ -102,6 +104,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T14:01:36Z
-Stopped at: Completed 06-01 (shared-foundation) plan — On-Model reflow + image/* accept + Phase 6 i18n keys staged; ready for Wave 2 (Plans 06-02..06-06)
+Last session: 2026-04-19T14:07:06Z
+Stopped at: Completed 06-02 (catalog) plan — 3->4 col angle grid + full localization + 40px tap-target floor; Wave 2 continues with 06-03..06-06
 Resume file: None
