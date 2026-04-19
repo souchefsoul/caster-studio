@@ -1,4 +1,4 @@
-# Requirements: Caster Studio — Milestone v1.1 Mobile-Usable Site
+# Requirements: Texora Studio — Milestone v1.1 Mobile-Usable Site
 
 **Defined:** 2026-04-19
 **Core Value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
@@ -55,7 +55,7 @@ Deferred to future releases. Tracked but not in this roadmap.
 
 ### Mobile Enhancements
 
-- **PWA-01**: Web App Manifest + install prompt so users can add Caster Studio to their Home Screen.
+- **PWA-01**: Web App Manifest + install prompt so users can add Texora Studio to their Home Screen.
 - **PWA-02**: Service worker caching the app shell for faster repeat loads and basic offline viewing of past generations.
 - **MOBILE-01**: Swipe gestures in the canvas grid to open single view, swipe left/right to navigate between generations.
 - **MOBILE-02**: Pull-to-refresh on the canvas to re-sync generation history.

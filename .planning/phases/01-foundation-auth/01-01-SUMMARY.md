@@ -85,7 +85,7 @@ Each task was committed atomically:
 - `tsconfig.json` - Root TypeScript config with path alias
 - `tsconfig.app.json` - App-scoped TypeScript config with bundler mode and path alias
 - `tsconfig.node.json` - Node-scoped TypeScript config for vite.config.ts
-- `index.html` - Entry HTML with Caster Studio title
+- `index.html` - Entry HTML with Texora Studio title
 - `src/main.tsx` - React entry point with StrictMode
 - `src/App.tsx` - Minimal app shell with Tailwind utility classes
 - `src/index.css` - Tailwind v4 imports with shadcn theme variables

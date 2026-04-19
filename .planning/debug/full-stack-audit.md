@@ -1,6 +1,6 @@
 ---
 status: awaiting_human_verify
-trigger: "Full-stack audit of caster.studio: FAL AI integration, Supabase, generation modes, Canvas rendering, persistence. Active bugs: num_images=2 produces 1 image, 401 errors (worked around), video generation reliability, silent failures."
+trigger: "Full-stack audit of texora.studio: FAL AI integration, Supabase, generation modes, Canvas rendering, persistence. Active bugs: num_images=2 produces 1 image, 401 errors (worked around), video generation reliability, silent failures."
 created: 2026-04-17T00:00:00Z
 updated: 2026-04-17T00:20:00Z
 ---

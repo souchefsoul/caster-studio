@@ -1,4 +1,4 @@
-# Caster Studio
+# Texora Studio
 
 ## What This Is
 
@@ -78,7 +78,7 @@ Textile companies can generate professional product imagery and product videos f
 - The old product had 11 features across fashion/general e-com — this rebuild focuses exclusively on textile companies
 - Old product used a credit-based subscription model (iyzico) — new model handles billing externally
 - The old UI was generic and clunky — the new design should feel like a professional creative tool (clean, dark, purposeful)
-- Brand name: Caster Studio (domain: caster.studio)
+- Brand name: Texora Studio (domain: texora.studio)
 - No existing code to carry over — greenfield build
 
 ## Constraints

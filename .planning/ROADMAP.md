@@ -1,4 +1,4 @@
-# Roadmap: Caster Studio
+# Roadmap: Texora Studio
 
 ## Milestones
 
@@ -7,7 +7,7 @@
 
 ## Overview
 
-Caster Studio is a professional AI image and video generation workspace for textile companies. v1.0 delivered the desktop product: auth, unified sidebar+canvas workspace, and all five generation modes (On-Model, Catalog, Colorway, Design Copy, Video) with history and brand-face persistence. **v1.1** takes that same product onto phones — responsive shell, mobile-tuned canvas, touch-friendly mode panels, auxiliary views and input ergonomics, and real-device verification on iOS Safari + Android Chrome. The Windows 95 flat aesthetic stays; only the layout responds.
+Texora Studio is a professional AI image and video generation workspace for textile companies. v1.0 delivered the desktop product: auth, unified sidebar+canvas workspace, and all five generation modes (On-Model, Catalog, Colorway, Design Copy, Video) with history and brand-face persistence. **v1.1** takes that same product onto phones — responsive shell, mobile-tuned canvas, touch-friendly mode panels, auxiliary views and input ergonomics, and real-device verification on iOS Safari + Android Chrome. The Windows 95 flat aesthetic stays; only the layout responds.
 
 ## Phases
 
