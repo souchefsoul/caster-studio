@@ -65,7 +65,7 @@ export function BrandFaceView() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t('workspace.brandFace.namePlaceholder')}
-                className="border border-border bg-background px-2 py-1 text-sm outline-none focus:border-foreground rounded-none"
+                className="w-full rounded-none border border-border bg-background px-2 py-1 text-base min-h-10 outline-none focus:border-foreground"
               />
               <ImageUpload
                 value={faceImage}
