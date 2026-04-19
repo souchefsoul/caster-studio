@@ -16,7 +16,7 @@ export function ImageUpload({
   value,
   onChange,
   label,
-  accept = 'image/jpeg,image/png,image/webp',
+  accept = 'image/*',
 }: ImageUploadProps) {
   const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
