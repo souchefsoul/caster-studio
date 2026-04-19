@@ -138,7 +138,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 05.1-01-PLAN.md — Add galleryOpen store slice + flip Sidebar from mobile-drawer to in-flow primary column
+- [x] 05.1-01-PLAN.md — Add galleryOpen store slice + flip Sidebar from mobile-drawer to in-flow primary column
 - [ ] 05.1-02-PLAN.md — Mobile top bar with Gallery trigger + full-screen gallery overlay + Canvas close button (human-verify)
 
 ### Phase 6: Mode Panels on Mobile

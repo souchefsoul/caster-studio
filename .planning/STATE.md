@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 05-02-PLAN.md (mobile canvas single-view fill + iOS inline video — Phase 05 complete)
-last_updated: "2026-04-19T01:15:23.228Z"
+stopped_at: Completed 05.1-01-PLAN.md (galleryOpen slice + Sidebar mobile-primary flip)
+last_updated: "2026-04-19T12:32:28.434Z"
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 2
-  total_plans: 5
-  completed_plans: 5
+  total_plans: 7
+  completed_plans: 6
 ---
 
 # Project State
@@ -19,13 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
-**Current focus:** Phase 05 — mobile-canvas
+**Current focus:** Phase 05.1 — mobile-layout-flip
 
 ## Current Position
 
-Phase: 05 (mobile-canvas) — COMPLETE
-Plan: 2 of 2 (all plans complete)
-Next: Phase 06 (mode-panels)
+Phase: 05.1 (mobile-layout-flip) — EXECUTING
+Plan: 2 of 2
 
 ## Milestone Progress
 
@@ -79,6 +78,9 @@ Recent decisions affecting current work:
 - [Phase 05-01]: Verify-only tasks with grep-based acceptance criteria codify prior-phase invariants (CANVAS-01 columns, CANVAS-03 toolbar) into current plan's regression gates without re-implementing
 - [Phase 05-02]: Conditional responsive padding on a shared wrapper via template-literal className + view-mode guard (`${mode === 'single' ? 'p-0 lg:p-4' : 'p-4'}`) — keeps two responsive behaviors in one wrapper without branching JSX
 - [Phase 05-02]: iOS inline-video contract — every `<video autoPlay>` on mobile must carry both `playsInline` (prevents forced fullscreen) AND `muted` (satisfies audio-autoplay policy); mandatory pair, not optional
+- [Phase 05.1]: Phase 05.1-01: new galleryOpen slice chosen over inverting sidebarOpen — cleaner Plan 02 consumer
+- [Phase 05.1]: Phase 05.1-01: Sidebar mobile drop drawer pattern entirely (Option A) — <aside> collapses to static className relative w-full ... lg:w-[32rem]
+- [Phase 05.1]: Phase 05.1-01: sidebarOpen slice preserved byte-for-byte in workspaceStore; Plan 02 will retire WorkspaceLayout backdrop incrementally
 
 ### Pending Todos
 
@@ -90,6 +92,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T01:15:50Z
-Stopped at: Completed 05-02-PLAN.md (mobile canvas single-view fill + iOS inline video — Phase 05 complete)
+Last session: 2026-04-19T12:32:28.430Z
+Stopped at: Completed 05.1-01-PLAN.md (galleryOpen slice + Sidebar mobile-primary flip)
 Resume file: None
