@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Sidebar } from '@/components/Sidebar'
 import { Canvas } from '@/components/Canvas'
 import { BrandFaceView } from '@/components/BrandFaceView'
@@ -9,6 +10,17 @@ export function WorkspaceLayout() {
   const sidebarOpen = useWorkspaceStore((s) => s.sidebarOpen)
   const setSidebarOpen = useWorkspaceStore((s) => s.setSidebarOpen)
   const activeView = useWorkspaceStore((s) => s.activeView)
+  const currentMode = useWorkspaceStore((s) => s.currentMode)
+
+  useEffect(() => {
+    // Below lg, navigation (mode switch or view switch) should return the user to the canvas.
+    // On lg+ the sidebar is always visible as a fixed column, so this is a no-op.
+    if (typeof window === 'undefined') return
+    const isDesktop = window.matchMedia('(min-width: 1024px)').matches
+    if (isDesktop) return
+    setSidebarOpen(false)
+  }, [currentMode, activeView, setSidebarOpen])
+
   const { loading } = useGenerations()
   const { t } = useTranslation()
 
