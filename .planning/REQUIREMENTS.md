@@ -18,10 +18,10 @@ Requirements for the Mobile-Usable Site milestone. Each maps to a roadmap phase.
 ### Canvas (Gallery / Single View)
 
 - [x] **CANVAS-01**: Grid view shows 2 columns below the `sm` breakpoint, 3 columns at `md`, 4 at `lg+` so thumbnails stay legible on phones.
-- [ ] **CANVAS-02**: Single view fills the mobile viewport without a letterbox gap; image/video uses the full width minus a thin border.
+- [x] **CANVAS-02**: Single view fills the mobile viewport without a letterbox gap; image/video uses the full width minus a thin border.
 - [x] **CANVAS-03**: Canvas toolbar (view toggle, generation count, download, delete, create-video, hamburger) reflows cleanly on a 360px-wide screen — no overlapping or cut-off controls.
 - [x] **CANVAS-04**: Grid item hover-only overlay (delete / create video / download) has an equivalent that works on touch — buttons are visible on tap or always shown on mobile.
-- [ ] **CANVAS-05**: Video generations play inline on mobile with controls, no forced fullscreen autoplay that breaks iOS audio policy.
+- [x] **CANVAS-05**: Video generations play inline on mobile with controls, no forced fullscreen autoplay that breaks iOS audio policy.
 
 ### Mode Panels (Feature Parity)
 
@@ -88,10 +88,10 @@ Which phases cover which requirements. Populated by roadmapper; confirmed by ROA
 | LAYOUT-04 | Phase 4 | Complete |
 | LAYOUT-05 | Phase 4 | Complete |
 | CANVAS-01 | Phase 5 | Complete |
-| CANVAS-02 | Phase 5 | Pending |
+| CANVAS-02 | Phase 5 | Complete |
 | CANVAS-03 | Phase 5 | Complete |
 | CANVAS-04 | Phase 5 | Complete |
-| CANVAS-05 | Phase 5 | Pending |
+| CANVAS-05 | Phase 5 | Complete |
 | MODES-01 | Phase 6 | Pending |
 | MODES-02 | Phase 6 | Pending |
 | MODES-03 | Phase 6 | Pending |

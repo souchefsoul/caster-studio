@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 05-01-PLAN.md (mobile canvas grid overlay touch-reachable + CANVAS-01/CANVAS-03 regression lock)
-last_updated: "2026-04-19T01:10:30Z"
+stopped_at: Completed 05-02-PLAN.md (mobile canvas single-view fill + iOS inline video — Phase 05 complete)
+last_updated: "2026-04-19T01:15:23.228Z"
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 5
-  completed_plans: 4
+  completed_plans: 5
 ---
 
 # Project State
@@ -23,13 +23,14 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 
 ## Current Position
 
-Phase: 05 (mobile-canvas) — EXECUTING
-Plan: 2 of 2
+Phase: 05 (mobile-canvas) — COMPLETE
+Plan: 2 of 2 (all plans complete)
+Next: Phase 06 (mode-panels)
 
 ## Milestone Progress
 
 - v1.0 MVP: Phases 1-3 — **Complete** (shipped 2026-04-18)
-- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (1/5 phases complete)
+- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (2/5 phases complete)
 
 ## Accumulated Context
 
@@ -76,10 +77,12 @@ Recent decisions affecting current work:
 - [Phase 04-03]: Canvas toolbar uses pt-[max(0.5rem,env(safe-area-inset-top))] to preserve py-2 floor on non-notch devices and gap-2 + min-w-0 on flex-wrap parent to prevent intrinsic-size horizontal overflow at 360px
 - [Phase 05-01]: Hover-to-touch migration pattern — flip `opacity-0 group-hover:opacity-100` to `opacity-100 lg:opacity-0 lg:group-hover:opacity-100`; preferred mobile-first approach for any hover-gated UI that must remain reachable on touch without losing desktop hover-reveal
 - [Phase 05-01]: Verify-only tasks with grep-based acceptance criteria codify prior-phase invariants (CANVAS-01 columns, CANVAS-03 toolbar) into current plan's regression gates without re-implementing
+- [Phase 05-02]: Conditional responsive padding on a shared wrapper via template-literal className + view-mode guard (`${mode === 'single' ? 'p-0 lg:p-4' : 'p-4'}`) — keeps two responsive behaviors in one wrapper without branching JSX
+- [Phase 05-02]: iOS inline-video contract — every `<video autoPlay>` on mobile must carry both `playsInline` (prevents forced fullscreen) AND `muted` (satisfies audio-autoplay policy); mandatory pair, not optional
 
 ### Pending Todos
 
-- Execute Plan 05-02 (mobile-canvas — CANVAS-02 single-view fill + CANVAS-05 inline video playback)
+- Plan Phase 06 (mode-panels)
 
 ### Blockers/Concerns
 
@@ -87,6 +90,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T01:10:30Z
-Stopped at: Completed 05-01-PLAN.md (mobile canvas grid overlay touch-reachable + CANVAS-01/CANVAS-03 regression lock)
+Last session: 2026-04-19T01:15:50Z
+Stopped at: Completed 05-02-PLAN.md (mobile canvas single-view fill + iOS inline video — Phase 05 complete)
 Resume file: None
