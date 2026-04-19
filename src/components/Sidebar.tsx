@@ -55,6 +55,7 @@ export function Sidebar() {
           {t('workspace.sidebar.navigation')}
         </p>
         <nav className="flex flex-col gap-1">
+          {/* TOUCH-02 audit: text-base confirmed on mode select — iOS option-label render stays 16px. */}
           <select
             value={activeView === 'workspace' ? currentMode : ''}
             onChange={(e) => setCurrentMode(e.target.value as GenerationMode)}
