@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 06-06-PLAN.md — Phase 06 complete; all MODES-01..MODES-06 requirements satisfied; ready for Phase 07 (auxiliary views + touch ergonomics)
-last_updated: "2026-04-19T14:31:55.090Z"
+stopped_at: Completed 07-01-PLAN.md — global tap-target & font-size audit; TOUCH-01/02 satisfied across chrome/canvas/controls; ready for Wave 2 (07-02, 07-04, 07-05)
+last_updated: "2026-04-19T14:57:08.422Z"
 progress:
   total_phases: 6
   completed_phases: 4
-  total_plans: 13
-  completed_plans: 13
+  total_plans: 18
+  completed_plans: 14
 ---
 
 # Project State
@@ -19,13 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
-**Current focus:** Phase 06 — mode-panels-on-mobile
+**Current focus:** Phase 07 — auxiliary-views-touch-ergonomics
 
 ## Current Position
 
-Phase: 06 (mode-panels-on-mobile) — COMPLETE
-Plan: 6 of 6 (all plans complete)
-Next: Phase 07 (auxiliary-views-and-touch-ergonomics)
+Phase: 07 (auxiliary-views-touch-ergonomics) — EXECUTING
+Plan: 2 of 5
 
 ## Milestone Progress
 
@@ -105,10 +104,14 @@ Recent decisions affecting current work:
 - [Phase 06-06]: Brand Face mobile grid: grid-cols-2 mobile / lg:grid-cols-4 desktop — CONTEXT-locked 2-col decision preserves the 'Aktif' caption overlay legibility at 360px by yielding ~160px tiles instead of ~80px
 - [Phase 06-06]: 80px pixel floor via min-h-20 on aspect-square tiles — protects parmak-dostu target when sidebar narrows below 360px; no-op at lg+ where aspect-square already exceeds 80px in a 32rem sidebar
 - [Phase 06-06]: min-h-10 retrofit on collapse toggle + View All — adds 40px tap floor without new button variant, matches Phase 06-01 xs-button retrofit precedent
+- [Phase 07]: Phase 07-01: min-h-10 retrofit pattern — append (not replace) — preserves existing layout utilities (flex-1, w-full, rounded-none) while lifting mobile tap floor; icon-only buttons get min-h-10 min-w-10 together so icon stays size-4 and hit-area grows via container
+- [Phase 07]: Phase 07-01: Bare <button> h-7 -> min-h-10 swap (replace, not append) because h-7 and min-h-10 would conflict on the same element; applied to Canvas toolbarBtn const and clear-failed bare button
+- [Phase 07]: Phase 07-01: Grid-item hover-reveal overlay (text-[11px] inside lg:opacity-0 lg:group-hover:opacity-100 bar) intentionally NOT lifted — Phase 5 touch-overlay pattern treats the entire overlay bar as the hit area; TOUCH-01 decorative-icon exemption applies
+- [Phase 07]: Phase 07-01: Shared Shadcn Button and Input components remain unmodified — only call-site className lifts applied. Preserves xs/sm/icon-sm density on desktop and avoids rippling changes into ungoverned call-sites
 
 ### Pending Todos
 
-- Kick off Phase 07 (auxiliary views + touch ergonomics) — plan discuss/plan commands
+- Execute Phase 07 Wave 2 plans (07-02 PromptPanel, 07-03 ImageUpload accept audit, 07-04 BrandFaceView reflow, 07-05 AuthPage reflow)
 - Optional: lint-cleanup plan for the 3 pre-existing lint errors tracked in `.planning/phases/06-mode-panels-on-mobile/deferred-items.md`
 
 ### Blockers/Concerns
@@ -117,6 +120,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T14:26:34.014Z
-Stopped at: Completed 06-06-PLAN.md — Phase 06 complete; all MODES-01..MODES-06 requirements satisfied; ready for Phase 07 (auxiliary views + touch ergonomics)
+Last session: 2026-04-19T14:56:57.575Z
+Stopped at: Completed 07-01-PLAN.md — global tap-target & font-size audit; TOUCH-01/02 satisfied across chrome/canvas/controls; ready for Wave 2 (07-02, 07-04, 07-05)
 Resume file: None
