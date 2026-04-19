@@ -28,3 +28,6 @@ npm-debug.log*
 supabase/.temp/
 
 .vercel
+
+# Claude Code workspace
+.claude/
