@@ -54,7 +54,7 @@ export function OnModelPanel() {
         </p>
 
         <p className="text-xs text-muted-foreground">
-          Yalnızca çıktı fotoğrafta görülmesi istenilen tarafı yükleyin.
+          {t('workspace.onModel.hint')}
         </p>
 
         <div
@@ -63,7 +63,7 @@ export function OnModelPanel() {
           className="grid grid-cols-3 gap-2"
         >
           {productImages.map((url, i) => (
-            <div key={i} className="relative aspect-square border border-border bg-muted/50">
+            <div key={i} className="relative aspect-square min-h-20 min-w-20 border border-border bg-muted/50">
               <img src={url} alt={`Ref ${i + 1}`} className="h-full w-full object-cover" />
               <button
                 onClick={() => removeProductImage(i)}
@@ -77,7 +77,7 @@ export function OnModelPanel() {
           {productImages.length < MAX_IMAGES && (
             <button
               onClick={() => inputRef.current?.click()}
-              className="flex aspect-square flex-col items-center justify-center gap-1 border border-dashed border-border bg-muted/50 hover:border-primary"
+              className="flex aspect-square min-h-20 min-w-20 flex-col items-center justify-center gap-1 border border-dashed border-border bg-muted/50 hover:border-primary"
             >
               <Upload className="size-4 text-muted-foreground" />
               <span className="text-[10px] text-muted-foreground">
@@ -90,7 +90,7 @@ export function OnModelPanel() {
         <input
           ref={inputRef}
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/*"
           multiple
           onChange={handleChange}
           className="hidden"
@@ -100,23 +100,23 @@ export function OnModelPanel() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <p className="text-xs font-medium">Modeli hangi taraftan görelim?</p>
+        <p className="text-xs font-medium">{t('workspace.onModel.viewQuestion')}</p>
         <div className="grid grid-cols-2 gap-1">
           <Button
             variant={onModelView === 'front' ? 'default' : 'outline'}
             size="xs"
             onClick={() => setOnModelView('front')}
-            className="rounded-none"
+            className="rounded-none min-h-10"
           >
-            Önden
+            {t('workspace.onModel.viewFront')}
           </Button>
           <Button
             variant={onModelView === 'back' ? 'default' : 'outline'}
             size="xs"
             onClick={() => setOnModelView('back')}
-            className="rounded-none"
+            className="rounded-none min-h-10"
           >
-            Arkadan
+            {t('workspace.onModel.viewBack')}
           </Button>
         </div>
       </div>
