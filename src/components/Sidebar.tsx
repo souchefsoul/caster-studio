@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import { LogOut, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
@@ -30,7 +29,6 @@ const VIEW_TABS: { key: ActiveView; labelKey: string; icon: typeof User }[] = [
 ]
 
 export function Sidebar() {
-  const sidebarOpen = useWorkspaceStore((s) => s.sidebarOpen)
   const currentMode = useWorkspaceStore((s) => s.currentMode)
   const setCurrentMode = useWorkspaceStore((s) => s.setCurrentMode)
   const activeView = useWorkspaceStore((s) => s.activeView)
@@ -38,29 +36,13 @@ export function Sidebar() {
   const { user } = useAuth()
   const { t } = useTranslation()
 
-  const prevSidebarOpen = useRef(sidebarOpen)
-  useEffect(() => {
-    const wasOpen = prevSidebarOpen.current
-    prevSidebarOpen.current = sidebarOpen
-    // Only return focus on the open → closed transition, and only when a hamburger exists (below lg).
-    if (wasOpen && !sidebarOpen) {
-      const hamburger = document.querySelector<HTMLButtonElement>('[data-sidebar-trigger="true"]')
-      if (hamburger) hamburger.focus()
-    }
-  }, [sidebarOpen])
-
   const handleSignOut = async () => {
     await signOut()
   }
 
   return (
     <aside
-      className={`
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        fixed inset-y-0 left-0 z-40 w-[85vw] max-w-[360px] border-r border-border bg-background
-        flex flex-col
-        lg:static lg:translate-x-0 lg:w-[32rem] lg:max-w-none
-      `}
+      className="relative w-full border-r border-border bg-background flex flex-col lg:w-[32rem]"
     >
       {/* Header */}
       <div className="border-b border-border px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
