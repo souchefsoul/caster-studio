@@ -11,7 +11,7 @@ Requirements for the Mobile-Usable Site milestone. Each maps to a roadmap phase.
 
 - [x] **LAYOUT-01**: Viewport meta tag configured (`width=device-width, initial-scale=1, viewport-fit=cover`) so mobile browsers render the app at the correct scale.
 - [x] **LAYOUT-02**: Sidebar becomes a full-height overlay drawer below the `lg` breakpoint, opened via a hamburger in the canvas toolbar; remains a fixed column on `lg` and up.
-- [ ] **LAYOUT-03**: Sidebar drawer closes automatically after navigation (changing mode, opening Brand Face view) on mobile so the user returns to the canvas without an extra tap.
+- [x] **LAYOUT-03**: Sidebar drawer closes automatically after navigation (changing mode, opening Brand Face view) on mobile so the user returns to the canvas without an extra tap.
 - [x] **LAYOUT-04**: No part of the app causes horizontal scroll on any screen ≥ 320px wide (including prompt textareas, toolbars, grids, video playback).
 - [x] **LAYOUT-05**: Safe-area insets respected on iOS notch/home-indicator devices (sidebar, toolbar, account section don't clip under system UI).
 
@@ -84,7 +84,7 @@ Which phases cover which requirements. Populated by roadmapper; confirmed by ROA
 |-------------|-------|--------|
 | LAYOUT-01 | Phase 4 | Complete |
 | LAYOUT-02 | Phase 4 | Complete |
-| LAYOUT-03 | Phase 4 | Pending |
+| LAYOUT-03 | Phase 4 | Complete |
 | LAYOUT-04 | Phase 4 | Complete |
 | LAYOUT-05 | Phase 4 | Complete |
 | CANVAS-01 | Phase 5 | Pending |

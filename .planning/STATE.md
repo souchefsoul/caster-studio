@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 04-02-PLAN.md (sidebar drawer mechanics + safe-area insets)
-last_updated: "2026-04-19T00:33:29.685Z"
+stopped_at: Completed 04-03-PLAN.md (auto-close drawer + canvas hamburger identity + toolbar safe-area); Phase 04 complete
+last_updated: "2026-04-19T00:38:20.680Z"
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
 ---
 
 # Project State
@@ -23,13 +23,14 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 
 ## Current Position
 
-Phase: 04 (responsive-shell) — EXECUTING
-Plan: 3 of 3
+Phase: 04 (responsive-shell) — COMPLETE
+Plan: 3 of 3 (all complete)
+Next: Phase 05 (mobile-canvas)
 
 ## Milestone Progress
 
 - v1.0 MVP: Phases 1-3 — **Complete** (shipped 2026-04-18)
-- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (0/5 phases complete)
+- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (1/5 phases complete)
 
 ## Accumulated Context
 
@@ -71,10 +72,13 @@ Recent decisions affecting current work:
 - [Phase 04-02]: Safe-area insets use max(0.75rem, env(...)) so existing py-3 padding remains floor on non-notch devices
 - [Phase 04-02]: Initial sidebarOpen computed via matchMedia('(min-width: 1024px)') — static, no resize listener; Tailwind's lg:static handles visual breakpoint switch
 - [Phase 04-02]: Focus-return on drawer close uses document.querySelector('[data-sidebar-trigger=true]') — DOM-level handoff instead of ref threading through WorkspaceLayout; attribute added by plan 04-03
+- [Phase 04-03]: Auto-close sidebar drawer via single useEffect in WorkspaceLayout watching [currentMode, activeView, setSidebarOpen]; matchMedia('(min-width: 1024px)') guard makes it a no-op on desktop
+- [Phase 04-03]: Canvas hamburger carries data-sidebar-trigger='true' + aria-label='Toggle sidebar'; closes 04-02 focus-return contract end-to-end and adds a11y for icon-only button
+- [Phase 04-03]: Canvas toolbar uses pt-[max(0.5rem,env(safe-area-inset-top))] to preserve py-2 floor on non-notch devices and gap-2 + min-w-0 on flex-wrap parent to prevent intrinsic-size horizontal overflow at 360px
 
 ### Pending Todos
 
-- Execute Plan 04-03 (canvas toolbar flex-wrap, min-w-0, data-sidebar-trigger attribute)
+- Plan Phase 05 (mobile-canvas — grid/single-view reflow)
 
 ### Blockers/Concerns
 
@@ -82,6 +86,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T00:33:29.682Z
-Stopped at: Completed 04-02-PLAN.md (sidebar drawer mechanics + safe-area insets)
-Resume file: .planning/phases/04-responsive-shell/04-03-PLAN.md
+Last session: 2026-04-19T00:38:20.677Z
+Stopped at: Completed 04-03-PLAN.md (auto-close drawer + canvas hamburger identity + toolbar safe-area); Phase 04 complete
+Resume file: None

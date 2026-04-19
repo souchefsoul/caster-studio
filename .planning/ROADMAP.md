@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation & Auth** - Supabase backend, authentication, database schema, FAL proxy, and i18n system *(v1.0)*
 - [x] **Phase 2: Workspace & First Generation** - Unified sidebar+canvas workspace with prompt controls and On-Model generation *(v1.0)*
 - [x] **Phase 3: Full Generation Suite & Organization** - Remaining generation modes (Catalog, Colorway, Design Copy, Video) plus Brand Face and history *(v1.0)*
-- [ ] **Phase 4: Responsive Shell** - Viewport meta, drawer sidebar, safe-area insets, zero horizontal scroll *(v1.1)*
+- [x] **Phase 4: Responsive Shell** - Viewport meta, drawer sidebar, safe-area insets, zero horizontal scroll *(v1.1)*
 - [ ] **Phase 5: Mobile Canvas** - Grid + single-view reflow, touch-equivalent overlay controls, inline mobile video playback *(v1.1)*
 - [ ] **Phase 6: Mode Panels on Mobile** - All five generation modes + Brand Face panel fully operable on a phone *(v1.1)*
 - [ ] **Phase 7: Auxiliary Views & Touch Ergonomics** - Brand Face management + auth views reflow; 40px tap targets, 16px inputs, sane file pickers *(v1.1)*
@@ -104,9 +104,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Viewport meta (viewport-fit=cover) + global overflow-x hygiene
-- [ ] 04-02-PLAN.md — Responsive sidebar drawer (width, safe-area insets, focus-return, responsive default)
-- [ ] 04-03-PLAN.md — Auto-close drawer on navigation + canvas toolbar safe-area & flex-wrap hardening
+- [x] 04-01-PLAN.md — Viewport meta (viewport-fit=cover) + global overflow-x hygiene
+- [x] 04-02-PLAN.md — Responsive sidebar drawer (width, safe-area insets, focus-return, responsive default)
+- [x] 04-03-PLAN.md — Auto-close drawer on navigation + canvas toolbar safe-area & flex-wrap hardening
 
 ### Phase 5: Mobile Canvas
 **Goal**: The canvas — grid and single view — reflows cleanly on phones, and every canvas-level action is reachable by touch
@@ -164,7 +164,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 1. Foundation & Auth | v1.0 | 3/3 | Complete | 2026-04-16 |
 | 2. Workspace & First Generation | v1.0 | 3/3 | Complete | 2026-04-16 |
 | 3. Full Generation Suite & Organization | v1.0 | 6/6 | Complete | 2026-04-18 |
-| 4. Responsive Shell | v1.1 | 2/3 | In Progress | - |
+| 4. Responsive Shell | v1.1 | 3/3 | Complete | 2026-04-19 |
 | 5. Mobile Canvas | v1.1 | 0/TBD | Not started | - |
 | 6. Mode Panels on Mobile | v1.1 | 0/TBD | Not started | - |
 | 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
