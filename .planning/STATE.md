@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
-status: in_progress
-stopped_at: Completed 06-05 (video) plan — two-button source picker + 3-col mobile gallery grid + auto-grow 16px prompt + inline aspect-constrained video player with preserved CANVAS-05 iOS contract; Wave 2 ends with 06-06 brand face
-last_updated: "2026-04-19T14:22:03.716Z"
+status: phase_complete
+stopped_at: Completed 06-06-PLAN.md — Phase 06 complete; all MODES-01..MODES-06 requirements satisfied; ready for Phase 07 (auxiliary views + touch ergonomics)
+last_updated: "2026-04-19T14:26:44.797Z"
 progress:
   total_phases: 6
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 13
-  completed_plans: 12
+  completed_plans: 13
 ---
 
 # Project State
@@ -23,13 +23,14 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 
 ## Current Position
 
-Phase: 06 (mode-panels-on-mobile) — EXECUTING
-Plan: 6 of 6
+Phase: 06 (mode-panels-on-mobile) — COMPLETE
+Plan: 6 of 6 (all plans complete)
+Next: Phase 07 (auxiliary-views-and-touch-ergonomics)
 
 ## Milestone Progress
 
 - v1.0 MVP: Phases 1-3 — **Complete** (shipped 2026-04-18)
-- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (2/5 phases complete)
+- v1.1 Mobile-Usable Site: Phases 4-8 — **In progress** (3/5 phases complete)
 
 ## Accumulated Context
 
@@ -101,10 +102,14 @@ Recent decisions affecting current work:
 - [Phase 06-05]: Inline <video> element in sidebar preserves CANVAS-05 iOS contract — playsInline + muted both present; no autoPlay (sidebar is not a playback surface; user-initiated controls play is the intended interaction)
 - [Phase 06-05]: CSS aspect-ratio inline style from stored generation params — style={{ aspectRatio: params.aspectRatio.replace(':', ' / ') }} prevents layout shift on video load; key={generation.id} forces remount on new generation so src updates play from the start
 - [Phase 06-05]: Phase 6 textarea triple-guard (field-sizing-content + min-h-[5rem] + rows={3}) now applied uniformly to DesignCopy (06-04) AND Video (06-05) prompts — pattern stable for Phase 7 TOUCH-02 global rollout
+- [Phase 06-06]: Brand Face mobile grid: grid-cols-2 mobile / lg:grid-cols-4 desktop — CONTEXT-locked 2-col decision preserves the 'Aktif' caption overlay legibility at 360px by yielding ~160px tiles instead of ~80px
+- [Phase 06-06]: 80px pixel floor via min-h-20 on aspect-square tiles — protects parmak-dostu target when sidebar narrows below 360px; no-op at lg+ where aspect-square already exceeds 80px in a 32rem sidebar
+- [Phase 06-06]: min-h-10 retrofit on collapse toggle + View All — adds 40px tap floor without new button variant, matches Phase 06-01 xs-button retrofit precedent
 
 ### Pending Todos
 
-- Execute Plan 06-06 (Brand Face panel mobile reflow — last Wave 2 plan, last plan in Phase 06)
+- Kick off Phase 07 (auxiliary views + touch ergonomics) — plan discuss/plan commands
+- Optional: lint-cleanup plan for the 3 pre-existing lint errors tracked in `.planning/phases/06-mode-panels-on-mobile/deferred-items.md`
 
 ### Blockers/Concerns
 
@@ -112,6 +117,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T14:20:30Z
-Stopped at: Completed 06-05 (video) plan — two-button source picker + 3-col mobile gallery grid + auto-grow 16px prompt + inline aspect-constrained video player with preserved CANVAS-05 iOS contract; Wave 2 ends with 06-06 brand face
+Last session: 2026-04-19T14:26:34.014Z
+Stopped at: Completed 06-06-PLAN.md — Phase 06 complete; all MODES-01..MODES-06 requirements satisfied; ready for Phase 07 (auxiliary views + touch ergonomics)
 Resume file: None

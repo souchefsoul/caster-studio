@@ -160,7 +160,7 @@ Plans:
 - [x] 06-03-PLAN.md — Colorway panel: wrap-grid chips + 16px input font + 40px add/remove tap targets
 - [x] 06-04-PLAN.md — Design Copy panel: textarea auto-grow (field-sizing-content) + 16px font + 3-row minimum
 - [x] 06-05-PLAN.md — Video panel: two-button source picker + 3-col gallery + auto-grow prompt + inline aspect-constrained player (playsInline+muted)
-- [ ] 06-06-PLAN.md — Brand Face panel: 2-col wrap grid on mobile / 4-col lg+ + 40px tap targets on collapse/View All
+- [x] 06-06-PLAN.md — Brand Face panel: 2-col wrap grid on mobile / 4-col lg+ + 40px tap targets on collapse/View All
 
 ### Phase 7: Auxiliary Views & Touch Ergonomics
 **Goal**: Brand Face management and auth views work on phones, and input/tap ergonomics are correct across the whole app (no iOS zoom, 40px tap targets, native file pickers)
@@ -196,6 +196,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 6 → 7 �
 | 4. Responsive Shell | v1.1 | 3/3 | Complete | 2026-04-19 |
 | 5. Mobile Canvas | v1.1 | 2/2 | Complete | 2026-04-19 |
 | 5.1. Mobile Layout Flip (INSERTED) | v1.1 | 2/2 | Complete | 2026-04-19 |
-| 6. Mode Panels on Mobile | v1.1 | 3/6 | In Progress | - |
+| 6. Mode Panels on Mobile | v1.1 | 6/6 | Complete | 2026-04-19 |
 | 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
 | 8. Real-Device Verification | v1.1 | 0/TBD | Not started | - |
