@@ -172,7 +172,14 @@ Plans:
   3. Every primary interactive control across the app (buttons, toggles, inputs, thumbnails) meets a 40×40px minimum tap target
   4. Every file-upload input opens the native camera/library picker on iOS and Android (via `accept="image/*"` and appropriate `capture` hints)
   5. Typing a long prompt grows the textarea vertically; adjacent buttons wrap to a new row instead of overflowing or truncating
-**Plans:** TBD
+**Plans:** 5 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Tap-target + font-size audit and sweep across global chrome, canvas, controls (TOUCH-01, TOUCH-02)
+- [ ] 07-02-PLAN.md — Shared PromptPanel textarea auto-grow via field-sizing-content + 16px floor (TOUCH-04)
+- [ ] 07-03-PLAN.md — File-input accept=image/* audit + no-capture regression lock (TOUCH-03)
+- [ ] 07-04-PLAN.md — BrandFaceView mobile reflow: 1-col grid + 40px tap controls + 16px name input (AUX-01)
+- [ ] 07-05-PLAN.md — AuthPage mobile reflow: 16px inputs + 40px submit + 667px-fit (AUX-02)
 
 ### Phase 8: Real-Device Verification
 **Goal**: The milestone is declared shippable only after every mode runs successfully on real iOS Safari + Android Chrome and a visual QA pass is documented across the three reference phone viewports
