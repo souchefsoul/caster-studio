@@ -21,7 +21,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Workspace & First Generation** - Unified sidebar+canvas workspace with prompt controls and On-Model generation *(v1.0)*
 - [x] **Phase 3: Full Generation Suite & Organization** - Remaining generation modes (Catalog, Colorway, Design Copy, Video) plus Brand Face and history *(v1.0)*
 - [x] **Phase 4: Responsive Shell** - Viewport meta, drawer sidebar, safe-area insets, zero horizontal scroll *(v1.1)*
-- [ ] **Phase 5: Mobile Canvas** - Grid + single-view reflow, touch-equivalent overlay controls, inline mobile video playback *(v1.1)*
+- [x] **Phase 5: Mobile Canvas** - Grid + single-view reflow, touch-equivalent overlay controls, inline mobile video playback *(v1.1, 2026-04-19)*
+- [ ] **Phase 5.1: Mobile Layout Flip (INSERTED)** - On mobile, generator becomes primary; canvas hidden behind Gallery button *(v1.1)*
 - [ ] **Phase 6: Mode Panels on Mobile** - All five generation modes + Brand Face panel fully operable on a phone *(v1.1)*
 - [ ] **Phase 7: Auxiliary Views & Touch Ergonomics** - Brand Face management + auth views reflow; 40px tap targets, 16px inputs, sane file pickers *(v1.1)*
 - [ ] **Phase 8: Real-Device Verification** - End-to-end runs on real iOS Safari + Android Chrome; visual QA across phone viewports *(v1.1)*
@@ -122,7 +123,19 @@ Plans:
 
 Plans:
 - [x] 05-01-PLAN.md — Grid touch overlay (mobile always-visible, desktop hover-gated) + CANVAS-01/03 regression lock
-- [ ] 05-02-PLAN.md — Single-view mobile fill (p-0 lg:p-4) + iOS inline video (playsInline + muted)
+- [x] 05-02-PLAN.md — Single-view mobile fill (p-0 lg:p-4) + iOS inline video (playsInline + muted)
+
+### Phase 5.1: Mobile Layout Flip — Generator Primary + Gallery Button *(INSERTED 2026-04-19)*
+**Goal**: On phones, the generator (mode panels + prompt + controls + brand face) is the primary view by default. The canvas (grid + single view built in Phase 5) is hidden behind a Gallery button in the top bar and opens as a full-screen overlay. Desktop (`lg+`) is unchanged.
+**Depends on**: Phase 5
+**Requirements**: (new, see `.planning/phases/05.1-mobile-layout-flip/05.1-CONTEXT.md`)
+**Success Criteria** (what must be TRUE):
+  1. At <`lg`: the generator UI (current sidebar content — nav, mode panels, prompt, controls, brand face, account) renders inline as the primary full-width view; no drawer/backdrop needed on initial load
+  2. A "Gallery" button sits in the top bar (replacing the hamburger role on mobile); tapping it opens the canvas (grid + single view from Phase 5) as a full-screen overlay
+  3. The gallery overlay has an explicit close/back affordance that returns focus to the generator view
+  4. At `lg+`: layout is unchanged (sidebar + canvas side-by-side); zero desktop regression
+  5. Phase 5 grid + single-view + iOS video work is reused inside the gallery overlay (not rebuilt)
+**Plans:** TBD
 
 ### Phase 6: Mode Panels on Mobile
 **Goal**: All five generation modes plus the Brand Face panel are fully operable on a phone with no feature cuts
@@ -161,7 +174,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 6 → 7 → 8
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -169,7 +182,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 2. Workspace & First Generation | v1.0 | 3/3 | Complete | 2026-04-16 |
 | 3. Full Generation Suite & Organization | v1.0 | 6/6 | Complete | 2026-04-18 |
 | 4. Responsive Shell | v1.1 | 3/3 | Complete | 2026-04-19 |
-| 5. Mobile Canvas | v1.1 | 1/2 | In Progress | - |
+| 5. Mobile Canvas | v1.1 | 2/2 | Complete | 2026-04-19 |
+| 5.1. Mobile Layout Flip (INSERTED) | v1.1 | 0/TBD | Not started | - |
 | 6. Mode Panels on Mobile | v1.1 | 0/TBD | Not started | - |
 | 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
 | 8. Real-Device Verification | v1.1 | 0/TBD | Not started | - |
