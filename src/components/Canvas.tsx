@@ -121,7 +121,11 @@ export function Canvas() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
+      <div
+        className={`flex-1 overflow-y-auto scrollbar-thin ${
+          canvasViewMode === 'single' ? 'p-0 lg:p-4' : 'p-4'
+        }`}
+      >
         {generations.length === 0 ? (
           <div className="flex h-full items-center justify-center">
             <p className="max-w-sm text-center text-sm text-muted-foreground">
