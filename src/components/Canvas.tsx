@@ -43,8 +43,8 @@ export function Canvas() {
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       {/* Toolbar */}
-      <div className="flex items-center justify-between border-b border-border px-4 py-2">
-        <div className="flex items-center gap-1 flex-wrap">
+      <div className="flex items-center justify-between gap-2 border-b border-border px-4 py-2 pt-[max(0.5rem,env(safe-area-inset-top))]">
+        <div className="flex min-w-0 items-center gap-1 flex-wrap">
           <Button
             variant={canvasViewMode === 'grid' ? 'secondary' : 'ghost'}
             size="icon-sm"
@@ -64,7 +64,7 @@ export function Canvas() {
             <Maximize2 className="size-4" />
           </Button>
           {generations.length > 0 && (
-            <span className="ml-2 text-xs text-muted-foreground">
+            <span className="ml-2 min-w-0 truncate text-xs text-muted-foreground">
               {generations.length} {t('workspace.canvas.generationCount')}
             </span>
           )}
@@ -112,6 +112,8 @@ export function Canvas() {
           variant="ghost"
           size="icon-sm"
           onClick={toggleSidebar}
+          data-sidebar-trigger="true"
+          aria-label="Toggle sidebar"
           className="rounded-none lg:hidden"
         >
           <Menu className="size-4" />
