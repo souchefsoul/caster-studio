@@ -14,7 +14,7 @@ export function ThemeToggle() {
       size="sm"
       onClick={toggleTheme}
       title={t('workspace.theme.toggle')}
-      className="rounded-none"
+      className="rounded-none min-h-10 min-w-10"
     >
       {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
     </Button>

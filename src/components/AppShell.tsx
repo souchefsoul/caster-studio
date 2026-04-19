@@ -19,7 +19,7 @@ export function AppShell() {
         <div className="flex items-center gap-4">
           <span className="text-sm text-muted-foreground">{user?.email}</span>
           <LanguageSwitcher />
-          <Button variant="outline" size="sm" onClick={handleSignOut}>
+          <Button variant="outline" size="sm" onClick={handleSignOut} className="min-h-10">
             {t('common.signOut')}
           </Button>
         </div>

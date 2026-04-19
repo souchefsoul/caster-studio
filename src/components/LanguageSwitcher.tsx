@@ -9,6 +9,7 @@ export function LanguageSwitcher() {
       variant="ghost"
       size="sm"
       onClick={() => setLocale(locale === 'tr' ? 'en' : 'tr')}
+      className="min-h-10"
     >
       {locale === 'tr' ? 'EN' : 'TR'}
     </Button>

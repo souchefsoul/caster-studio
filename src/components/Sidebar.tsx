@@ -76,7 +76,7 @@ export function Sidebar() {
               size="default"
               onClick={() => setActiveView(tab.key)}
               className={`
-                justify-start rounded-none text-left text-base gap-2
+                justify-start rounded-none text-left text-base gap-2 min-h-10
                 ${activeView === tab.key ? 'bg-accent text-accent-foreground' : ''}
               `}
             >
@@ -163,7 +163,7 @@ export function Sidebar() {
             size="sm"
             onClick={handleSignOut}
             title={t('common.signOut')}
-            className="rounded-none"
+            className="rounded-none min-h-10 min-w-10"
           >
             <LogOut className="size-4" />
           </Button>
