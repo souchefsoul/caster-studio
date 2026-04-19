@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
-status: unknown
-stopped_at: Paused at Task 4 checkpoint (human-verify) in 05.1-02 — Tasks 1-3 complete, build green, awaiting visual + focus-return verification
-last_updated: "2026-04-19T12:37:10.773Z"
+status: ready_for_verification
+stopped_at: Completed 05.1-02 (gallery-overlay-and-topbar) plan — all Phase 05.1 plans done, phase verification pending
+last_updated: "2026-04-19T13:31:58.988Z"
 progress:
   total_phases: 6
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # Project State
@@ -23,8 +23,8 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 
 ## Current Position
 
-Phase: 05.1 (mobile-layout-flip) — EXECUTING
-Plan: 2 of 2
+Phase: 05.1 (mobile-layout-flip) — ALL PLANS COMPLETE, awaiting phase verification
+Plan: 2 of 2 (complete)
 
 ## Milestone Progress
 
@@ -81,6 +81,10 @@ Recent decisions affecting current work:
 - [Phase 05.1]: Phase 05.1-01: new galleryOpen slice chosen over inverting sidebarOpen — cleaner Plan 02 consumer
 - [Phase 05.1]: Phase 05.1-01: Sidebar mobile drop drawer pattern entirely (Option A) — <aside> collapses to static className relative w-full ... lg:w-[32rem]
 - [Phase 05.1]: Phase 05.1-01: sidebarOpen slice preserved byte-for-byte in workspaceStore; Plan 02 will retire WorkspaceLayout backdrop incrementally
+- [Phase 05.1]: Phase 05.1-02: User approved mobile layout flip — generator-primary first paint, Gallery overlay works, focus returns to Gallery trigger on close, desktop unchanged
+- [Phase 05.1]: Phase 05.1-02: Gallery overlay + focus-return pattern — queueMicrotask + document.querySelector('[data-gallery-trigger]') chosen over React refs; runs after React commits overlay unmount, eliminates setTimeout(0) paint flash
+- [Phase 05.1]: Phase 05.1-02: Mobile layout composed via flex-col lg:flex-row root + sharp gates (lg:hidden on mobile-only elements, hidden lg:flex on desktop-only canvas column) — two directions never mixed, zero desktop regression
+- [Phase 05.1]: Phase 05.1-02: Gallery close button reused the retired Canvas hamburger slot — Canvas toolbar already has safe-area inset + flex-wrap + lg:hidden from Phase 5, so no new overlay header was needed
 
 ### Pending Todos
 
@@ -92,6 +96,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T12:37:10.770Z
-Stopped at: Paused at Task 4 checkpoint (human-verify) in 05.1-02 — Tasks 1-3 complete, build green, awaiting visual + focus-return verification
+Last session: 2026-04-19T13:31:48.318Z
+Stopped at: Completed 05.1-02 (gallery-overlay-and-topbar) plan — Phase 05.1 plans done, orchestrator will run phase verification next
 Resume file: None
