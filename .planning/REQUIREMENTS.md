@@ -1,107 +1,117 @@
-# Requirements: Caster Studio
+# Requirements: Caster Studio — Milestone v1.1 Mobile-Usable Site
 
-**Defined:** 2026-04-16
-**Core Value:** Textile companies can generate professional product imagery from a single, clean workspace without needing photographers or studios.
+**Defined:** 2026-04-19
+**Core Value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
 
-## v1 Requirements
+## v1.1 Requirements
 
-### Authentication
+Requirements for the Mobile-Usable Site milestone. Each maps to a roadmap phase. All requirements target real mobile browsers (iOS Safari, Android Chrome), keeping the Windows 95 flat aesthetic.
 
-- [x] **AUTH-01**: User can create account with email and password
-- [x] **AUTH-02**: User session persists across browser refresh
+### Layout (Responsive Shell)
 
-### Workspace
+- [ ] **LAYOUT-01**: Viewport meta tag configured (`width=device-width, initial-scale=1, viewport-fit=cover`) so mobile browsers render the app at the correct scale.
+- [ ] **LAYOUT-02**: Sidebar becomes a full-height overlay drawer below the `lg` breakpoint, opened via a hamburger in the canvas toolbar; remains a fixed column on `lg` and up.
+- [ ] **LAYOUT-03**: Sidebar drawer closes automatically after navigation (changing mode, opening Brand Face view) on mobile so the user returns to the canvas without an extra tap.
+- [ ] **LAYOUT-04**: No part of the app causes horizontal scroll on any screen ≥ 320px wide (including prompt textareas, toolbars, grids, video playback).
+- [ ] **LAYOUT-05**: Safe-area insets respected on iOS notch/home-indicator devices (sidebar, toolbar, account section don't clip under system UI).
 
-- [x] **WORK-01**: Left sidebar with navigation, prompt input, generation controls, and account info
-- [x] **WORK-02**: Canvas area with toggle between full-screen single image and grid view
-- [x] **WORK-03**: Dark/light theme toggle
-- [x] **WORK-04**: Responsive layout (desktop, tablet, mobile)
+### Canvas (Gallery / Single View)
 
-### Generation
+- [ ] **CANVAS-01**: Grid view shows 2 columns below the `sm` breakpoint, 3 columns at `md`, 4 at `lg+` so thumbnails stay legible on phones.
+- [ ] **CANVAS-02**: Single view fills the mobile viewport without a letterbox gap; image/video uses the full width minus a thin border.
+- [ ] **CANVAS-03**: Canvas toolbar (view toggle, generation count, download, delete, create-video, hamburger) reflows cleanly on a 360px-wide screen — no overlapping or cut-off controls.
+- [ ] **CANVAS-04**: Grid item hover-only overlay (delete / create video / download) has an equivalent that works on touch — buttons are visible on tap or always shown on mobile.
+- [ ] **CANVAS-05**: Video generations play inline on mobile with controls, no forced fullscreen autoplay that breaks iOS audio policy.
 
-- [x] **GEN-01**: On-Model Generation — upload flat/mannequin product, generate or select AI model, place on model in scene (includes built-in AI model generator)
-- [x] **GEN-02**: Catalog Mode — generate consistent multi-angle product shots
-- [x] **GEN-03**: Colorway Generator — show same garment in multiple color variations
-- [ ] **GEN-04**: Design Language Copier — copy visual style of a given product, change text and make small modifications
-- [x] **GEN-05**: Full prompt controls (model, steps, guidance, seed, aspect ratio, quality)
+### Mode Panels (Feature Parity)
 
-### Brand & Organization
+- [ ] **MODES-01**: On-Model panel fully usable on mobile — multi-image grid uploads via file picker, each slot ≥ 80px, front/back view toggle tappable.
+- [ ] **MODES-02**: Catalog panel fully usable on mobile — product image uploads, 4-column angle grid reflows to 3 on small screens, generates correctly.
+- [ ] **MODES-03**: Colorway panel fully usable on mobile — color input, add/remove colors, generation count picker tappable.
+- [ ] **MODES-04**: Design Copy panel fully usable on mobile — reference image upload and modifications textarea usable without zoom.
+- [ ] **MODES-05**: Video panel fully usable on mobile — source image (upload or gallery-picker), prompt textarea, duration/aspect/audio controls tappable, generated video plays in-panel.
+- [ ] **MODES-06**: Brand Face panel usable on mobile — active face preview visible, switch/clear buttons tappable, opens the Brand Face management view without layout break.
 
-- [x] **BRAND-01**: Brand Face — create and save persistent AI model face for brand consistency
-- [x] **BRAND-02**: History timeline of all generations (chronological)
-- [x] **BRAND-03**: Collections — organize generations into named groups (season, line, etc.)
-- [x] **BRAND-04**: Download generated images in full resolution
+### Auxiliary Views
 
-### Infrastructure
+- [ ] **AUX-01**: Brand Face management view (BrandFaceView) reflows to a single column grid on mobile with tap-sized add/delete/set-active controls.
+- [ ] **AUX-02**: Auth page (Sign In / Sign Up) renders within the viewport with inputs ≥ 16px font-size (no iOS auto-zoom) and the submit button reachable without scroll on a 667px-tall screen.
 
-- [x] **INFRA-01**: FAL AI proxy via Supabase Edge Functions (no client-side API keys)
-- [x] **INFRA-02**: Supabase Auth integration
-- [x] **INFRA-03**: Supabase database for users, generations, collections, brand models
-- [x] **INFRA-04**: i18n system with Turkish (default) and English
+### Touch & Input Ergonomics
 
-## v2 Requirements
+- [ ] **TOUCH-01**: All primary interactive controls (buttons, toggles, inputs, thumbnails) have a minimum 40×40px tap target; decorative icons may be smaller only when paired with a larger hit area.
+- [ ] **TOUCH-02**: Text inputs and textareas use `font-size: 16px` (or larger) so iOS Safari does not auto-zoom the viewport on focus.
+- [ ] **TOUCH-03**: File upload inputs request `accept="image/*"` (and appropriate `capture` hints where useful) so the OS offers camera/library pickers natively.
+- [ ] **TOUCH-04**: Long prompts don't break layout — textarea grows vertically; buttons next to it wrap to a new row rather than overflowing.
 
-### Generation
+### Verification
 
-- **GEN-06**: Pattern Lab — generate textile patterns from text prompts
-- **GEN-07**: Fabric Visualizer — apply pattern to garment mockup (3D drape preview)
+- [ ] **VERIFY-01**: Every v1.0 generation mode has been end-to-end run on a real mobile browser (iOS Safari and Android Chrome) with a successful image/video saved to history and survived a page refresh.
+- [ ] **VERIFY-02**: Visual QA pass documented: no horizontal scroll, no clipped content, no unreadable text, no broken tap targets across 360×640, 390×844, 414×896 viewport sizes.
 
-### Export
+## v1.2+ Requirements
 
-- **EXP-01**: Lookbook Export — arrange generated images into presentation-ready PDF/deck
-- **EXP-02**: Scene Builder — customizable backgrounds with textile-specific presets
+Deferred to future releases. Tracked but not in this roadmap.
 
-### Batch
+### Mobile Enhancements
 
-- **BATCH-01**: Batch Generation — multi-product generation with style templates
+- **PWA-01**: Web App Manifest + install prompt so users can add Caster Studio to their Home Screen.
+- **PWA-02**: Service worker caching the app shell for faster repeat loads and basic offline viewing of past generations.
+- **MOBILE-01**: Swipe gestures in the canvas grid to open single view, swipe left/right to navigate between generations.
+- **MOBILE-02**: Pull-to-refresh on the canvas to re-sync generation history.
+
+### Native
+
+- **NATIVE-01**: Capacitor packaging for iOS and Android App Store distribution.
+- **NATIVE-02**: Native share sheet integration for downloading/sharing generated videos.
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Video generation | High complexity, not core to textile imagery |
-| AI prompt assistant (Mr. Prompt) | Users have full controls, learn prompting |
-| Campaign/banner generation | Not core to textile workflow |
-| Reference image / image-to-image | Text-to-image only for v1 simplicity |
-| Team/company workspaces | Individual accounts only |
-| OAuth (Google, Apple) | Email/password sufficient for B2B clients |
-| Framer Motion animations | Keep tool fast and professional |
-| Stripe metered billing (BILL-01) | Removed from v1 scope per user decision |
-| Usage dashboard (BILL-02) | Removed from v1 scope per user decision |
-| Invoice history (BILL-03) | Removed from v1 scope per user decision |
-| Admin billing view (BILL-04) | Removed from v1 scope per user decision |
+| Mobile-first visual redesign | Scope creep — v1.1 keeps existing Windows 95 aesthetic and only makes it responsive. |
+| Native wrappers (Capacitor, iOS/Android apps) | Web-first for v1.1; native is v2+. |
+| PWA installability + service worker | Deferred to v1.2 so v1.1 ships faster. Meta tags will be prepared. |
+| Touch gesture navigation (swipe between generations) | Nice-to-have; tap-based nav sufficient for v1.1. |
+| Tablet-specific UI tuning | Tailwind `md` breakpoint covers tablets acceptably; dedicated tuning later. |
+| Pattern Lab on mobile | Feature itself is out of scope for the product (see PROJECT.md). |
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
+Which phases cover which requirements. Populated by roadmapper.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Complete |
-| AUTH-02 | Phase 1 | Complete |
-| WORK-01 | Phase 2 | Complete |
-| WORK-02 | Phase 2 | Complete |
-| WORK-03 | Phase 2 | Complete |
-| WORK-04 | Phase 2 | Complete |
-| GEN-01 | Phase 2 | Complete |
-| GEN-02 | Phase 3 | Complete |
-| GEN-03 | Phase 3 | Complete |
-| GEN-04 | Phase 3 | Pending |
-| GEN-05 | Phase 2 | Complete |
-| BRAND-01 | Phase 3 | Complete |
-| BRAND-02 | Phase 3 | Complete |
-| BRAND-03 | Phase 3 | Complete |
-| BRAND-04 | Phase 3 | Complete |
-| INFRA-01 | Phase 1 | Complete |
-| INFRA-02 | Phase 1 | Complete |
-| INFRA-03 | Phase 1 | Complete |
-| INFRA-04 | Phase 1 | Complete |
+| LAYOUT-01 | Phase 4 | Pending |
+| LAYOUT-02 | Phase 4 | Pending |
+| LAYOUT-03 | Phase 4 | Pending |
+| LAYOUT-04 | Phase 4 | Pending |
+| LAYOUT-05 | Phase 4 | Pending |
+| CANVAS-01 | Phase 5 | Pending |
+| CANVAS-02 | Phase 5 | Pending |
+| CANVAS-03 | Phase 5 | Pending |
+| CANVAS-04 | Phase 5 | Pending |
+| CANVAS-05 | Phase 5 | Pending |
+| MODES-01 | Phase 6 | Pending |
+| MODES-02 | Phase 6 | Pending |
+| MODES-03 | Phase 6 | Pending |
+| MODES-04 | Phase 6 | Pending |
+| MODES-05 | Phase 6 | Pending |
+| MODES-06 | Phase 6 | Pending |
+| AUX-01 | Phase 7 | Pending |
+| AUX-02 | Phase 7 | Pending |
+| TOUCH-01 | Phase 7 | Pending |
+| TOUCH-02 | Phase 7 | Pending |
+| TOUCH-03 | Phase 7 | Pending |
+| TOUCH-04 | Phase 7 | Pending |
+| VERIFY-01 | Phase 8 | Pending |
+| VERIFY-02 | Phase 8 | Pending |
 
 **Coverage:**
-- v1 requirements: 19 total
-- Mapped to phases: 19
-- Unmapped: 0
+- v1.1 requirements: 24 total
+- Mapped to phases: 24
+- Unmapped: 0 ✓
 
 ---
-*Requirements defined: 2026-04-16*
-*Last updated: 2026-04-16 after roadmap revision (billing removed)*
+*Requirements defined: 2026-04-19*
+*Last updated: 2026-04-19 after initial definition*
