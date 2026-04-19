@@ -47,7 +47,7 @@ export function BrandFaceView() {
           variant="outline"
           size="sm"
           onClick={() => setShowCreate(true)}
-          className="rounded-none gap-1"
+          className="rounded-none gap-1 min-h-10"
         >
           <Plus className="size-3" />
           {t('workspace.brandFace.add')}
@@ -78,7 +78,7 @@ export function BrandFaceView() {
                   size="sm"
                   onClick={handleSave}
                   disabled={!name.trim() || !faceImage || saving}
-                  className="flex-1 rounded-none text-xs"
+                  className="flex-1 rounded-none text-xs min-h-10"
                 >
                   {t('workspace.brandFace.save')}
                 </Button>
@@ -86,7 +86,7 @@ export function BrandFaceView() {
                   variant="ghost"
                   size="sm"
                   onClick={() => { setShowCreate(false); setName(''); setFaceImage(null) }}
-                  className="flex-1 rounded-none text-xs"
+                  className="flex-1 rounded-none text-xs min-h-10"
                 >
                   {t('workspace.brandFace.cancel')}
                 </Button>
@@ -134,7 +134,7 @@ export function BrandFaceView() {
                     <button
                       type="button"
                       onClick={() => handleSetActive(model)}
-                      className={`border px-1.5 py-0.5 text-[10px] ${
+                      className={`min-h-10 border px-1.5 py-0.5 text-[10px] ${
                         model.isActive
                           ? 'border-foreground bg-foreground text-background'
                           : 'border-border hover:border-foreground'
@@ -145,7 +145,7 @@ export function BrandFaceView() {
                     <button
                       type="button"
                       onClick={() => handleRemove(model)}
-                      className="border border-border p-0.5 text-muted-foreground hover:border-destructive hover:text-destructive"
+                      className="flex min-h-10 min-w-10 items-center justify-center border border-border text-muted-foreground hover:border-destructive hover:text-destructive"
                     >
                       <X className="size-3" />
                     </button>
