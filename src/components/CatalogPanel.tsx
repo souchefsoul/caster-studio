@@ -4,12 +4,12 @@ import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
 
 const AVAILABLE_ANGLES = [
-  { key: 'front', label: 'Önden' },
-  { key: 'back', label: 'Arkadan' },
-  { key: 'side-left', label: 'Sol Yan' },
-  { key: 'side-right', label: 'Sağ Yan' },
-  { key: '3/4-front', label: '3/4 Ön' },
-  { key: '3/4-back', label: '3/4 Arka' },
+  { key: 'front', labelKey: 'workspace.catalog.angleFront' },
+  { key: 'back', labelKey: 'workspace.catalog.angleBack' },
+  { key: 'side-left', labelKey: 'workspace.catalog.angleSideLeft' },
+  { key: 'side-right', labelKey: 'workspace.catalog.angleSideRight' },
+  { key: '3/4-front', labelKey: 'workspace.catalog.angle34Front' },
+  { key: '3/4-back', labelKey: 'workspace.catalog.angle34Back' },
 ] as const
 
 export function CatalogPanel() {
@@ -48,22 +48,22 @@ export function CatalogPanel() {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <p className="text-xs font-medium">Açılar</p>
-        <div className="grid grid-cols-4 gap-1">
+        <p className="text-xs font-medium">{t('workspace.catalog.anglesLabel')}</p>
+        <div className="grid grid-cols-3 gap-1 md:grid-cols-4">
           {AVAILABLE_ANGLES.map((angle) => (
             <Button
               key={angle.key}
               variant={catalogAngles.includes(angle.key) ? 'default' : 'outline'}
               size="xs"
               onClick={() => toggleAngle(angle.key)}
-              className="rounded-none"
+              className="rounded-none min-h-10"
             >
-              {angle.label}
+              {t(angle.labelKey)}
             </Button>
           ))}
         </div>
         <p className="text-xs text-muted-foreground">
-          Her seçilen açı için bir görsel üretilir.
+          {t('workspace.catalog.hintGenerated')}
         </p>
       </div>
     </div>
