@@ -121,7 +121,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Grid touch overlay (mobile always-visible, desktop hover-gated) + CANVAS-01/03 regression lock
+- [x] 05-01-PLAN.md — Grid touch overlay (mobile always-visible, desktop hover-gated) + CANVAS-01/03 regression lock
 - [ ] 05-02-PLAN.md — Single-view mobile fill (p-0 lg:p-4) + iOS inline video (playsInline + muted)
 
 ### Phase 6: Mode Panels on Mobile
@@ -169,7 +169,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 2. Workspace & First Generation | v1.0 | 3/3 | Complete | 2026-04-16 |
 | 3. Full Generation Suite & Organization | v1.0 | 6/6 | Complete | 2026-04-18 |
 | 4. Responsive Shell | v1.1 | 3/3 | Complete | 2026-04-19 |
-| 5. Mobile Canvas | v1.1 | 0/2 | Not started | - |
+| 5. Mobile Canvas | v1.1 | 1/2 | In Progress | - |
 | 6. Mode Panels on Mobile | v1.1 | 0/TBD | Not started | - |
 | 7. Auxiliary Views & Touch Ergonomics | v1.1 | 0/TBD | Not started | - |
 | 8. Real-Device Verification | v1.1 | 0/TBD | Not started | - |
