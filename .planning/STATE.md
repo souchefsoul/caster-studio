@@ -2,14 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
-status: unknown
-stopped_at: Completed 05.1-02 (gallery-overlay-and-topbar) plan — Phase 05.1 plans done, orchestrator will run phase verification next
-last_updated: "2026-04-19T13:36:39.088Z"
+status: in_progress
+stopped_at: Completed 06-01 (shared-foundation) plan — On-Model reflow + image/* accept + Phase 6 i18n keys staged; ready for Wave 2 (Plans 06-02..06-06)
+last_updated: "2026-04-19T14:01:36Z"
 progress:
   total_phases: 6
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 13
+  completed_plans: 8
+  percent: 62
+  bar: "[██████░░░░] 62%"
 ---
 
 # Project State
@@ -19,12 +21,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
-**Current focus:** Phase 05.1 — mobile-layout-flip
+**Current focus:** Phase 06 — mode-panels-on-mobile
 
 ## Current Position
 
-Phase: 05.1 (mobile-layout-flip) — ALL PLANS COMPLETE, awaiting phase verification
-Plan: 2 of 2 (complete)
+Phase: 06 (mode-panels-on-mobile) — EXECUTING
+Plan: 2 of 6
 
 ## Milestone Progress
 
@@ -85,10 +87,14 @@ Recent decisions affecting current work:
 - [Phase 05.1]: Phase 05.1-02: Gallery overlay + focus-return pattern — queueMicrotask + document.querySelector('[data-gallery-trigger]') chosen over React refs; runs after React commits overlay unmount, eliminates setTimeout(0) paint flash
 - [Phase 05.1]: Phase 05.1-02: Mobile layout composed via flex-col lg:flex-row root + sharp gates (lg:hidden on mobile-only elements, hidden lg:flex on desktop-only canvas column) — two directions never mixed, zero desktop regression
 - [Phase 05.1]: Phase 05.1-02: Gallery close button reused the retired Canvas hamburger slot — Canvas toolbar already has safe-area inset + flex-wrap + lg:hidden from Phase 5, so no new overlay header was needed
+- [Phase 06-01]: Phase 6 i18n pre-staging — foundation plan lands every downstream key (onModel/catalog/video) in tr.ts+en.ts so Plans 06-02..06-05 touch only their component file and Wave 2 can run in parallel without merge conflicts on translation files
+- [Phase 06-01]: 80x80 mobile slot floor via `aspect-square min-h-20 min-w-20` combo — min-h/w-20 is an explicit floor that becomes a no-op on desktop where aspect-square already exceeds 80px; avoids responsive media query
+- [Phase 06-01]: File input `accept="image/*"` over mime-subset whitelist — lets native OS sheet expose camera+library+files and unblocks iOS HEIC users; no `capture` attribute added (Phase 7 TOUCH-03 owns capture hints)
+- [Phase 06-01]: Tap-size retrofit for shadcn xs buttons — add `min-h-10` alongside `size="xs"` to get 40px mobile tap target without introducing a new button variant; xs density preserved on desktop where vertical constraint doesn't bite
 
 ### Pending Todos
 
-- Plan Phase 06 (mode-panels)
+- Execute Plans 06-02..06-06 (Wave 2 can run in parallel — zero tr.ts/en.ts contention)
 
 ### Blockers/Concerns
 
@@ -96,6 +102,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T13:31:48.318Z
-Stopped at: Completed 05.1-02 (gallery-overlay-and-topbar) plan — Phase 05.1 plans done, orchestrator will run phase verification next
+Last session: 2026-04-19T14:01:36Z
+Stopped at: Completed 06-01 (shared-foundation) plan — On-Model reflow + image/* accept + Phase 6 i18n keys staged; ready for Wave 2 (Plans 06-02..06-06)
 Resume file: None
