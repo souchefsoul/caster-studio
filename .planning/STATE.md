@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Roadmap v1.1 created — ready to plan Phase 4
-last_updated: "2026-04-19T00:29:16.737Z"
+stopped_at: Completed 04-02-PLAN.md (sidebar drawer mechanics + safe-area insets)
+last_updated: "2026-04-19T00:33:29.685Z"
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 04 (responsive-shell) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Milestone Progress
 
@@ -67,11 +67,14 @@ Recent decisions affecting current work:
 - [Phase 04-01]: viewport-fit=cover added to meta viewport — required for iOS env(safe-area-inset-*) to resolve to nonzero values
 - [Phase 04-01]: Global overflow-x: hidden on html+body as safety net for horizontal scroll; component-level fixes in 04-02/04-03 address root causes
 - [Phase 04-01]: Used raw CSS overflow-x: hidden (not @apply) inside @layer base to avoid Tailwind v4 @apply resolution ambiguity
+- [Phase 04-02]: Sidebar drawer width below lg: w-[85vw] max-w-[360px]; restored to w-[32rem] at lg+ with max-w-none
+- [Phase 04-02]: Safe-area insets use max(0.75rem, env(...)) so existing py-3 padding remains floor on non-notch devices
+- [Phase 04-02]: Initial sidebarOpen computed via matchMedia('(min-width: 1024px)') — static, no resize listener; Tailwind's lg:static handles visual breakpoint switch
+- [Phase 04-02]: Focus-return on drawer close uses document.querySelector('[data-sidebar-trigger=true]') — DOM-level handoff instead of ref threading through WorkspaceLayout; attribute added by plan 04-03
 
 ### Pending Todos
 
-- Execute Plan 04-02 (safe-area insets + drawer mechanics)
-- Execute Plan 04-03 (sidebar width, toolbar flex-wrap, min-w-0)
+- Execute Plan 04-03 (canvas toolbar flex-wrap, min-w-0, data-sidebar-trigger attribute)
 
 ### Blockers/Concerns
 
@@ -79,6 +82,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T00:28:40Z
-Stopped at: Completed 04-01-PLAN.md (viewport + overflow foundation)
-Resume file: .planning/phases/04-responsive-shell/04-02-PLAN.md
+Last session: 2026-04-19T00:33:29.682Z
+Stopped at: Completed 04-02-PLAN.md (sidebar drawer mechanics + safe-area insets)
+Resume file: .planning/phases/04-responsive-shell/04-03-PLAN.md
