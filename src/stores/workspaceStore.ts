@@ -18,6 +18,11 @@ function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle('dark', theme === 'dark')
 }
 
+function getInitialSidebarOpen(): boolean {
+  if (typeof window === 'undefined') return true
+  return window.matchMedia('(min-width: 1024px)').matches
+}
+
 interface WorkspaceState {
   // Theme
   theme: Theme
@@ -114,7 +119,7 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
       return { theme: next }
     }),
 
-    sidebarOpen: true,
+    sidebarOpen: getInitialSidebarOpen(),
     setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
     toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
 

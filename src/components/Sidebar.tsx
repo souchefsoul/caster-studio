@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { LogOut, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
@@ -36,6 +37,17 @@ export function Sidebar() {
   const setActiveView = useWorkspaceStore((s) => s.setActiveView)
   const { user } = useAuth()
   const { t } = useTranslation()
+
+  const prevSidebarOpen = useRef(sidebarOpen)
+  useEffect(() => {
+    const wasOpen = prevSidebarOpen.current
+    prevSidebarOpen.current = sidebarOpen
+    // Only return focus on the open → closed transition, and only when a hamburger exists (below lg).
+    if (wasOpen && !sidebarOpen) {
+      const hamburger = document.querySelector<HTMLButtonElement>('[data-sidebar-trigger="true"]')
+      if (hamburger) hamburger.focus()
+    }
+  }, [sidebarOpen])
 
   const handleSignOut = async () => {
     await signOut()
