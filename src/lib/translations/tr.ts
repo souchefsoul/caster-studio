@@ -16,7 +16,7 @@ export const tr = {
   auth: {
     signInTitle: 'Giriş Yap',
     signUpTitle: 'Kayıt Ol',
-    signInDescription: 'Caster Studio\'ya erişim için bilgilerinizi girin.',
+    signInDescription: 'Texora Studio\'ya erişim için bilgilerinizi girin.',
     signUpDescription: 'Başlamak için bir hesap oluşturun.',
     noAccount: 'Hesabınız yok mu?',
     noAccountAction: 'Kayıt olun',
@@ -28,8 +28,8 @@ export const tr = {
     pleaseWait: 'Lütfen bekleyin...',
   },
   app: {
-    title: 'Caster Studio',
-    welcome: 'Caster Studio\'ya hoşgeldiniz. Çalışma alanı Faz 2\'de gelecek.',
+    title: 'Texora Studio',
+    welcome: 'Texora Studio\'ya hoşgeldiniz. Çalışma alanı Faz 2\'de gelecek.',
   },
   workspace: {
     sidebar: {

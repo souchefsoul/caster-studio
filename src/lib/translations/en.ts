@@ -18,7 +18,7 @@ export const en: TranslationKeys = {
   auth: {
     signInTitle: 'Sign In',
     signUpTitle: 'Sign Up',
-    signInDescription: 'Enter your credentials to access Caster Studio.',
+    signInDescription: 'Enter your credentials to access Texora Studio.',
     signUpDescription: 'Create an account to get started.',
     noAccount: "Don't have an account?",
     noAccountAction: 'Sign up',
@@ -30,8 +30,8 @@ export const en: TranslationKeys = {
     pleaseWait: 'Please wait...',
   },
   app: {
-    title: 'Caster Studio',
-    welcome: 'Welcome to Caster Studio. Workspace coming in Phase 2.',
+    title: 'Texora Studio',
+    welcome: 'Welcome to Texora Studio. Workspace coming in Phase 2.',
   },
   workspace: {
     sidebar: {
