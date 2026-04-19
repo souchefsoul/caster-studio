@@ -1,4 +1,4 @@
-import { Grid3x3, Maximize2, Menu, Play } from 'lucide-react'
+import { Grid3x3, Maximize2, Play, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -9,7 +9,7 @@ export function Canvas() {
   const generations = useWorkspaceStore((s) => s.generations)
   const selectedGenerationId = useWorkspaceStore((s) => s.selectedGenerationId)
   const setSelectedGenerationId = useWorkspaceStore((s) => s.setSelectedGenerationId)
-  const toggleSidebar = useWorkspaceStore((s) => s.toggleSidebar)
+  const setGalleryOpen = useWorkspaceStore((s) => s.setGalleryOpen)
   const clearFailedGenerations = useWorkspaceStore((s) => s.clearFailedGenerations)
   const setCurrentMode = useWorkspaceStore((s) => s.setCurrentMode)
   const setVideoSourceImage = useWorkspaceStore((s) => s.setVideoSourceImage)
@@ -107,16 +107,24 @@ export function Canvas() {
           )}
         </div>
 
-        {/* Hamburger - visible below lg */}
+        {/* Close-gallery button — visible below lg only (gallery overlay is mobile-only). */}
         <Button
           variant="ghost"
           size="icon-sm"
-          onClick={toggleSidebar}
-          data-sidebar-trigger="true"
-          aria-label="Toggle sidebar"
-          className="rounded-none lg:hidden"
+          onClick={() => {
+            setGalleryOpen(false)
+            // Focus-return to the Gallery trigger in the mobile top bar after the overlay unmounts.
+            queueMicrotask(() => {
+              const trigger = document.querySelector<HTMLButtonElement>('[data-gallery-trigger="true"]')
+              if (trigger) trigger.focus()
+            })
+          }}
+          data-gallery-close="true"
+          aria-label={t('workspace.topbar.closeGallery')}
+          title={t('workspace.topbar.closeGallery')}
+          className="min-h-10 min-w-10 rounded-none lg:hidden"
         >
-          <Menu className="size-4" />
+          <X className="size-4" />
         </Button>
       </div>
 
