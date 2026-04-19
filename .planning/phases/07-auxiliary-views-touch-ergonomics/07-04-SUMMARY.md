@@ -78,7 +78,7 @@ Each task was committed atomically:
 2. **Task 2: Tap-size sweep on BrandFaceView — Add, Save/Cancel, per-tile set-active, per-tile remove-X** — `7cd5a22d` (feat)
 3. **Task 3: Font + height upgrade on BrandFaceView name input** — `1b44a707` (feat)
 
-**Plan metadata:** pending (docs: complete plan)
+**Plan metadata:** `69942594` (docs: complete plan)
 
 ## Files Created/Modified
 
