@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { Images } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { Sidebar } from '@/components/Sidebar'
 import { Canvas } from '@/components/Canvas'
 import { BrandFaceView } from '@/components/BrandFaceView'
@@ -7,19 +8,9 @@ import { useGenerations } from '@/hooks/useGenerations'
 import { useTranslation } from '@/hooks/useTranslation'
 
 export function WorkspaceLayout() {
-  const sidebarOpen = useWorkspaceStore((s) => s.sidebarOpen)
-  const setSidebarOpen = useWorkspaceStore((s) => s.setSidebarOpen)
   const activeView = useWorkspaceStore((s) => s.activeView)
-  const currentMode = useWorkspaceStore((s) => s.currentMode)
-
-  useEffect(() => {
-    // Below lg, navigation (mode switch or view switch) should return the user to the canvas.
-    // On lg+ the sidebar is always visible as a fixed column, so this is a no-op.
-    if (typeof window === 'undefined') return
-    const isDesktop = window.matchMedia('(min-width: 1024px)').matches
-    if (isDesktop) return
-    setSidebarOpen(false)
-  }, [currentMode, activeView, setSidebarOpen])
+  const galleryOpen = useWorkspaceStore((s) => s.galleryOpen)
+  const setGalleryOpen = useWorkspaceStore((s) => s.setGalleryOpen)
 
   const { loading } = useGenerations()
   const { t } = useTranslation()
@@ -33,20 +24,41 @@ export function WorkspaceLayout() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+    <div className="flex h-screen flex-col overflow-hidden lg:flex-row">
+      {/* Mobile-only top bar — holds the Gallery trigger. Hidden at lg+ so desktop layout is unchanged. */}
+      <div className="flex items-center justify-between border-b border-border bg-background px-3 py-2 pt-[max(0.5rem,env(safe-area-inset-top))] lg:hidden">
+        <h1 className="text-sm font-bold">{t('app.title')}</h1>
+        <Button
+          variant="ghost"
+          size="default"
+          onClick={() => setGalleryOpen(true)}
+          data-gallery-trigger="true"
+          aria-label={t('workspace.topbar.gallery')}
+          className="min-h-10 min-w-10 gap-2 rounded-none"
+        >
+          <Images className="size-4" />
+          <span className="text-sm">{t('workspace.topbar.gallery')}</span>
+        </Button>
+      </div>
 
-      {/* Mobile backdrop */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
+      {/* Primary row: Sidebar (primary on mobile, left column on lg+) + main canvas area (lg+ only, hidden on mobile) */}
+      <div className="flex flex-1 overflow-hidden">
+        <Sidebar />
+
+        {/* Canvas/BrandFaceView column — visible on lg+ inline; on mobile these render ONLY via the gallery overlay below. */}
+        <div className="hidden flex-1 overflow-hidden lg:flex">
+          {activeView === 'workspace' && <Canvas />}
+          {activeView === 'brand-face' && <BrandFaceView />}
+        </div>
+      </div>
+
+      {/* Mobile gallery overlay — full-screen above the sidebar/generator when galleryOpen. Gated lg:hidden so desktop never sees this. */}
+      {galleryOpen && (
+        <div className="fixed inset-0 z-40 flex flex-col bg-background lg:hidden">
+          {activeView === 'workspace' && <Canvas />}
+          {activeView === 'brand-face' && <BrandFaceView />}
+        </div>
       )}
-
-      {/* Main content area — switches based on activeView */}
-      {activeView === 'workspace' && <Canvas />}
-      {activeView === 'brand-face' && <BrandFaceView />}
     </div>
   )
 }
