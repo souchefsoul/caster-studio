@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 07-03-PLAN.md — TOUCH-03 audit (file-input accept coverage + zero capture attrs) regression-locked via 07-03-AUDIT.md; zero source modifications on happy path; ready for Wave 2 continuation (07-04 BrandFaceView, 07-05 AuthPage)
-last_updated: "2026-04-19T15:06:50.289Z"
+stopped_at: "Completed 07-04-PLAN.md — AUX-01 BrandFaceView mobile reflow (1-col/sm:2/lg:3 grid) + TOUCH-01 40px tap floors on all 5 controls + TOUCH-02 16px name input; 3 atomic commits, zero deviations, ready for 07-05 (AuthPage AUX-02 reflow)"
+last_updated: "2026-04-19T15:11:39.093Z"
 progress:
   total_phases: 6
   completed_phases: 4
   total_plans: 18
-  completed_plans: 16
+  completed_plans: 17
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 07 (auxiliary-views-touch-ergonomics) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 
 ## Milestone Progress
 
@@ -115,6 +115,10 @@ Recent decisions affecting current work:
 - [Phase 07-03]: Audit-only plan pattern — zero source modifications on the happy path; single commit lands a grep-capture audit document (07-03-AUDIT.md) that regression-locks TOUCH-03 / the Phase 6 accept='image/*' + no-capture invariants
 - [Phase 07-03]: Grep-based acceptance criteria over unit tests for HTML-attribute invariants — cheap to run, immune to framework churn, directly expressive of 'no capture attr anywhere' / 'accept=image/* on every file input' contracts
 - [Phase 07-03]: VideoPanel's data-video-source-upload bridge (06-05 pattern) confirmed NOT a new file input — line 114's type=file is inside a document.querySelector string literal; audit counts exactly 2 actual <input type=file> elements in src/ (ImageUpload, OnModelPanel)
+- [Phase 07-04]: BrandFaceView grid = 1-col / sm:2-col / lg:3-col — distinct from BrandFacePanel sidebar preview's 2-col / lg:4-col; CONTEXT-locked at single-column mobile per AUX-01 explicit wording
+- [Phase 07-04]: Icon-only remove-X grows via flex centering + min-h-10 + min-w-10 — X icon stays size-3 (12px), hit-area grows via container; matches Phase 6 06-03 decoupled hit-area pattern
+- [Phase 07-04]: Decorative 10px caption text on per-tile set-active button unchanged — TOUCH-01 exempts decorative text when paired with larger hit area (entire tile face image is primary tap surface)
+- [Phase 07-04]: Name input adds w-full alongside text-base + min-h-10 upgrade; wrapper style maxWidth:320 preserved so form fills 320px on mobile and caps at 320px on desktop
 
 ### Pending Todos
 
@@ -127,6 +131,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T15:06:50.285Z
-Stopped at: Completed 07-03-PLAN.md — TOUCH-03 audit (file-input accept coverage + zero capture attrs) regression-locked via 07-03-AUDIT.md; zero source modifications on happy path; ready for Wave 2 continuation (07-04 BrandFaceView, 07-05 AuthPage)
+Last session: 2026-04-19T15:11:39.090Z
+Stopped at: Completed 07-04-PLAN.md — AUX-01 BrandFaceView mobile reflow (1-col/sm:2/lg:3 grid) + TOUCH-01 40px tap floors on all 5 controls + TOUCH-02 16px name input; 3 atomic commits, zero deviations, ready for 07-05 (AuthPage AUX-02 reflow)
 Resume file: None

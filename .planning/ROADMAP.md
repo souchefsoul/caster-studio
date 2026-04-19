@@ -178,7 +178,7 @@ Plans:
 - [x] 07-01-PLAN.md — Tap-target + font-size audit and sweep across global chrome, canvas, controls (TOUCH-01, TOUCH-02)
 - [x] 07-02-PLAN.md — Shared PromptPanel textarea auto-grow via field-sizing-content + 16px floor (TOUCH-04)
 - [x] 07-03-PLAN.md — File-input accept=image/* audit + no-capture regression lock (TOUCH-03)
-- [ ] 07-04-PLAN.md — BrandFaceView mobile reflow: 1-col grid + 40px tap controls + 16px name input (AUX-01)
+- [x] 07-04-PLAN.md — BrandFaceView mobile reflow: 1-col grid + 40px tap controls + 16px name input (AUX-01)
 - [ ] 07-05-PLAN.md — AuthPage mobile reflow: 16px inputs + 40px submit + 667px-fit (AUX-02)
 
 ### Phase 8: Real-Device Verification
@@ -204,5 +204,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 5.1 → 6 → 7 �
 | 5. Mobile Canvas | v1.1 | 2/2 | Complete | 2026-04-19 |
 | 5.1. Mobile Layout Flip (INSERTED) | v1.1 | 2/2 | Complete | 2026-04-19 |
 | 6. Mode Panels on Mobile | v1.1 | 6/6 | Complete | 2026-04-19 |
-| 7. Auxiliary Views & Touch Ergonomics | v1.1 | 2/5 | In progress | - |
+| 7. Auxiliary Views & Touch Ergonomics | v1.1 | 4/5 | In progress | - |
 | 8. Real-Device Verification | v1.1 | 0/TBD | Not started | - |
