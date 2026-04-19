@@ -38,7 +38,7 @@ export function Canvas() {
   }
 
   // Shared button style for toolbar actions
-  const toolbarBtn = "ml-1 inline-flex h-7 items-center px-2.5 text-xs border border-border bg-background hover:bg-accent rounded-none"
+  const toolbarBtn = "ml-1 inline-flex min-h-10 items-center px-2.5 text-xs border border-border bg-background hover:bg-accent rounded-none"
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
@@ -50,7 +50,7 @@ export function Canvas() {
             size="icon-sm"
             onClick={() => setCanvasViewMode('grid')}
             title={t('workspace.canvas.gridView')}
-            className="rounded-none"
+            className="min-h-10 min-w-10 rounded-none"
           >
             <Grid3x3 className="size-4" />
           </Button>
@@ -59,7 +59,7 @@ export function Canvas() {
             size="icon-sm"
             onClick={() => setCanvasViewMode('single')}
             title={t('workspace.canvas.singleView')}
-            className="rounded-none"
+            className="min-h-10 min-w-10 rounded-none"
           >
             <Maximize2 className="size-4" />
           </Button>
@@ -71,7 +71,7 @@ export function Canvas() {
           {generations.some((g) => g.status === 'failed') && (
             <button
               onClick={clearFailedGenerations}
-              className="ml-2 inline-flex h-7 items-center px-2 text-xs text-destructive border border-border bg-background hover:bg-accent rounded-none"
+              className="ml-2 inline-flex min-h-10 items-center px-2 text-xs text-destructive border border-border bg-background hover:bg-accent rounded-none"
             >
               {t('workspace.canvas.delete')}
             </button>

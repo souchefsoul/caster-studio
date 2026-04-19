@@ -84,7 +84,7 @@ export function ImageUpload({
             variant="ghost"
             size="icon-xs"
             onClick={handleRemove}
-            className="absolute right-1 top-1 rounded-none border border-border bg-background"
+            className="absolute right-1 top-1 rounded-none border border-border bg-background min-h-10 min-w-10"
           >
             <X className="size-3" />
           </Button>

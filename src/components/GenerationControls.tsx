@@ -277,7 +277,7 @@ export function GenerationControls() {
               variant={params.aspectRatio === ratio ? 'default' : 'outline'}
               size="xs"
               onClick={() => setParams({ aspectRatio: ratio })}
-              className="flex-1 rounded-none"
+              className="flex-1 rounded-none min-h-10"
             >
               {ratio}
             </Button>
@@ -295,7 +295,7 @@ export function GenerationControls() {
               variant={params.quality === level ? 'default' : 'outline'}
               size="sm"
               onClick={() => setParams({ quality: level })}
-              className="flex-1 rounded-none"
+              className="flex-1 rounded-none min-h-10"
             >
               {t(`workspace.controls.quality${level.charAt(0).toUpperCase() + level.slice(1)}`)}
             </Button>
@@ -314,7 +314,7 @@ export function GenerationControls() {
                 variant={numImages === count ? 'default' : 'outline'}
                 size="xs"
                 onClick={() => setNumImages(count)}
-                className="flex-1 rounded-none"
+                className="flex-1 rounded-none min-h-10"
               >
                 {count}
               </Button>
@@ -332,7 +332,7 @@ export function GenerationControls() {
       <Button
         onClick={handleGenerate}
         disabled={isGenerating}
-        className="w-full rounded-none"
+        className="w-full rounded-none min-h-10"
       >
         {isGenerating ? t('workspace.controls.generating') : t('workspace.sidebar.generate')}
       </Button>
