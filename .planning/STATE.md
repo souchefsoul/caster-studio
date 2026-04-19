@@ -3,15 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: in_progress
-stopped_at: Completed 06-04 (design copy) plan — textarea field-sizing-content auto-grow + 16px font + 5rem floor; Wave 2 continues with 06-05..06-06
-last_updated: "2026-04-19T14:16:32.104Z"
+stopped_at: Completed 06-05 (video) plan — two-button source picker + 3-col mobile gallery grid + auto-grow 16px prompt + inline aspect-constrained video player with preserved CANVAS-05 iOS contract; Wave 2 ends with 06-06 brand face
+last_updated: "2026-04-19T14:22:03.716Z"
 progress:
   total_phases: 6
   completed_phases: 3
   total_plans: 13
-  completed_plans: 11
-  percent: 85
-  bar: "[█████████░] 85%"
+  completed_plans: 12
 ---
 
 # Project State
@@ -26,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 ## Current Position
 
 Phase: 06 (mode-panels-on-mobile) — EXECUTING
-Plan: 5 of 6
+Plan: 6 of 6
 
 ## Milestone Progress
 
@@ -99,10 +97,14 @@ Recent decisions affecting current work:
 - [Phase 06-04]: Tailwind v4 field-sizing-content utility chosen over JS auto-resize handler for textarea growth — declarative, zero listeners, zero SSR mismatch risk; Safari 17.4+ / Chrome 123+ native support with rows={3} HTML fallback for older engines
 - [Phase 06-04]: Triple-guard textarea sizing pattern: field-sizing-content (modern auto-grow) + min-h-[5rem] (3-row Tailwind floor) + rows={3} (SSR/HTML fallback) — composable guard stack for mobile-friendly long-input textareas
 - [Phase 06-04]: 16px text-base no-auto-zoom rule now enforced on both <input> (Plan 06-03) and <textarea> (this plan) surfaces in Phase 6 panels — uniform iOS Safari compliance precedent for Phase 7 TOUCH-02 global enforcement
+- [Phase 06-05]: data-* attribute handoff for reaching into encapsulated child refs — 'Upload from Device' button triggers ImageUpload's hidden <input type=file> via document.querySelector('[data-video-source-upload] input[type=file]'); avoids ref threading or modifying the shared ImageUpload API
+- [Phase 06-05]: Inline <video> element in sidebar preserves CANVAS-05 iOS contract — playsInline + muted both present; no autoPlay (sidebar is not a playback surface; user-initiated controls play is the intended interaction)
+- [Phase 06-05]: CSS aspect-ratio inline style from stored generation params — style={{ aspectRatio: params.aspectRatio.replace(':', ' / ') }} prevents layout shift on video load; key={generation.id} forces remount on new generation so src updates play from the start
+- [Phase 06-05]: Phase 6 textarea triple-guard (field-sizing-content + min-h-[5rem] + rows={3}) now applied uniformly to DesignCopy (06-04) AND Video (06-05) prompts — pattern stable for Phase 7 TOUCH-02 global rollout
 
 ### Pending Todos
 
-- Execute Plans 06-04..06-06 (Wave 2 continues — zero tr.ts/en.ts contention; 06-03 colorway complete)
+- Execute Plan 06-06 (Brand Face panel mobile reflow — last Wave 2 plan, last plan in Phase 06)
 
 ### Blockers/Concerns
 
@@ -110,6 +112,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T14:16:32.102Z
-Stopped at: Completed 06-04 (design copy) plan — textarea field-sizing-content auto-grow + 16px font + 5rem floor; Wave 2 continues with 06-05..06-06
+Last session: 2026-04-19T14:20:30Z
+Stopped at: Completed 06-05 (video) plan — two-button source picker + 3-col mobile gallery grid + auto-grow 16px prompt + inline aspect-constrained video player with preserved CANVAS-05 iOS contract; Wave 2 ends with 06-06 brand face
 Resume file: None

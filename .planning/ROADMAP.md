@@ -159,7 +159,7 @@ Plans:
 - [x] 06-02-PLAN.md — Catalog panel: angle grid 3→4 at md + localized labels + 40px tap targets
 - [x] 06-03-PLAN.md — Colorway panel: wrap-grid chips + 16px input font + 40px add/remove tap targets
 - [x] 06-04-PLAN.md — Design Copy panel: textarea auto-grow (field-sizing-content) + 16px font + 3-row minimum
-- [ ] 06-05-PLAN.md — Video panel: two-button source picker + 3-col gallery + auto-grow prompt + inline aspect-constrained player (playsInline+muted)
+- [x] 06-05-PLAN.md — Video panel: two-button source picker + 3-col gallery + auto-grow prompt + inline aspect-constrained player (playsInline+muted)
 - [ ] 06-06-PLAN.md — Brand Face panel: 2-col wrap grid on mobile / 4-col lg+ + 40px tap targets on collapse/View All
 
 ### Phase 7: Auxiliary Views & Touch Ergonomics
