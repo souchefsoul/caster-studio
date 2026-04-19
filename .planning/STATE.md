@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Mobile-Usable Site
 status: unknown
-stopped_at: Completed 04-03-PLAN.md (auto-close drawer + canvas hamburger identity + toolbar safe-area); Phase 04 complete
-last_updated: "2026-04-19T00:42:40.470Z"
+stopped_at: Completed 05-01-PLAN.md (mobile canvas grid overlay touch-reachable + CANVAS-01/CANVAS-03 regression lock)
+last_updated: "2026-04-19T01:10:30Z"
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 5
+  completed_plans: 4
 ---
 
 # Project State
@@ -19,13 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
-**Current focus:** Phase 04 — responsive-shell
+**Current focus:** Phase 05 — mobile-canvas
 
 ## Current Position
 
-Phase: 04 (responsive-shell) — COMPLETE
-Plan: 3 of 3 (all complete)
-Next: Phase 05 (mobile-canvas)
+Phase: 05 (mobile-canvas) — EXECUTING
+Plan: 2 of 2
 
 ## Milestone Progress
 
@@ -75,10 +74,12 @@ Recent decisions affecting current work:
 - [Phase 04-03]: Auto-close sidebar drawer via single useEffect in WorkspaceLayout watching [currentMode, activeView, setSidebarOpen]; matchMedia('(min-width: 1024px)') guard makes it a no-op on desktop
 - [Phase 04-03]: Canvas hamburger carries data-sidebar-trigger='true' + aria-label='Toggle sidebar'; closes 04-02 focus-return contract end-to-end and adds a11y for icon-only button
 - [Phase 04-03]: Canvas toolbar uses pt-[max(0.5rem,env(safe-area-inset-top))] to preserve py-2 floor on non-notch devices and gap-2 + min-w-0 on flex-wrap parent to prevent intrinsic-size horizontal overflow at 360px
+- [Phase 05-01]: Hover-to-touch migration pattern — flip `opacity-0 group-hover:opacity-100` to `opacity-100 lg:opacity-0 lg:group-hover:opacity-100`; preferred mobile-first approach for any hover-gated UI that must remain reachable on touch without losing desktop hover-reveal
+- [Phase 05-01]: Verify-only tasks with grep-based acceptance criteria codify prior-phase invariants (CANVAS-01 columns, CANVAS-03 toolbar) into current plan's regression gates without re-implementing
 
 ### Pending Todos
 
-- Plan Phase 05 (mobile-canvas — grid/single-view reflow)
+- Execute Plan 05-02 (mobile-canvas — CANVAS-02 single-view fill + CANVAS-05 inline video playback)
 
 ### Blockers/Concerns
 
@@ -86,6 +87,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-19T00:38:20.677Z
-Stopped at: Completed 04-03-PLAN.md (auto-close drawer + canvas hamburger identity + toolbar safe-area); Phase 04 complete
+Last session: 2026-04-19T01:10:30Z
+Stopped at: Completed 05-01-PLAN.md (mobile canvas grid overlay touch-reachable + CANVAS-01/CANVAS-03 regression lock)
 Resume file: None
