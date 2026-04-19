@@ -2,42 +2,63 @@
 
 ## What This Is
 
-A professional AI-powered image generation tool built for textile companies. Users log in, choose a generation mode (on-model, catalog, colorway), configure their prompt and parameters, and generate images on a unified canvas workspace.
+A professional AI-powered image and video generation tool built for textile companies. Users log in, choose a generation mode (on-model, catalog, colorway, design-copy, video), configure their prompt and parameters, and generate on a unified canvas workspace. Works on desktop; v1.1 brings full feature parity to phones.
 
 ## Core Value
 
-Textile companies can generate professional product imagery (on-model shots, patterns, catalogs, colorways) from a single, clean workspace without needing photographers or studios.
+Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
+
+## Current Milestone: v1.1 Mobile-Usable Site
+
+**Goal:** Every v1.0 feature works on a phone browser with no feature cuts, keeping the existing Windows 95 flat aesthetic.
+
+**Target features:**
+- Responsive sidebar (drawer on mobile, fixed on desktop)
+- Mobile-tuned canvas (grid + single view reflow, touch-friendly controls)
+- All 5 generation modes usable on a phone (on-model, catalog, colorway, design-copy, video)
+- Brand face management + generation history usable on mobile
+- Touch-optimised upload grids, no iOS input zoom, no horizontal scroll
 
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+<!-- Shipped in v1.0 -->
+
+- ✓ Solo login screen with clean, professional entry point — v1.0
+- ✓ Unified workspace: left sidebar + canvas — v1.0
+- ✓ Canvas toggle between single-image and grid view — v1.0
+- ✓ On-Model Generation: multi-image refs (up to 10) + front/back view — v1.0 (redesigned 03-06)
+- ✓ Catalog Mode: multi-angle product shots — v1.0
+- ✓ Colorway Generator: same garment in multiple colors — v1.0
+- ✓ Design Copy mode (reference-driven edits) — v1.0
+- ✓ Video generation (Kling v3 Pro) persisted in history — v1.0 (added 03-06)
+- ✓ Brand Face: persistent AI model face — v1.0
+- ✓ Generation history with delete — v1.0
+- ✓ Prompt controls: aspect ratio, quality, num images — v1.0
+- ✓ Supabase auth (email/password) — v1.0
+- ✓ FAL AI via @fal-ai/client + pass-through Supabase edge function — v1.0 (refactored 03-06)
+- ✓ i18n: Turkish + English — v1.0
 
 ### Active
 
-- [ ] Solo login screen with clean, professional entry point
-- [ ] Unified workspace: left sidebar (nav, prompt, controls, account) + canvas area
-- [ ] Canvas toggle between full-screen single image and grid view
-- [ ] On-Model Generation: upload flat/mannequin product → place on AI model in scene
-- [ ] Pattern Lab: generate textile patterns from text prompts
-- [ ] Catalog Mode: generate consistent multi-angle product shots
-- [ ] Brand Face: create and save persistent AI model face for brand consistency
-- [ ] Colorway Generator: show same garment in multiple color variations
-- [ ] History timeline of all generations
-- [ ] Collections: organize generations into named groups (season, line, etc.)
-- [ ] Full prompt controls: model, steps, guidance, seed, aspect ratio, quality
-- [ ] User authentication via Supabase (email/password)
-- [ ] FAL AI proxy via Supabase Edge Functions (no client-side API keys)
-- [ ] i18n system with Turkish (default) and English
+<!-- v1.1 Mobile scope -->
+
+- [ ] Responsive layout: sidebar becomes a drawer below `lg`, fixed on desktop
+- [ ] Mobile-safe canvas: 2-col grid on phones, single-view fills viewport, zero horizontal scroll
+- [ ] Touch-friendly controls: tap targets ≥ 40px, no iOS input zoom on textareas
+- [ ] All 5 generation modes fully usable on a phone
+- [ ] Mobile-tuned Brand Face view + generation history
+- [ ] Viewport + PWA-friendly meta tags (installable later without refactor)
+- [ ] Verified on real iOS Safari + Android Chrome (not just DevTools simulation)
 
 ### Out of Scope
 
-- Video generation (Video Ads) — complexity, not core to textile imagery
-- AI prompt assistant (Mr. Prompt) — users have full controls, learn prompting
+- Pattern Lab (textile pattern generation) — deferred, not core to current flows
+- Collections feature — removed in 03-06 (UI + DB tables dropped)
+- AI prompt assistant (Mr. Prompt) — users have full controls
 - Campaign/banner generation — not core to textile workflow
-- Batch generation — v2 consideration after core tools are solid
-- Reference image / image-to-image — text-to-image only, keep it simple
+- Batch generation — v2+ consideration
 - Team/company workspaces — individual accounts only
 - Spanish language support — Turkish + English only for now
 - Fabric Visualizer (3D drape) — v2, complex rendering
@@ -47,7 +68,9 @@ Textile companies can generate professional product imagery (on-model shots, pat
 - Framer Motion animations — keep it snappy, not flashy
 - Stripe metered billing — removed from v1, no payment features in application
 - Usage dashboard / invoice history — removed with billing
-- Admin billing view — removed with billing
+- PWA installability + offline mode — v1.2+ (viewport/meta prepared but not shipped)
+- Native wrapper (Capacitor / iOS / Android app store) — v2+, web-first
+- Mobile-first redesign (new visual language) — v1.1 keeps Windows 95 flat aesthetic
 
 ## Context
 
@@ -70,12 +93,17 @@ Textile companies can generate professional product imagery (on-model shots, pat
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Full rebuild over migration | Old codebase has debt from 11 features, different billing, i18n overhead | — Pending |
-| Unified canvas over separate pages | Single workspace feels more professional, reduces navigation friction | — Pending |
-| Drop Framer Motion | Keep tool feeling fast and professional, reduce bundle size | — Pending |
-| Turkish + English with i18n | B2B textile clients are Turkish companies, English for international reach | — Pending |
-| Text-to-image only | Simplifies UX, no reference image upload flows needed | — Pending |
-| No billing in v1 | Billing handled externally, keeps application focused on generation tools | — Pending |
+| Full rebuild over migration | Old codebase has debt from 11 features, different billing, i18n overhead | ✓ Good |
+| Unified canvas over separate pages | Single workspace feels more professional, reduces navigation friction | ✓ Good |
+| Drop Framer Motion | Keep tool feeling fast and professional, reduce bundle size | ✓ Good |
+| Turkish + English with i18n | B2B textile clients are Turkish companies, English for international reach | ✓ Good |
+| Reference-image generation (was: text-to-image only) | FAL nano-banana-pro/edit produces far better textile results with refs; matches user workflow (upload garment → see it on model) | ✓ Good — changed in v1.0 build |
+| Reference image uploads go to fal.storage, not Supabase Storage | Avoids `WORKER_RESOURCE_LIMIT` on edge function; payload stays small | ✓ Good (v1.0 03-06) |
+| Video generation (Kling v3 Pro) added | Customers asked for short product videos; single edge function supports both | ✓ Good (v1.0 03-06) |
+| No billing in v1 | Billing handled externally, keeps application focused on generation tools | ✓ Good |
+| v1.1: responsive web over PWA / native | Tek codebase, h\u0131zl\u0131 teslim, no App Store overhead | — Pending |
+| v1.1: keep Windows 95 flat aesthetic on mobile | Brand consistency, faster delivery, no redesign debt | — Pending |
+| v1.1: feature parity (no mobile-only cuts) | Users switch devices mid-task; tool must feel complete on phone | — Pending |
 
 ---
-*Last updated: 2026-04-16 after roadmap revision (billing removed)*
+*Last updated: 2026-04-19 — milestone v1.1 Mobile started*

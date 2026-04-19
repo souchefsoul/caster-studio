@@ -1,59 +1,32 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: unknown
-stopped_at: Completed 03-06-SUMMARY (stabilization)
-last_updated: "2026-04-17T00:00:00.000Z"
+milestone: v1.1
+milestone_name: mobile-usable-site
+status: defining-requirements
+stopped_at: Milestone v1.1 started
+last_updated: "2026-04-19T00:00:00.000Z"
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 11
-  completed_plans: 11
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-16)
+See: .planning/PROJECT.md (updated 2026-04-19)
 
-**Core value:** Textile companies can generate professional product imagery from a single, clean workspace without needing photographers or studios.
-**Current focus:** Phase 03 — Full Generation Suite & Organization
+**Core value:** Textile companies can generate professional product imagery and product videos from a single, clean workspace — on any device they have with them — without needing photographers or studios.
+**Current focus:** v1.1 — Mobile-Usable Site
 
 ## Current Position
 
-Phase: 03 (Full Generation Suite & Organization) — EXECUTING
-Plan: 5 of 5
-
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 6
-- Average duration: 3 min
-- Total execution time: 0.27 hours
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01 | 3 | 13 min | 4 min |
-
-**Recent Trend:**
-
-- Last 5 plans: -
-- Trend: -
-
-*Updated after each plan completion*
-| Phase 01 P03 | 3 | 2 tasks | 9 files |
-| Phase 02-01 P01 | 3min | 2 tasks | 10 files |
-| Phase 02-02 P02 | 3min | 2 tasks | 6 files |
-| Phase 02 P03 | 3min | 2 tasks | 10 files |
-| Phase 03-01 P01 | 3min | 2 tasks | 8 files |
-| Phase 03-02 P02 | 3min | 2 tasks | 8 files |
-| Phase 03 P03 | 3min | 2 tasks | 9 files |
-| Phase 03 P04 | 3min | 2 tasks | 8 files |
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-19 — Milestone v1.1 started
 
 ## Accumulated Context
 
@@ -62,37 +35,18 @@ Plan: 5 of 5
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Roadmap]: 3-phase coarse roadmap — Foundation, Workspace+OnModel, Full Gen Suite+Org
-- [Roadmap]: On-Model generation bundled with workspace (Phase 2) to deliver first end-to-end flow early
-- [Revision]: Billing (BILL-01 through BILL-04) removed from v1 scope entirely
-- [01-01]: Used Tailwind CSS v4 with @tailwindcss/vite plugin (modern standard)
-- [01-01]: shadcn/ui v4 uses base-nova style (replaces new-york in v3)
-- [01-01]: Removed deprecated baseUrl from tsconfig for TypeScript 6.0 compatibility
-- [01-02]: Used import type for Supabase types to comply with verbatimModuleSyntax in TypeScript 6.0
-- [01-03]: Used DeepStringify<typeof tr> for TranslationKeys to allow different string values across locales
-- [01-03]: Split auth toggle text into separate question and action keys for cleaner i18n
+- [v1.0 Roadmap]: 3-phase coarse roadmap — Foundation, Workspace+OnModel, Full Gen Suite+Org
+- [v1.0 Roadmap]: On-Model generation bundled with workspace (Phase 2) to deliver first end-to-end flow early
+- [v1.0 Revision]: Billing (BILL-01 through BILL-04) removed from v1 scope entirely
+- [01-01]: Tailwind CSS v4 with @tailwindcss/vite plugin
+- [01-01]: shadcn/ui v4 base-nova style
 - [Phase 02-01]: Windows 95 flat design: rounded-none, visible 1px borders, no shadows/gradients/animations
-- [Phase 02-01]: Theme persisted under stivra-theme localStorage key with system preference fallback
 - [Phase 02-01]: Sidebar uses fixed positioning with z-40 overlay on mobile, static on lg+ breakpoint
-- [Phase 02-02]: HTML range inputs styled with Tailwind for sliders instead of adding shadcn Slider component
-- [Phase 02-02]: Quality modifies steps via multiplier (draft 0.5x, standard 1x, high 1.5x) in fal.ts
-- [Phase 02-02]: FAL proxy pattern: fetch to ${SUPABASE_URL}/functions/v1/fal-proxy with Bearer token auth
-- [Phase 02-03]: Product image stored as data URL in workspace store for immediate fal-proxy submission
-- [Phase 02-03]: OnModelPanel placed above PromptPanel in sidebar, separated by border divider
-- [Phase 02-03]: Canvas uses animate-pulse on text for loading state (Windows 95 flat style, no spinner)
-- [Phase 02-03]: Grid view status dots: green=completed, red=failed, yellow=pending in top-right corner
+- [Phase 02-02]: FAL proxy pattern: fetch to ${SUPABASE_URL}/functions/v1/fal-proxy
 - [Phase 03-01]: Fire-and-forget persistence: saveGeneration errors logged, do not block UI
-- [Phase 03-01]: Upsert pattern for saveGeneration handles both insert and update
-- [Phase 03-01]: Generation history limited to 200 most recent per user for fast initial load
-- [Phase 03-01]: Download uses native anchor tag with download attribute for full-resolution images
-- [Phase 03-02]: Data URLs stored directly as face_image_url for v1 simplicity (Storage upload deferred)
+- [Phase 03-01]: Generation history limited to 200 most recent per user
 - [Phase 03-02]: BrandFacePanel placed above mode-specific panels in sidebar as global component
-- [Phase 03-02]: Radio-style active selection: deactivate all then activate target via two Supabase calls
-- [Phase 03-03]: Upsert pattern for addToCollection handles UNIQUE constraint gracefully
-- [Phase 03-03]: Grid view uses in-memory filtering via activeCollectionItemIds; single view shows all generations
-- [Phase 03-03]: Collection item count fetched per-collection via separate count queries for accuracy
-- [Phase 03-04]: Catalog/colorway parallel generation via Promise.allSettled for fault-tolerant multi-image output
-- [Phase 03-04]: Each angle/color creates separate generation entry for independent tracking in grid view
+- [Phase 03-04]: Catalog/colorway parallel generation via Promise.allSettled
 - [Phase 03-06]: Adopted @fal-ai/client; fal-proxy reduced to dumb x-fal-target-url pass-through
 - [Phase 03-06]: Reference images uploaded directly to fal.storage, not Supabase Storage — eliminates WORKER_RESOURCE_LIMIT
 - [Phase 03-06]: Queue polling moved to browser via fal.subscribe(); edge function no longer blocks on Kling jobs
@@ -102,6 +56,9 @@ Recent decisions affecting current work:
 - [Phase 03-06]: Collections feature removed from UI and DB (migration 002 drops tables)
 - [Phase 03-06]: fal-proxy deployed with --no-verify-jwt to work around ES256 JWT signing keys
 - [Phase 03-06]: Migration 002 adds 'video' to generations.mode CHECK, adds DELETE RLS policy, creates uploads bucket
+- [v1.1 Scope]: Responsive web (not PWA/native) — same React app, Tailwind breakpoints
+- [v1.1 Scope]: Feature parity on mobile — no feature cuts vs desktop
+- [v1.1 Scope]: Keep Windows 95 flat aesthetic on mobile (no redesign)
 
 ### Pending Todos
 
@@ -113,6 +70,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-17T00:00:00.000Z
-Stopped at: Completed 03-06 post-phase stabilization
+Last session: 2026-04-19T00:00:00.000Z
+Stopped at: Milestone v1.1 started
 Resume file: None
