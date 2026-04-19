@@ -105,7 +105,7 @@ export function BrandFaceView() {
 
         {/* Model grid — each model is a card with face + multiple generated photos */}
         {!loading && models.length > 0 && (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {models.map((model) => (
               <div
                 key={model.id}
