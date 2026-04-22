@@ -102,7 +102,17 @@ interface WorkspaceState {
   addGeneration: (gen: Generation) => void
   updateGeneration: (id: string, update: Partial<Generation>) => void
   removeGeneration: (id: string) => void
+  removeGenerations: (ids: string[]) => void
   clearFailedGenerations: () => void
+
+  // Multi-select (gallery batch actions)
+  selectionMode: boolean
+  selectedIds: string[]
+  setSelectionMode: (on: boolean) => void
+  toggleSelectionMode: () => void
+  toggleSelected: (id: string) => void
+  setSelectedIds: (ids: string[]) => void
+  clearSelection: () => void
 }
 
 export const useWorkspaceStore = create<WorkspaceState>((set) => {
@@ -192,9 +202,29 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     })),
     removeGeneration: (id) => set((s) => ({
       generations: s.generations.filter((g) => g.id !== id),
+      selectedIds: s.selectedIds.filter((x) => x !== id),
     })),
+    removeGenerations: (ids) => set((s) => {
+      const remove = new Set(ids)
+      return {
+        generations: s.generations.filter((g) => !remove.has(g.id)),
+        selectedIds: s.selectedIds.filter((x) => !remove.has(x)),
+      }
+    }),
     clearFailedGenerations: () => set((s) => ({
       generations: s.generations.filter((g) => g.status !== 'failed'),
     })),
+
+    selectionMode: false,
+    selectedIds: [],
+    setSelectionMode: (on) => set(() => (on ? { selectionMode: true } : { selectionMode: false, selectedIds: [] })),
+    toggleSelectionMode: () => set((s) => (s.selectionMode ? { selectionMode: false, selectedIds: [] } : { selectionMode: true })),
+    toggleSelected: (id) => set((s) => ({
+      selectedIds: s.selectedIds.includes(id)
+        ? s.selectedIds.filter((x) => x !== id)
+        : [...s.selectedIds, id],
+    })),
+    setSelectedIds: (selectedIds) => set({ selectedIds }),
+    clearSelection: () => set({ selectedIds: [] }),
   }
 })

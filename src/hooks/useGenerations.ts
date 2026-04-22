@@ -50,6 +50,7 @@ export function useGenerations() {
   )
 
   const removeGeneration = useWorkspaceStore((s) => s.removeGeneration)
+  const removeGenerations = useWorkspaceStore((s) => s.removeGenerations)
 
   const removeAndDelete = useCallback(
     async (genId: string) => {
@@ -64,5 +65,20 @@ export function useGenerations() {
     [removeGeneration]
   )
 
-  return { generations, persistGeneration, removeAndDelete, loading }
+  const removeAndDeleteMany = useCallback(
+    async (genIds: string[]) => {
+      if (genIds.length === 0) return
+      removeGenerations(genIds)
+      const results = await Promise.allSettled(genIds.map((id) => deleteGeneration(id)))
+      const failed = results.filter((r) => r.status === 'rejected').length
+      if (failed > 0) {
+        console.error(`[generations] DB delete failed for ${failed}/${genIds.length} items (removed locally)`)
+      } else {
+        console.log(`[generations] deleted ${genIds.length} items from DB`)
+      }
+    },
+    [removeGenerations]
+  )
+
+  return { generations, persistGeneration, removeAndDelete, removeAndDeleteMany, loading }
 }
