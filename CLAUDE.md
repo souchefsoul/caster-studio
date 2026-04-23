@@ -1,118 +1,80 @@
-# Studio AI Design
+# CLAUDE.md
 
-AI-powered visual content generation platform for fashion/textile e-commerce.
-
-## Tech Stack
-
-- **Frontend**: React 18 + TypeScript + Vite
-- **UI**: Shadcn/ui (new-york) + Radix UI + Tailwind CSS + Framer Motion
-- **State**: Zustand (useAppStore) + TanStack React Query
-- **Backend**: Supabase (PostgreSQL, Auth, Edge Functions, Storage)
-- **AI**: FAL AI (image/video gen via proxy), OpenAI GPT-4o (via proxy), ElevenLabs (TTS via proxy)
-- **Payments**: iyzico (subscription API via Supabase Edge Functions)
-- **Hosting**: Vercel (auto-deploy on push to main)
-- **Domain**: studioaidesign.com
-
-## Project Structure
-
-```
-src/
-  components/    # Pages and UI components (~43 files)
-  lib/           # API integrations, utils, i18n, constants
-  stores/        # Zustand store (useAppStore.ts)
-  types/         # TypeScript type definitions
-  hooks/         # Custom React hooks
-supabase/
-  functions/     # 11 Deno edge functions
-  migrations/    # 52 SQL migration files
-public/          # Static assets and images
-```
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Commands
 
-- `npm run dev` - Start dev server
-- `npm run build` - Production build
-- `npm run lint` - Run ESLint
-- `npm run preview` - Preview production build
+- `npm run dev` — Vite dev server on http://localhost:5173
+- `npm run build` — `tsc -b` then `vite build` (typecheck is part of the build)
+- `npm run lint` — ESLint across `src/`
+- `npm run preview` — preview the production build
+- Typecheck only: `npx tsc --noEmit -p tsconfig.app.json`
 
-## Deployment
+No unit test suite is wired up. Frontend verification is manual via the dev server.
 
-- **Vercel**: Auto-deploys on `git push origin main`
-- **Manual deploy**: `npx vercel --prod`
-- **Edge Functions deploy**: `SUPABASE_ACCESS_TOKEN=<token> npx supabase functions deploy <function-name> --project-ref dtgxpiaqybgpdspdbcfc`
+## Stack snapshot
 
-## Supabase
+React 19 + TypeScript + Vite SPA. UI is Tailwind v4 + shadcn (base-nova style, neutral palette, lucide icons). State is Zustand. Routing is react-router v7. Backend is Supabase (auth, Postgres, Storage, Realtime, one edge function). AI image/video generation is FAL (`@fal-ai/client`). The project is Turkish-first (`tr`) with English (`en`) as the secondary locale.
 
-- **Project**: StudioAiDesign
-- **Ref ID**: dtgxpiaqybgpdspdbcfc
-- **Region**: West EU (Ireland)
-- **Edge Functions**: prompt-assistant, generate, catalog-analyze, fal-proxy, openai-proxy, elevenlabs-proxy, iyzico-checkout, iyzico-callback, stripe-checkout (legacy), stripe-webhook (legacy), create-admin-user, create-user-with-credits, upload-external-asset
+Supabase project ref: `dtgxpiaqybgpdspdbcfc` (West EU). Default branch: **master**. Vercel auto-deploys on push to master.
 
-## Security (API Key Proxies)
+## Architecture: things you only learn by reading multiple files
 
-All API keys are stored as Supabase secrets, NOT in frontend code:
-- **FAL AI**: `fal` secret → `fal-proxy` edge function (proxyUrl pattern)
-- **OpenAI**: `openai` secret → `openai-proxy` edge function
-- **ElevenLabs**: `elevenlabs` secret → `elevenlabs-proxy` edge function
-- To update a key: `npx supabase secrets set "keyname=value" --project-ref dtgxpiaqybgpdspdbcfc`
+### Client calls FAL directly — via a Supabase edge-function proxy
 
-## Key Conventions
+The FAL API key is **not** in the frontend. `src/lib/fal.ts` configures `@fal-ai/client` with `proxyUrl: ${VITE_SUPABASE_URL}/functions/v1/fal-proxy`. The `fal-proxy` edge function ([supabase/functions/fal-proxy/index.ts](supabase/functions/fal-proxy/index.ts)) is a generic tunneller: it reads `x-fal-target-url` from the SDK, forwards the body, injects `Authorization: Key $fal`, and returns the response. This means **every** FAL SDK call from the browser (`fal.subscribe`, `fal.queue.submit`, `fal.queue.status`, `fal.queue.result`, `fal.storage.upload`) automatically routes through the proxy with credentials — no custom fetch wrapping needed.
 
-- All frontend env vars use `VITE_` prefix (only SUPABASE_URL and ANON_KEY needed)
-- Credit system: anonymous users get 20 free credits, authenticated users use subscription-based credits
-- Admin users see infinity symbol for credits
-- Plans: free, starter, basic, standard, pro, premium, elite, admin
-- i18n: Turkish (default), English, Spanish
-- Auth: Email/password, Google OAuth, Apple OAuth
-- SPA routing handled by vercel.json rewrites
-- localStorage keys prefixed with `stivra-`
+To update the FAL key: `npx supabase secrets set "fal=..." --project-ref dtgxpiaqybgpdspdbcfc`.
+To deploy a function: `SUPABASE_ACCESS_TOKEN=<token> npx supabase functions deploy <name> --project-ref dtgxpiaqybgpdspdbcfc`.
 
-## AI Features
+### One Zustand store is the app's single source of truth
 
-1. **Studio** - Fashion photography AI (src/components/StudioPage.tsx)
-2. **Digital Model** - AI model product visualization (src/components/DigitalModelPage.tsx)
-3. **Product Shoot** - Product photography + Mannequin to Model (src/components/ProductShootPage.tsx)
-4. **Pattern Design** - Textile pattern creation (src/components/PatternDesignPage.tsx)
-5. **Video Ads** - Commercial video generation + voiceover (src/components/VideoAdsPage.tsx)
-6. **Campaign** - Campaign visuals and banners (src/components/CampaignPage.tsx)
-7. **Mr. Prompt** - AI prompt assistant via edge function (src/components/MrPromptPage.tsx)
-8. **Full Catalog** - 8 or 16 angle product catalog generation (src/components/CatalogPage.tsx)
-9. **Batch Generation** - Multi-product generation with style templates (src/components/BatchGenerationPage.tsx)
-10. **Brand Model** - AI model designer + upload, saved per user (src/components/BrandSettingsPage.tsx)
-11. **Model Picker** - Preset + brand model selector, used across all generators (src/components/ModelPicker.tsx)
+[src/stores/workspaceStore.ts](src/stores/workspaceStore.ts) holds everything non-ephemeral the UI cares about: theme, sidebar + gallery state, current generation mode + params, product-image refs, brand-face selection, the generations list, gallery multi-select state, batch queue state, queue drawer state. Hooks (`useGenerations`, `useBatchJobs`, etc.) are thin wrappers that call Supabase and mutate the store. If you need app-wide state, add it here rather than introducing another store.
 
-## Database Tables
+### Auth + singletons live in `AuthedLayout`, not `ProtectedRoute`
 
-- `preset_models` - 12 preset AI models (6F/6M) for model picker
-- `user_brand_models` - Per-user brand model faces with active selection
-- `batch_jobs` + `batch_job_items` - Batch generation queue system
-- `teams` + `team_members` + `team_invites` - Team collaboration (DB ready, UI removed for now)
+[src/App.tsx](src/App.tsx) uses a react-router v7 layout-route pattern: `/` and `/batch` are children of `<AuthedLayout>`. The layout mounts **once per session** (not per route change), which is where singletons live:
+- `useBatchJobsSync()` — loads batches, subscribes to realtime, starts the batch runner
+- `<QueueDrawer />` — the global floating drawer, openable from any page
 
-## FAL.ai Endpoints (via fal-proxy)
+`ProtectedRoute.tsx` still exists but is no longer referenced. If adding a new protected route, nest it under `<AuthedLayout>`; don't wrap it in `<ProtectedRoute>` individually — that would remount the singletons on every navigation.
 
-- `fal-ai/nano-banana-pro/edit` - Main image generation with reference images
-- `fal-ai/nano-banana` - Text-to-image (brand model generation)
-- `fal-ai/kling-video/v2.5-turbo/pro/image-to-video` - Video generation
-- `fal-ai/index-tts-2/text-to-speech` - TTS
+### Single-image generation flow
 
-## Dashboard Tools Menu
+Side-panel components ([OnModelPanel](src/components/OnModelPanel.tsx), Catalog, Colorway, DesignCopy, Video) collect inputs via the Zustand store. `GenerationControls` calls `generateOnModel` / `generateCatalog` / etc. in [src/lib/fal.ts](src/lib/fal.ts). Each function uploads referenced images to FAL storage, builds a prompt from `PROMPT_TEMPLATES`, calls `fal.subscribe`, then persists the result to the `generations` table via [src/lib/generations.ts](src/lib/generations.ts). `Canvas.tsx` reads from the store and renders grid + single views.
 
-Accessible via "Araçlar" dropdown (top-left):
-- Mr.Prompt
-- Full Catalog (/catalog)
-- Batch Generation (/batch)
-- Brand Model (/brand-settings)
+### Batch generation: durable queue with client-driven polling
 
-## Batch Generation Templates
+The batch feature (`/batch` page + queue drawer) is designed to resume across sessions **without** server-side webhooks. Two tables in [supabase/migrations/003_batch_jobs.sql](supabase/migrations/003_batch_jobs.sql) persist state: `batch_jobs` (one row per batch) and `batch_job_items` (one row per product). Realtime is enabled on both.
 
-5 style presets with campaign-level prompts:
-- Beyaz Stüdyo (Vogue/Hasselblad quality)
-- Yaşam Tarzı (Paris/Milan, Zara/COS feel)
-- Sokak Stili (Acne Studios, no graffiti)
-- Doğa (botanical/coastal, no wind)
-- Siyah Stüdyo (Saint Laurent, Rembrandt lighting)
-- Özel Prompt (user writes)
+The runner in [src/lib/batchRunner.ts](src/lib/batchRunner.ts) is a **module-level singleton** started once by `useBatchJobsSync()`. Every `BATCH_POLL_INTERVAL_MS` it:
+1. Fetches the user's in-flight items from the DB
+2. For items with `status=queued`, up to `BATCH_CONCURRENCY` (default 3): calls `fal.queue.submit`, stores the returned `request_id`, transitions to `status=processing`
+3. For items with `status=processing`: calls `fal.queue.status`; on `COMPLETED` fetches the result, inserts a row into `generations` (so the image shows in the normal gallery), transitions to `status=completed`; otherwise transitions to `status=failed`
+4. Updates the parent `batch_job` counters via `recomputeBatchJob`
 
-## Background Presets
+**Failsafes we deliberately kept:** no server-side retry (failed items stay failed until the user clicks retry in the UI); concurrency is a constant, not user-configurable; the runner assumes a single active tab per user (no cross-tab coordination). Adding webhook-based push is a known optional upgrade, not a fix.
 
-25 presets in 5 categories (Studio, Nature, Urban, Luxury, Seasonal) defined in src/lib/constants.ts
+### Storage layout
+
+Single `uploads` bucket (created in migration 002), public-read, authenticated-write with RLS `foldername[1] = auth.uid()`. Paths:
+- Brand face + ad-hoc product refs: `{user_id}/...`
+- Batch products: `{user_id}/batches/{job_id}/{item_id}.{ext}`
+
+Both fit the same RLS rule.
+
+### i18n is a hand-rolled lookup, not a library
+
+[src/lib/i18n.ts](src/lib/i18n.ts) exports `t(path)` that walks dotted keys over either `tr` or `en` from [src/lib/translations/](src/lib/translations/). There is **no interpolation** — do `.replace('{count}', String(n))` at the call site. Default locale is `tr`, stored in `localStorage` as `stivra-locale`. When adding translated strings, always update both `tr.ts` and `en.ts` with matching shape (the `TranslationKeys` type is derived from `tr`).
+
+### Routing is intentionally tiny
+
+`/auth` (public), `/` → `WorkspaceLayout`, `/batch` → `BatchPage`, `*` → redirect to `/`. `WorkspaceLayout` further multiplexes via `activeView` in the store (`workspace` vs `brand-face`), so adding a new in-workspace view means adding an `ActiveView` variant and a render case rather than a new route.
+
+## Conventions worth knowing
+
+- Only env vars prefixed `VITE_` are exposed to the client (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). The FAL key is a Supabase secret, never in `.env`.
+- localStorage keys are prefixed `stivra-` (legacy name).
+- The Vite alias `@/` maps to `src/`.
+- When adding a Supabase table, add its RLS policies in the same migration and, if the client needs live updates, `ALTER PUBLICATION supabase_realtime ADD TABLE ...`.
+- `PROMPT_TEMPLATES` in `lib/fal.ts` is exported because `batchRunner.ts` reuses the on-model template. Keep it exported.

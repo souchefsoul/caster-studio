@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { CanvasViewMode, GenerationParams, Generation, GenerationMode, ActiveView } from '@/types/workspace'
+import type { BatchJob, BatchJobItem } from '@/types/batch'
 import { DEFAULT_GENERATION_PARAMS } from '@/types/workspace'
 
 type Theme = 'light' | 'dark'
@@ -113,6 +114,21 @@ interface WorkspaceState {
   toggleSelected: (id: string) => void
   setSelectedIds: (ids: string[]) => void
   clearSelection: () => void
+
+  // Batch queue (durable, multi-product on-model generations)
+  batchJobs: BatchJob[]
+  batchItemsByJob: Record<string, BatchJobItem[]>
+  batchLoading: boolean
+  queueDrawerOpen: boolean
+  setBatchJobs: (jobs: BatchJob[]) => void
+  upsertBatchJob: (job: BatchJob) => void
+  removeBatchJob: (id: string) => void
+  setBatchItems: (jobId: string, items: BatchJobItem[]) => void
+  upsertBatchItem: (item: BatchJobItem) => void
+  removeBatchItem: (jobId: string, itemId: string) => void
+  setBatchLoading: (loading: boolean) => void
+  setQueueDrawerOpen: (open: boolean) => void
+  toggleQueueDrawer: () => void
 }
 
 export const useWorkspaceStore = create<WorkspaceState>((set) => {
@@ -226,5 +242,46 @@ export const useWorkspaceStore = create<WorkspaceState>((set) => {
     })),
     setSelectedIds: (selectedIds) => set({ selectedIds }),
     clearSelection: () => set({ selectedIds: [] }),
+
+    batchJobs: [],
+    batchItemsByJob: {},
+    batchLoading: false,
+    queueDrawerOpen: false,
+    setBatchJobs: (batchJobs) => set({ batchJobs }),
+    upsertBatchJob: (job) => set((s) => {
+      const i = s.batchJobs.findIndex((j) => j.id === job.id)
+      if (i >= 0) {
+        const next = s.batchJobs.slice()
+        next[i] = job
+        return { batchJobs: next }
+      }
+      return { batchJobs: [job, ...s.batchJobs] }
+    }),
+    removeBatchJob: (id) => set((s) => {
+      const nextItems = { ...s.batchItemsByJob }
+      delete nextItems[id]
+      return {
+        batchJobs: s.batchJobs.filter((j) => j.id !== id),
+        batchItemsByJob: nextItems,
+      }
+    }),
+    setBatchItems: (jobId, items) => set((s) => ({
+      batchItemsByJob: { ...s.batchItemsByJob, [jobId]: items },
+    })),
+    upsertBatchItem: (item) => set((s) => {
+      const cur = s.batchItemsByJob[item.batchJobId] ?? []
+      const i = cur.findIndex((x) => x.id === item.id)
+      const next = i >= 0
+        ? cur.map((x, idx) => (idx === i ? item : x))
+        : [...cur, item].sort((a, b) => a.orderIndex - b.orderIndex)
+      return { batchItemsByJob: { ...s.batchItemsByJob, [item.batchJobId]: next } }
+    }),
+    removeBatchItem: (jobId, itemId) => set((s) => {
+      const cur = s.batchItemsByJob[jobId] ?? []
+      return { batchItemsByJob: { ...s.batchItemsByJob, [jobId]: cur.filter((x) => x.id !== itemId) } }
+    }),
+    setBatchLoading: (batchLoading) => set({ batchLoading }),
+    setQueueDrawerOpen: (queueDrawerOpen) => set({ queueDrawerOpen }),
+    toggleQueueDrawer: () => set((s) => ({ queueDrawerOpen: !s.queueDrawerOpen })),
   }
 })

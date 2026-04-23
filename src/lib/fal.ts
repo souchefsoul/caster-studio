@@ -12,7 +12,7 @@ export interface FalImageResult {
   description?: string
 }
 
-function qualityToResolution(quality: string): '1K' | '2K' | '4K' {
+export function qualityToResolution(quality: string): '1K' | '2K' | '4K' {
   switch (quality) {
     case 'draft': return '1K'
     case 'high': return '4K'
@@ -20,7 +20,7 @@ function qualityToResolution(quality: string): '1K' | '2K' | '4K' {
   }
 }
 
-function mapAspectRatio(ratio: string): string {
+export function mapAspectRatio(ratio: string): string {
   switch (ratio) {
     case '4:5': return '4:5'
     case '16:9': return '16:9'
@@ -31,7 +31,7 @@ function mapAspectRatio(ratio: string): string {
 
 // ── Prompt templates ──────────────────────────────────────────────
 
-const PROMPT_TEMPLATES = {
+export const PROMPT_TEMPLATES = {
   'on-model': (userPrompt: string, _numGarmentRefs: number, _hasFace: boolean, view: 'front' | 'back' = 'front') => {
     const viewClause = view === 'front'
       ? `The output must show exactly one person from the front so the front of the garment is fully visible`
@@ -100,7 +100,7 @@ const PROMPT_TEMPLATES = {
 
 // ── Upload helper (data URL → fal storage URL) ────────────────────
 
-async function toFalUrl(urlOrDataUrl: string): Promise<string> {
+export async function toFalUrl(urlOrDataUrl: string): Promise<string> {
   if (urlOrDataUrl.startsWith('http')) return urlOrDataUrl
   const res = await fetch(urlOrDataUrl)
   const blob = await res.blob()

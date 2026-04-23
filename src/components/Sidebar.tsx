@@ -1,4 +1,5 @@
-import { LogOut, User } from 'lucide-react'
+import { Layers, ListTodo, LogOut, User } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
 import { useAuth } from '@/hooks/useAuth'
@@ -33,6 +34,9 @@ export function Sidebar() {
   const setCurrentMode = useWorkspaceStore((s) => s.setCurrentMode)
   const activeView = useWorkspaceStore((s) => s.activeView)
   const setActiveView = useWorkspaceStore((s) => s.setActiveView)
+  const setQueueDrawerOpen = useWorkspaceStore((s) => s.setQueueDrawerOpen)
+  const batchJobs = useWorkspaceStore((s) => s.batchJobs)
+  const runningBatches = batchJobs.filter((j) => j.status === 'running').length
   const { user } = useAuth()
   const { t } = useTranslation()
 
@@ -85,6 +89,31 @@ export function Sidebar() {
               {t(tab.labelKey)}
             </Button>
           ))}
+
+          {/* Batch generation — its own page */}
+          <Link
+            to="/batch"
+            className="inline-flex min-h-10 items-center gap-2 rounded-none px-3 py-2 text-left text-base hover:bg-accent"
+          >
+            <Layers className="size-4" />
+            {t('workspace.sidebar.batch')}
+          </Link>
+
+          {/* Queue drawer trigger */}
+          <Button
+            variant="ghost"
+            size="default"
+            onClick={() => setQueueDrawerOpen(true)}
+            className="justify-start rounded-none text-left text-base gap-2 min-h-10"
+          >
+            <ListTodo className="size-4" />
+            <span className="flex-1">{t('workspace.sidebar.queue')}</span>
+            {runningBatches > 0 && (
+              <span className="ml-auto inline-flex min-w-5 items-center justify-center border border-border bg-accent px-1.5 py-0.5 text-[10px] font-medium">
+                {runningBatches}
+              </span>
+            )}
+          </Button>
         </nav>
       </div>
 
